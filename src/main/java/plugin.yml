@@ -1,0 +1,20 @@
+---
+main: inc.xiddy.Hypixel.Main
+name: Hypixel
+author: xiddy
+version: 1.0
+description: "A replica of many Hypixel games and their server structure."
+depend: [Citizens]
+commands:
+  setupbedwars:
+    description: "Setup a game of bedwars."
+  startbedwars:
+    description: "Start a game of bedwars."
+  stopbedwars:
+    description: "Start the current game of bedwars."
+  savelocation:
+    description: "Saves a location to be used later."
+  setrole:
+    description: "Updates a player's role."
+  setvelocity:
+    description: "Sets the current player's velocity."
