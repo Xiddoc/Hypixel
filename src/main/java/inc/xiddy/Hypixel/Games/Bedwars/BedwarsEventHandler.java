@@ -547,18 +547,27 @@ public class BedwarsEventHandler extends GameEventHandler {
 					private final List<Location> locations = new ArrayList<>();
 					private int ticks = 0;
 
+					public void stopEgg() {
+						// Kill the entity
+						this.egg.remove();
+						// Stop runnable
+						this.cancel();
+					}
+
 					@Override
 					public void run() {
 						// Increment ticks
 						this.ticks ++;
 
 						// If egg has travelled for a while
-						if (this.ticks > 40) {
+						if (this.ticks > 30) {
 							// Stop the async task
-							this.cancel();
+							this.stopEgg();
 						} else {
 							// Get location
-							Location eggLoc = this.egg.getLocation();
+							Location eggLoc = this.egg.getLocation().clone();
+							// Move bridge down a block so player can step on it
+							eggLoc.setY(eggLoc.getY() - 1.5);
 
 							// If egg hit the ground
 							// Or is in the void
@@ -567,43 +576,46 @@ public class BedwarsEventHandler extends GameEventHandler {
 								eggLoc.getY() < getGame().getBlockVoidMin() ||
 								eggLoc.getY() > getGame().getBlockVoidMax()) {
 								// Stop the bridge egg
-								this.cancel();
+								this.stopEgg();
 								return;
 							}
 
-							// Get the current location
-							this.locations.add(eggLoc);
+							// If the block is air (don't break the map)
+							if (eggLoc.getBlock().getType().equals(Material.AIR)) {
+								// Get the current location
+								this.locations.add(eggLoc);
 
-							// Synchronously
-							Main.getMainHandler().getThreadHandler().scheduleSyncTask(() -> {
-								// Make the bridge
-								// Get original location
-								Location baseLoc = this.locations.remove(0);
-								Location tempLoc;
-								// For each block in a 2x2
-								for (int i = 0; i < 2; i ++) {
-									for (int j = 0; j < 2; j ++) {
-										// Give small chance to make a broken bridge
-										if (Math.random() > 0.25) {
-											// Get the block
-											tempLoc = baseLoc.clone().add(i, 0, j);
-											// Set the block
-											tempLoc.getBlock().setType(Material.WOOL);
-											tempLoc.getBlock().setData(this.woolData);
-											// Make sure block is breakable
-											getGame().addPlacedBlock(new SmallLocation(tempLoc));
+								// Synchronously
+								Main.getMainHandler().getThreadHandler().scheduleSyncTask(() -> {
+									// Make the bridge
+									// Get original location
+									Location baseLoc = this.locations.remove(0);
+									Location tempLoc;
+									// For each block in a 2x2
+									for (int i = 0; i < 2; i++) {
+										for (int j = 0; j < 2; j++) {
+											// Give small chance to make a broken bridge
+											if (Math.random() > 0.25) {
+												// Get the block
+												tempLoc = baseLoc.clone().add(i, 0, j);
+												// Set the block
+												tempLoc.getBlock().setType(Material.WOOL);
+												tempLoc.getBlock().setData(this.woolData);
+												// Make sure block is breakable
+												getGame().addPlacedBlock(new SmallLocation(tempLoc));
+											}
 										}
 									}
-								}
-								// Play sound to nearby players
-								for (Entity entity: baseLoc.getWorld().getNearbyEntities(baseLoc, 15, 15, 15)) {
-									// If entity is a player
-									if (entity instanceof Player) {
-										// Play the sound
-										((Player) entity).playSound(baseLoc, Sound.CHICKEN_EGG_POP, 15, 0.8F);
+									// Play sound to nearby players
+									for (Entity entity : baseLoc.getWorld().getNearbyEntities(baseLoc, 15, 15, 15)) {
+										// If entity is a player
+										if (entity instanceof Player) {
+											// Play the sound
+											((Player) entity).playSound(baseLoc, Sound.CHICKEN_EGG_POP, 15, 0.8F);
+										}
 									}
-								}
-							}, 3L);
+								}, 3L);
+							}
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 2, 1);
