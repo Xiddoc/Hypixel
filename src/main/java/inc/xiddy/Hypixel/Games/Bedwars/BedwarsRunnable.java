@@ -619,7 +619,31 @@ public class BedwarsRunnable extends HypixelRunnable {
 		return placedBlocks;
 	}
 
+	public void addPlacedBlock(SmallLocation block) {
+		this.getPlacedBlocks().add(block);
+	}
+
+	public void removePlacedBlock(SmallLocation block) {
+		this.getPlacedBlocks().remove(block);
+	}
+
+	public boolean isPlacedBlock(SmallLocation block) {
+		return this.getPlacedBlocks().contains(block);
+	}
+
 	public BedwarsShop getShop() {
 		return this.shop;
+	}
+
+	public int getPlayerVoid() {
+		return 0;
+	}
+
+	public int getBlockVoidMin() {
+		return 70;
+	}
+
+	public int getBlockVoidMax() {
+		return 130;
 	}
 }

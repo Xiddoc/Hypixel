@@ -41,9 +41,7 @@ public class DataHandler {
 			return this.mapper.readValue(this.filenameToFile(filename, false), cls);
 		} catch (MismatchedInputException e) {
 			// Better alias and explanation for the error
-			Main.getMainHandler().getLogger().error(
-				"Invalid/corrupt JSON read [MIGHT REQUIRE .m2\\repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): "
-			);
+			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2\\repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
 //			e.printStackTrace();
 			throw new FileNotFoundException();
 		} catch (IOException e) {
