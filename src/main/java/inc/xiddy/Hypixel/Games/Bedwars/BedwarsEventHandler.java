@@ -472,7 +472,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 				event.setCancelled(true);
 
 				// If player can shoot fireball
-				if (System.currentTimeMillis() + 500 > this.getGame().getBedwarsPlayerData(event.getPlayer()).getLastFireball()) {
+				if (System.currentTimeMillis() > this.getGame().getBedwarsPlayerData(event.getPlayer()).getLastFireball() + 500) {
 					// Timestamp fireball
 					this.getGame().getBedwarsPlayerData(event.getPlayer()).timestampLastFireball();
 

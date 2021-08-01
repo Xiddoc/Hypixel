@@ -4,6 +4,7 @@ import inc.xiddy.Hypixel.Dataclasses.HypixelGame;
 import inc.xiddy.Hypixel.Games.Lobby.LobbyEventHandler;
 import inc.xiddy.Hypixel.Games.Lobby.SpectatorEventHandler;
 import inc.xiddy.Hypixel.Handlers.MainHandler;
+import net.citizensnpcs.api.CitizensAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
@@ -45,6 +46,9 @@ public class Main extends JavaPlugin {
 		Main.getMainHandler().getLogger().warning("Registering console filter...");
 		((Logger) LogManager.getRootLogger()).addFilter(new ConsoleFilter());
 
+		// Clean NPC registry
+		CitizensAPI.getNPCRegistry().deregisterAll();
+
 		// Success message
 		Main.getMainHandler().getLogger().success("Plugin successfully loaded...");
 	}
@@ -52,6 +56,9 @@ public class Main extends JavaPlugin {
 	// Function that happens when the plugin is disabled
 	@Override
 	public void onDisable() {
+		// Clean NPC registry
+		CitizensAPI.getNPCRegistry().deregisterAll();
+
 		// Destroy all games
 		Main.getMainHandler().getLogger().warning("Shutting down games...");
 		for (HypixelGame game: Main.getMainHandler().getGameHandler().getAllGames()) {
