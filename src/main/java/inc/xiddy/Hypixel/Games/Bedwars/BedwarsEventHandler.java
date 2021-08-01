@@ -245,7 +245,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 		} else {
 			// Otherwise, if not a special block
 			// Add block to placed blocks list
-			this.getGame().getPlacedBlocks().add(new SmallLocation(event.getBlock().getLocation()));
+			this.getGame().addPlacedBlock(new SmallLocation(event.getBlock().getLocation()));
 		}
 	}
 
@@ -348,9 +348,9 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// Otherwise,
 			// Check if it was a map block
 			SmallLocation loc = new SmallLocation(event.getBlock().getLocation());
-			if (this.getGame().getPlacedBlocks().contains(loc)) {
+			if (this.getGame().isPlacedBlock(loc)) {
 				// Remove the block from the placed blocks list, but let them destroy the block
-				this.getGame().getPlacedBlocks().remove(loc);
+				this.getGame().removePlacedBlock(loc);
 			} else {
 				// Otherwise,
 				// Stop them from destroying the map
@@ -405,7 +405,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 		// Or if they are stained-glass (blastproof glass)
 		// Remove them from the list
 		event.blockList().removeIf(block ->
-			!this.getGame().getPlacedBlocks().contains(new SmallLocation(block.getLocation())) ||
+			!this.getGame().isPlacedBlock(new SmallLocation(block.getLocation())) ||
 				block.getType().equals(Material.STAINED_GLASS)
 		);
 	}
@@ -553,7 +553,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 						this.ticks ++;
 
 						// If egg has travelled for a while
-						if (this.ticks > 50) {
+						if (this.ticks > 40) {
 							// Stop the async task
 							this.cancel();
 						} else {
@@ -591,7 +591,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 											tempLoc.getBlock().setType(Material.WOOL);
 											tempLoc.getBlock().setData(this.woolData);
 											// Make sure block is breakable
-											getGame().getPlacedBlocks().add(new SmallLocation(tempLoc));
+											getGame().addPlacedBlock(new SmallLocation(tempLoc));
 										}
 									}
 								}
@@ -609,7 +609,6 @@ public class BedwarsEventHandler extends GameEventHandler {
 				}.runTaskTimerAsynchronously(Main.getInstance(), 2, 1);
 			}
 		}
-
 	}
 
 	@EventHandler
