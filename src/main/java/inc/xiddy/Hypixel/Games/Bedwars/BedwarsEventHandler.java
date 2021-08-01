@@ -30,6 +30,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
@@ -108,14 +110,11 @@ public class BedwarsEventHandler extends GameEventHandler {
 				);
 			}
 		}
-		Main.getMainHandler().getLogger().error(event.getSource().getTitle());
-		if (
-			(event.getSource().getType().equals(InventoryType.CHEST) && event.getSource().getTitle().equals("Chest")) ||
+		if ((event.getSource().getType().equals(InventoryType.CHEST) && event.getSource().getTitle().equals("Chest")) ||
 			(event.getSource().getType().equals(InventoryType.ENDER_CHEST) && event.getSource().getTitle().equals("Ender Chest"))) {
 			// If player clicked a chest (ender chest or team chest)
 			// If clicked item is an upgraded sword
 			// And they have a default sword
-			Main.getMainHandler().getLogger().error(event.getSource().getTitle());
 			if (player.getInventory().contains(Material.WOOD_SWORD) &&
 				(event.getItem().getType().equals(Material.STONE_SWORD) ||
 				event.getItem().getType().equals(Material.IRON_SWORD) ||
@@ -171,6 +170,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 
 		// Make sure no chicks drop
 		event.setHatching(false);
+		// Set metadata
+		event.getEgg().setMetadata("HitGround", new FixedMetadataValue(Main.getInstance(), true));
 	}
 
 	@EventHandler
@@ -212,7 +213,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 		if (this.verifyState(event)) return;
 
 		// If player is going to die (health - damage less or equal to 0)
-		if (event.getPlayer().getLocation().getY() < 0) {
+		if (event.getPlayer().getLocation().getY() < this.getGame().getPlayerVoid()) {
 			// Turn them into a spectator
 			this.getGame().setDeadSpectator(event.getPlayer());
 		}
@@ -221,6 +222,16 @@ public class BedwarsEventHandler extends GameEventHandler {
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event) {
 		if (this.verifyState(event)) return;
+
+		// If block is in not in block range
+		if (!(event.getBlock().getLocation().getY() >= this.getGame().getBlockVoidMin() &&
+			event.getBlock().getLocation().getY() <= this.getGame().getBlockVoidMax())) {
+			// Prevent player from placing the block
+			event.setCancelled(true);
+			// Send error
+			event.getPlayer().sendMessage(ChatColor.RED + "You have reached build limit!");
+			return;
+		}
 
 		// If player put down tnt
 		if (event.getBlock().getType().equals(Material.TNT)) {
@@ -533,6 +544,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 				new BukkitRunnable() {
 					private final Egg egg = (Egg) event.getEntity();
 					private final byte woolData = getGame().getPlayerTeam(player).getTeamColor().getDyeColor().getWoolData();
+					private final List<Location> locations = new ArrayList<>();
 					private int ticks = 0;
 
 					@Override
@@ -541,19 +553,60 @@ public class BedwarsEventHandler extends GameEventHandler {
 						this.ticks ++;
 
 						// If egg has travelled for a while
-						if (this.ticks > 100) {
+						if (this.ticks > 50) {
 							// Stop the async task
 							this.cancel();
 						} else {
+							// Get location
+							Location eggLoc = this.egg.getLocation();
+
+							// If egg hit the ground
+							// Or is in the void
+							// Or is too high
+							if (this.egg.hasMetadata("HitGround") ||
+								eggLoc.getY() < getGame().getBlockVoidMin() ||
+								eggLoc.getY() > getGame().getBlockVoidMax()) {
+								// Stop the bridge egg
+								this.cancel();
+								return;
+							}
+
+							// Get the current location
+							this.locations.add(eggLoc);
+
 							// Synchronously
 							Main.getMainHandler().getThreadHandler().scheduleSyncTask(() -> {
-								// Make bridge
-								this.egg.getLocation().getBlock().setType(Material.WOOL);
-								this.egg.getLocation().getBlock().setData(this.woolData);
-							}, 50L);
+								// Make the bridge
+								// Get original location
+								Location baseLoc = this.locations.remove(0);
+								Location tempLoc;
+								// For each block in a 2x2
+								for (int i = 0; i < 2; i ++) {
+									for (int j = 0; j < 2; j ++) {
+										// Give small chance to make a broken bridge
+										if (Math.random() > 0.25) {
+											// Get the block
+											tempLoc = baseLoc.clone().add(i, 0, j);
+											// Set the block
+											tempLoc.getBlock().setType(Material.WOOL);
+											tempLoc.getBlock().setData(this.woolData);
+											// Make sure block is breakable
+											getGame().getPlacedBlocks().add(new SmallLocation(tempLoc));
+										}
+									}
+								}
+								// Play sound to nearby players
+								for (Entity entity: baseLoc.getWorld().getNearbyEntities(baseLoc, 15, 15, 15)) {
+									// If entity is a player
+									if (entity instanceof Player) {
+										// Play the sound
+										((Player) entity).playSound(baseLoc, Sound.CHICKEN_EGG_POP, 15, 0.8F);
+									}
+								}
+							}, 3L);
 						}
 					}
-				}.runTaskTimerAsynchronously(Main.getInstance(), 1, 1);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 2, 1);
 			}
 		}
 
@@ -569,17 +622,6 @@ public class BedwarsEventHandler extends GameEventHandler {
 			event.setCancelled(true);
 			// Remove the milk bucket
 			event.getPlayer().getInventory().remove(event.getPlayer().getItemInHand());
-//			// Remove bucket from inventory
-//			Main.getMainHandler().getThreadHandler().scheduleSyncTask(() -> {
-//				// For each item in the inventory
-//				for (ItemStack item: event.getPlayer().getInventory().getContents()) {
-//					// If item is a milk bucket
-//					if (item.getType().equals(Material.MILK_BUCKET)) {
-//						item.setAmount(0);
-//						return;
-//					}
-//				}
-//			}, 1);
 			// Give player saturation as magic milk timer (30 seconds)
 			event.getPlayer().addPotionEffect(
 				new PotionEffect(PotionEffectType.SATURATION, 600, 1, false, false)

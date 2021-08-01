@@ -622,4 +622,16 @@ public class BedwarsRunnable extends HypixelRunnable {
 	public BedwarsShop getShop() {
 		return this.shop;
 	}
+
+	public int getPlayerVoid() {
+		return 0;
+	}
+
+	public int getBlockVoidMin() {
+		return 70;
+	}
+
+	public int getBlockVoidMax() {
+		return 130;
+	}
 }
