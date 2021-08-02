@@ -13,21 +13,39 @@ public class BedwarsFunds {
 
 	public BedwarsFunds(Player player) {
 		// For each item in the players inventory
-		for (ItemStack item: player.getInventory().getContents()) {
+		for (ItemStack item : player.getInventory().getContents()) {
 			// If item not AIR
 			if (item != null) {
 				// Increment each type of item
 				switch (item.getType()) {
 					case IRON_INGOT:
-						this.iron += item.getAmount(); break;
+						this.iron += item.getAmount();
+						break;
 					case GOLD_INGOT:
-						this.gold += item.getAmount(); break;
+						this.gold += item.getAmount();
+						break;
 					case DIAMOND:
-						this.diamond += item.getAmount(); break;
+						this.diamond += item.getAmount();
+						break;
 					case EMERALD:
-						this.emerald += item.getAmount(); break;
+						this.emerald += item.getAmount();
+						break;
 				}
 			}
+		}
+	}
+
+	public static ChatColor getResourceColor(Material resource) {
+		// Switch for resource
+		switch (resource) {
+			default:
+				return ChatColor.WHITE;
+			case GOLD_INGOT:
+				return ChatColor.GOLD;
+			case DIAMOND:
+				return ChatColor.AQUA;
+			case EMERALD:
+				return ChatColor.DARK_GREEN;
 		}
 	}
 
@@ -65,19 +83,5 @@ public class BedwarsFunds {
 		}
 		// If the resource wasn't one of the achievable resources, then return false
 		return -1;
-	}
-
-	public static ChatColor getResourceColor(Material resource) {
-		// Switch for resource
-		switch (resource) {
-			default:
-				return ChatColor.WHITE;
-			case GOLD_INGOT:
-				return ChatColor.GOLD;
-			case DIAMOND:
-				return ChatColor.AQUA;
-			case EMERALD:
-				return ChatColor.DARK_GREEN;
-		}
 	}
 }

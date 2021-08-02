@@ -15,17 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@JsonIgnoreProperties(value={"player", "online"})
+@JsonIgnoreProperties(value = {"player", "online"})
 public class PlayerData {
-	// Serialized fields
-	private Permission role;
-	private Lobby lobby;
-	private boolean online;
 	private final UUID playerUUID;
 	private final List<Long> leftClicks;
 	private final List<Long> rightClicks;
 	// Non-serialized fields
 	private final Player player;
+	// Serialized fields
+	private Permission role;
+	private Lobby lobby;
+	private boolean online;
 
 	@JsonCreator
 	public PlayerData(@JsonProperty("role") Permission role,
@@ -60,6 +60,19 @@ public class PlayerData {
 		this.rightClicks = new ArrayList<>();
 	}
 
+	public Permission getRole() {
+		return this.role;
+	}
+
+	public void setRole(Permission role) {
+		// Set field
+		this.role = role;
+	}
+
+	public Lobby getLobby() {
+		return this.lobby;
+	}
+
 	public void setLobby(Lobby lobby) {
 		// Set field
 		this.lobby = lobby;
@@ -70,29 +83,12 @@ public class PlayerData {
 		this.getPlayer().setFoodLevel(20);
 		// Clear their inventory
 		this.getPlayer().getInventory().clear();
-		this.getPlayer().getInventory().setArmorContents(new ItemStack[] {
+		this.getPlayer().getInventory().setArmorContents(new ItemStack[]{
 			new ItemStack(Material.AIR),
 			new ItemStack(Material.AIR),
 			new ItemStack(Material.AIR),
 			new ItemStack(Material.AIR)
 		});
-	}
-
-	public void setRole(Permission role) {
-		// Set field
-		this.role = role;
-	}
-
-	public void setOnline(boolean online) {
-		this.online = online;
-	}
-
-	public Permission getRole() {
-		return this.role;
-	}
-
-	public Lobby getLobby() {
-		return this.lobby;
 	}
 
 	public UUID getPlayerUUID() {
@@ -101,6 +97,10 @@ public class PlayerData {
 
 	public boolean getOnline() {
 		return this.online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
 	}
 
 	private Player getPlayer() {

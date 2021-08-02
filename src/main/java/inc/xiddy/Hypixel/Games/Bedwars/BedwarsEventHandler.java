@@ -118,8 +118,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// And they have a default sword
 			if (player.getInventory().contains(Material.WOOD_SWORD) &&
 				(event.getItem().getType().equals(Material.STONE_SWORD) ||
-				event.getItem().getType().equals(Material.IRON_SWORD) ||
-				event.getItem().getType().equals(Material.DIAMOND_SWORD))) {
+					event.getItem().getType().equals(Material.IRON_SWORD) ||
+					event.getItem().getType().equals(Material.DIAMOND_SWORD))) {
 				// Remove the default sword
 				player.getInventory().remove(Material.WOOD_SWORD);
 			}
@@ -188,7 +188,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// Prevent fall damage
 			event.getPlayer().setFallDistance(0);
 			// Play sound to nearby players
-			for (Entity entity: event.getPlayer().getWorld().getNearbyEntities(event.getTo(), 10, 10, 10)) {
+			for (Entity entity : event.getPlayer().getWorld().getNearbyEntities(event.getTo(), 10, 10, 10)) {
 				// If entity is a player
 				if (entity instanceof Player) {
 					// Play ender sound
@@ -266,7 +266,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 		if (this.verifyState(event)) return;
 
 		// For each material that should not drop
-		for (Material material: new Material[] {Material.BED, Material.SEEDS, Material.RED_ROSE, Material.TORCH}) {
+		for (Material material : new Material[]{Material.BED, Material.SEEDS, Material.RED_ROSE, Material.TORCH}) {
 			// If the material should not drop
 			if (event.getEntity().getItemStack().getType().equals(material)) {
 				// Don't drop it
@@ -304,7 +304,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 				// Otherwise, destroy the bed!
 				bedsTeam.setHasBed(false);
 				// Start by informing the players
-				for (Player player: this.getGame().getPlayers()) {
+				for (Player player : this.getGame().getPlayers()) {
 					// If on the broken bed team
 					if (this.getGame().getBedwarsPlayerData(player).getTeam().equals(bedsTeam)) {
 						// Credit any new deaths to the bed breaker
@@ -324,17 +324,17 @@ public class BedwarsEventHandler extends GameEventHandler {
 						// Otherwise, send them a non-personal message
 						player.sendMessage(
 							ChatColor.BOLD + "BED DESTRUCTION > " + ChatColor.RESET + ChatColor.GRAY +
-							"Your bed was destroyed by " + playersTeam.getTeamColor().getColorCode() +
-							event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
+								"Your bed was destroyed by " + playersTeam.getTeamColor().getColorCode() +
+								event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
 						);
 					} else {
 						// Otherwise,
 						// Send them a non-personal message
 						player.sendMessage(
 							ChatColor.BOLD + "BED DESTRUCTION > " + ChatColor.RESET +
-							bedsTeam.getTeamColor().getColorCode() + bedsTeam.getTeamColor().getCapitalizedString() +
-							" Bed" + ChatColor.GRAY + " was destroyed by " + playersTeam.getTeamColor().getColorCode() +
-							event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
+								bedsTeam.getTeamColor().getColorCode() + bedsTeam.getTeamColor().getCapitalizedString() +
+								" Bed" + ChatColor.GRAY + " was destroyed by " + playersTeam.getTeamColor().getColorCode() +
+								event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
 						);
 
 						// Scary sound! Spooky.
@@ -386,7 +386,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 		HypixelUtils.explode(event.getLocation());
 
 		// For each nearby block
-		for (Block block: event.blockList().toArray(new Block[0])) {
+		for (Block block : event.blockList().toArray(new Block[0])) {
 			// If glass nearby
 			if (block.getType().equals(Material.STAINED_GLASS)) {
 				// Minimize damage
@@ -562,7 +562,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 					@Override
 					public void run() {
 						// Increment ticks
-						this.ticks ++;
+						this.ticks++;
 
 						// If egg has travelled for a while
 						if (this.ticks > 30) {

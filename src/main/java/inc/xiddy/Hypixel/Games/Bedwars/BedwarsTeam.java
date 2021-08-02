@@ -15,7 +15,6 @@ import java.util.*;
 
 public class BedwarsTeam {
 	private final TeamColor color;
-	private boolean hasBed = true;
 	private final Map<Player, BedwarsState> players;
 	private final Location generatorLocation;
 	private final Location itemshopLocation;
@@ -24,6 +23,7 @@ public class BedwarsTeam {
 	private final Location bedLocation;
 	private final GameMap map;
 	private final int teamSize;
+	private boolean hasBed = true;
 
 	public BedwarsTeam(TeamColor color, GameMap map, int teamSize) throws FileNotFoundException {
 		// Set data to fields
@@ -81,7 +81,7 @@ public class BedwarsTeam {
 		// For each player in the map
 		// Filter by the .getValue of the map (the value stating if the player is alive)
 		Set<Player> players = new HashSet<>();
-		for (Map.Entry<Player, BedwarsState> entry: this.getPlayerAliveMap().entrySet()) {
+		for (Map.Entry<Player, BedwarsState> entry : this.getPlayerAliveMap().entrySet()) {
 			// If not dead (spectating)
 			if (!entry.getValue().equals(BedwarsState.SPECTATING)) {
 				players.add(entry.getKey());
@@ -129,7 +129,7 @@ public class BedwarsTeam {
 	}
 
 	public Location[] getBedLocations() {
-		return new Location[] {this.getBedLocation(), this.getBedLocation().add(this.getBedLocation().getDirection().normalize())};
+		return new Location[]{this.getBedLocation(), this.getBedLocation().add(this.getBedLocation().getDirection().normalize())};
 	}
 
 	public GameMap getMap() {
@@ -160,10 +160,22 @@ public class BedwarsTeam {
 		// Convert direction to bytes
 		int direction;
 		switch (bedFoot.getBlock().getFace(bedHead.getBlock())) {
-			default: { direction = 0x0; break; }
-			case WEST: { direction = 0x1; break; }
-			case NORTH: { direction = 0x2; break; }
-			case EAST: { direction = 0x3; break; }
+			default: {
+				direction = 0x0;
+				break;
+			}
+			case WEST: {
+				direction = 0x1;
+				break;
+			}
+			case NORTH: {
+				direction = 0x2;
+				break;
+			}
+			case EAST: {
+				direction = 0x3;
+				break;
+			}
 		}
 		// Set byte data to blocks
 		// 0x0 = Bed Foot (No XOR needed since XOR of 0x0 is the same value)

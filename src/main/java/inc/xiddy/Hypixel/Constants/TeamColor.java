@@ -33,7 +33,7 @@ public enum TeamColor {
 
 	public static boolean contains(String colorName) {
 		// For each color
-		for (TeamColor color:values()) {
+		for (TeamColor color : values()) {
 			// If the colors are equal
 			if (color.text.equals(colorName)) {
 				return true;
@@ -43,16 +43,16 @@ public enum TeamColor {
 		return false;
 	}
 
+	public static TeamColor fromString(String str) {
+		return TeamColor.valueOf(str.toUpperCase());
+	}
+
 	public ChatColor getColorCode() {
 		return this.chatColor;
 	}
 
 	public String getCapitalizedString() {
 		return HypixelUtils.capitalize(this.text);
-	}
-
-	public static TeamColor fromString(String str) {
-		return TeamColor.valueOf(str.toUpperCase());
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public enum TeamColor {
 			new ItemStack(Material.LEATHER_HELMET)
 		};
 		// For each item
-		for (ItemStack item: stack) {
+		for (ItemStack item : stack) {
 			// Pull the meta data
 			ItemMeta itemMeta = item.getItemMeta();
 			// Make it unbreakable

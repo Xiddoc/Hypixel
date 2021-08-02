@@ -6,7 +6,8 @@ public class DamageStamp {
 	private Player damager;
 	private long timestamp;
 
-	public DamageStamp() { }
+	public DamageStamp() {
+	}
 
 	public void updateDamager(Player damager) {
 		this.damager = damager;

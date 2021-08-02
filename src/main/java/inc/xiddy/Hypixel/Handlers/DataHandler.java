@@ -88,7 +88,7 @@ public class DataHandler {
 
 	private void copyFolderContents(File sourceFolder, String originalFolder, String destFolder, String[] ignore) {
 		// Make sure file is not on the 'ignore' list
-		for (String filename: ignore) {
+		for (String filename : ignore) {
 			if (filename.equals(sourceFolder.getName())) {
 				return;
 			}
@@ -100,8 +100,7 @@ public class DataHandler {
 		// If path is a directory
 		if (sourceFolder.isDirectory()) {
 			// For each item in the directory
-			for (File file: Objects.requireNonNull(sourceFolder.listFiles()))
-			{
+			for (File file : Objects.requireNonNull(sourceFolder.listFiles())) {
 				// Recurse to copy folders and files
 				this.copyFolderContents(file, originalFolder, destFolder, ignore);
 			}

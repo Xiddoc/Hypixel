@@ -24,7 +24,7 @@ public class BedwarsGameStop extends HypixelCommand {
 			player.sendMessage(ChatColor.DARK_RED + "No games running.");
 		} else {
 			// For each game
-			for (HypixelGame game: games.toArray(new HypixelGame[0])) {
+			for (HypixelGame game : games.toArray(new HypixelGame[0])) {
 				// If OP is in the game
 				if (game.getRunnableGame().getPlayers().contains(player)) {
 					// Stop the game

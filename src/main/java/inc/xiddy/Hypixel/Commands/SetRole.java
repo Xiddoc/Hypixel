@@ -59,12 +59,12 @@ public class SetRole extends HypixelCommand {
 			// Send success message
 			player.sendMessage(
 				ChatColor.GREEN + "Role of " + target.getDisplayName() + " was changed to " +
-				ChatColor.GOLD + role.getCapitalizedString() + ChatColor.GREEN + "."
+					ChatColor.GOLD + role.getCapitalizedString() + ChatColor.GREEN + "."
 			);
 			// Send update message to target
 			target.sendMessage(
 				ChatColor.GREEN + "Your role was updated to " +
-				ChatColor.GOLD + role.getCapitalizedString() + ChatColor.GREEN + "."
+					ChatColor.GOLD + role.getCapitalizedString() + ChatColor.GREEN + "."
 			);
 		} else {
 			// Otherwise

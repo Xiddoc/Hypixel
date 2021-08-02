@@ -27,13 +27,15 @@ public class AnticheatHandler {
 			case LEFT_CLICK_AIR:
 			case LEFT_CLICK_BLOCK: {
 				// Pass to player data
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftClick(); break;
+				Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftClick();
+				break;
 			}
 			// Right click
 			case RIGHT_CLICK_AIR:
 			case RIGHT_CLICK_BLOCK: {
 				// Pass to player data
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightClick(); break;
+				Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightClick();
+				break;
 			}
 		}
 
@@ -67,7 +69,7 @@ public class AnticheatHandler {
 
 	public void punish(String message) {
 		// For each player online
-		for (Player onlinePlayer: Main.getInstance().getServer().getOnlinePlayers()) {
+		for (Player onlinePlayer : Main.getInstance().getServer().getOnlinePlayers()) {
 			// Alert
 			onlinePlayer.sendMessage(message);
 		}
