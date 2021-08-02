@@ -24,6 +24,7 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -514,7 +515,14 @@ public class BedwarsEventHandler extends GameEventHandler {
 					fireball.setIsIncendiary(true);
 
 					// Remove 1 fireball from hand
-					event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount() - 1);
+					// If player has more than one fireball
+					if (event.getPlayer().getItemInHand().getAmount() > 1) {
+						// Deduct one fireball
+						event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount() - 1);
+					} else {
+						// Remove last item from hand
+						event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+					}
 
 					// Give the player slowness
 					event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 1, false, false));
@@ -535,14 +543,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// Get player
 			Player player = (Player) event.getEntity().getShooter();
 
-			// If item is a fireball
-			if (player.getItemInHand().getType().equals(Material.FIREBALL)) {
-//				// Don't let them shoot it
-//				event.setCancelled(true);
-				// Steal the fireball
-				player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
-			} else if (player.getItemInHand().getType().equals(Material.EGG)) {
-				// If item is an egg
+			// If item is an egg
+			if (player.getItemInHand().getType().equals(Material.EGG)) {
 				// Make blocks behind bridge egg
 				new BukkitRunnable() {
 					private final Egg egg = (Egg) event.getEntity();
