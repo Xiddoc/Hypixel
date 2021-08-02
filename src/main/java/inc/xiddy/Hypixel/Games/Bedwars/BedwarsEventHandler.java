@@ -180,15 +180,18 @@ public class BedwarsEventHandler extends GameEventHandler {
 
 		// If the player teleported due to an ender pearl
 		if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
-			// Don't teleport the player via pearl, teleport them manually (prevent fall damage)
+			// Don't teleport the player via pearl
 			event.setCancelled(true);
+			// Teleport them manually (prevent pearl damage)
 			event.getPlayer().teleport(event.getTo());
+			// Prevent fall damage
+			event.getPlayer().setFallDistance(0);
 			// Play sound to nearby players
-			for (Entity entity: event.getPlayer().getWorld().getNearbyEntities(event.getTo(), 5, 5, 5)) {
+			for (Entity entity: event.getPlayer().getWorld().getNearbyEntities(event.getTo(), 10, 10, 10)) {
 				// If entity is a player
 				if (entity instanceof Player) {
 					// Play ender sound
-					((Player) entity).playSound(entity.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+					((Player) entity).playSound(event.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 1);
 				}
 			}
 		}
