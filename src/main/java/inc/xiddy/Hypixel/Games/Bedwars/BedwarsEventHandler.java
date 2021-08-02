@@ -366,32 +366,24 @@ public class BedwarsEventHandler extends GameEventHandler {
 	}
 
 	@EventHandler
+	public void onPrime(ExplosionPrimeEvent event) {
+		if (this.verifyState(event)) return;
+
+		// If entity is a fireball
+		if (event.getEntity() instanceof Fireball) {
+			// Cast
+			Fireball fireball = (Fireball) event.getEntity();
+
+			HypixelUtils.explode(fireball.getLocation());
+		}
+	}
+
+	@EventHandler
 	public void onExplode(EntityExplodeEvent event) {
 		if (this.verifyState(event)) return;
 
-		// Set blast radius
-		Main.getMainHandler().getLogger().error(event.getEntity().getType());
-		double radius = 10;
-		double strength = 4.0;
-		// Init variables for each player
-		Vector difVector;
-		// For each player
-		for (Entity entity: event.getLocation().getWorld().getNearbyEntities(event.getLocation(), radius, radius, radius)) {
-			// Get difference vector of entity to explosion
-			difVector = entity.getLocation().add(0.0D, 1.0D, 0.0D).toVector().subtract(event.getEntity().getLocation().toVector());
-			double length = difVector.length();
-			difVector = difVector.normalize();
-			difVector.multiply(strength / length);
-			// If entity within the radius
-			// AND the difference vector is NOT on the same x position OR z position
-			// AND they are not NPCs
-			if (entity.getLocation().distance(event.getLocation()) < radius &&
-				!(difVector.getX() == 0 || difVector.getZ() == 0) &&
-				!CitizensAPI.getNPCRegistry().isNPC(entity)) {
-				// Add velocity
-				entity.setVelocity(entity.getVelocity().add(difVector.divide(new Vector(1, 5, 1))));
-			}
-		}
+		// Explode
+		HypixelUtils.explode(event.getLocation());
 
 		// For each nearby block
 		for (Block block: event.blockList().toArray(new Block[0])) {
@@ -492,7 +484,15 @@ public class BedwarsEventHandler extends GameEventHandler {
 					this.getGame().getBedwarsPlayerData(event.getPlayer()).timestampLastFireball();
 
 					// Shoot custom fireball
-					Fireball fireball = event.getPlayer().launchProjectile(Fireball.class);
+					// Get starting location
+					Location startingLocation = event.getPlayer().getEyeLocation().clone();
+					startingLocation.add(startingLocation.getDirection().normalize());
+
+					// Summon the fireball
+					Fireball fireball = event.getPlayer().getLocation().getWorld().spawn(
+						startingLocation,
+						Fireball.class
+					);
 
 					// Get NMS handle
 					EntityFireball nms = ((CraftFireball) fireball).getHandle();
@@ -512,7 +512,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 					fireball.setVelocity(fireball.getDirection().multiply(5));
 
 					// Make fire
-					fireball.setIsIncendiary(true);
+					fireball.setIsIncendiary(false);
 
 					// Remove 1 fireball from hand
 					// If player has more than one fireball
