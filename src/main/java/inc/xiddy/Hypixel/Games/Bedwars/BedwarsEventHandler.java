@@ -371,10 +371,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 
 		// If entity is a fireball
 		if (event.getEntity() instanceof Fireball) {
-			// Cast
-			Fireball fireball = (Fireball) event.getEntity();
-
-			HypixelUtils.explode(fireball.getLocation());
+			// Explode
+			HypixelUtils.explode(event.getEntity().getLocation());
 		}
 	}
 
@@ -486,7 +484,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 					// Shoot custom fireball
 					// Get starting location
 					Location startingLocation = event.getPlayer().getEyeLocation().clone();
-					startingLocation.add(startingLocation.getDirection().normalize());
+					startingLocation.add(startingLocation.getDirection().normalize().multiply(2));
 
 					// Summon the fireball
 					Fireball fireball = event.getPlayer().getLocation().getWorld().spawn(
