@@ -373,20 +373,18 @@ public class BedwarsEventHandler extends GameEventHandler {
 		// If entity is a fireball
 		if (event.getEntity() instanceof Fireball) {
 			// Explode
-			HypixelUtils.explode(event.getEntity().getLocation());
-			// Explode blocks
-//			event.getEntity().getWorld().createExplosion(event.getEntity().getLocation(), 4F);
 			TNTPrimed tnt = (TNTPrimed) event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.PRIMED_TNT);
 			tnt.setFuseTicks(0);
 			// Stop the prime (original fireball)
+			// And kill the entity
 			// This prevents 2x KB
+			event.getEntity().remove();
 			event.setCancelled(true);
 		}
 	}
 
 	@EventHandler
 	public void onExplode(EntityExplodeEvent event) {
-		Main.getMainHandler().getLogger().warning("Entity Exploded Somewhere");
 		if (this.verifyState(event)) return;
 
 		// Explode
@@ -405,7 +403,6 @@ public class BedwarsEventHandler extends GameEventHandler {
 				// Make iterator to get all blocks in a line between
 				// The current block
 				// And the TNT block
-				Main.getMainHandler().getLogger().warning("new iterator: " + block.getType());
 				BlockIterator iterator = new BlockIterator(
 					block.getLocation().getWorld(),
 					block.getLocation().toVector(),
@@ -418,7 +415,6 @@ public class BedwarsEventHandler extends GameEventHandler {
 				Block currentBlock = iterator.next();
 				// For each block between the current block and the TNT location
 				while (iterator.hasNext()) {
-					Main.getMainHandler().getLogger().error(currentBlock.getType());
 					// If the current block is glass
 					if (currentBlock.getType().equals(Material.STAINED_GLASS)) {
 						// Remove the block

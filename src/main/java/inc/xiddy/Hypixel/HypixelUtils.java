@@ -109,7 +109,7 @@ public class HypixelUtils {
 	public static void explode(Location explosionLocation) {
 		// Set blast radius
 		double radius = 8;
-		double strength = 3.5;
+		double strength = 2;
 		// Init variables for each player
 		Vector difVector;
 		// For each player
