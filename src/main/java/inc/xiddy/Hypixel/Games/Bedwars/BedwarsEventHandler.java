@@ -17,6 +17,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -29,11 +30,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BedwarsEventHandler extends GameEventHandler {
@@ -373,35 +374,63 @@ public class BedwarsEventHandler extends GameEventHandler {
 		if (event.getEntity() instanceof Fireball) {
 			// Explode
 			HypixelUtils.explode(event.getEntity().getLocation());
+			// Explode blocks
+//			event.getEntity().getWorld().createExplosion(event.getEntity().getLocation(), 4F);
+			TNTPrimed tnt = (TNTPrimed) event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.PRIMED_TNT);
+			tnt.setFuseTicks(0);
+			// Stop the prime (original fireball)
+			// This prevents 2x KB
+			event.setCancelled(true);
 		}
 	}
 
 	@EventHandler
 	public void onExplode(EntityExplodeEvent event) {
+		Main.getMainHandler().getLogger().warning("Entity Exploded Somewhere");
 		if (this.verifyState(event)) return;
 
 		// Explode
 		HypixelUtils.explode(event.getLocation());
 
 		// For each nearby block
-		for (Block block : event.blockList().toArray(new Block[0])) {
-			// If glass nearby
-			if (block.getType().equals(Material.STAINED_GLASS)) {
-				// Minimize damage
-				if (Math.random() > 0.25) {
-					event.blockList().remove((new Random()).nextInt(event.blockList().size()));
+		for (Block block: event.blockList().toArray(new Block[0])) {
+			// If they are stained-glass (blastproof glass)
+			// OR
+			// If any blocks are protected
+			if (block.getType().equals(Material.STAINED_GLASS) ||
+				!this.getGame().isPlacedBlock(new SmallLocation(block.getLocation()))) {
+				// Remove them from the list
+				event.blockList().remove(block);
+			} else {
+				// Make iterator to get all blocks in a line between
+				// The current block
+				// And the TNT block
+				Main.getMainHandler().getLogger().warning("new iterator: " + block.getType());
+				BlockIterator iterator = new BlockIterator(
+					block.getLocation().getWorld(),
+					block.getLocation().toVector(),
+					event.getLocation().toVector().subtract(block.getLocation().toVector()),
+					0,
+					(int) block.getLocation().toVector().distanceSquared(event.getLocation().toVector())
+				);
+
+				// Get current block
+				Block currentBlock = iterator.next();
+				// For each block between the current block and the TNT location
+				while (iterator.hasNext()) {
+					Main.getMainHandler().getLogger().error(currentBlock.getType());
+					// If the current block is glass
+					if (currentBlock.getType().equals(Material.STAINED_GLASS)) {
+						// Remove the block
+						event.blockList().remove(block);
+						// Iterate to next block
+						break;
+					}
+					// Iterate down the "node"
+					currentBlock = iterator.next();
 				}
 			}
 		}
-
-		// For each block that is about to explode
-		// If any blocks are protected
-		// Or if they are stained-glass (blastproof glass)
-		// Remove them from the list
-		event.blockList().removeIf(block ->
-			!this.getGame().isPlacedBlock(new SmallLocation(block.getLocation())) ||
-				block.getType().equals(Material.STAINED_GLASS)
-		);
 	}
 
 	@EventHandler

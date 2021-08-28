@@ -28,6 +28,18 @@ public class AnticheatHandler {
 			case LEFT_CLICK_BLOCK: {
 				// Pass to player data
 				Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftClick();
+				// If clicking too fast
+				if (Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftCPS() > this.getCpsCap()) {
+					// Punish them
+					this.punish(
+						MessageFormat.format(
+							"\n\n{0}Huh, {1} {0}just clicked really fast... too fast! ({2} Left-CPS)\n\n",
+							ChatColor.DARK_RED,
+							ChatColor.BOLD + player.getDisplayName(),
+							Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftCPS()
+						)
+					);
+				}
 				break;
 			}
 			// Right click
@@ -35,31 +47,20 @@ public class AnticheatHandler {
 			case RIGHT_CLICK_BLOCK: {
 				// Pass to player data
 				Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightClick();
+				// If clicking too fast
+				if (Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightCPS() > this.getCpsCap()) {
+					// Punish them
+					this.punish(
+						MessageFormat.format(
+							"\n\n{0}Huh, {1} {0}just clicked really fast... too fast! ({2} Right-CPS)\n\n",
+							ChatColor.DARK_RED,
+							ChatColor.BOLD + player.getDisplayName(),
+							Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightCPS()
+						)
+					);
+				}
 				break;
 			}
-		}
-
-		// If clicking too fast
-		if (Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftCPS() > this.getCpsCap()) {
-			// Punish them
-			this.punish(
-				MessageFormat.format(
-					"\n\n{0}Huh, {1} {0}just clicked really fast... too fast! ({2} Left-CPS)\n\n",
-					ChatColor.DARK_RED,
-					ChatColor.BOLD + player.getDisplayName(),
-					Main.getMainHandler().getPlayerHandler().getPlayerData(player).leftCPS()
-				)
-			);
-		} else if (Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightCPS() > this.getCpsCap()) {
-			// Punish them
-			this.punish(
-				MessageFormat.format(
-					"\n\n{0}Huh, {1} {0}just clicked really fast... too fast! ({2} Right-CPS)\n\n",
-					ChatColor.DARK_RED,
-					ChatColor.BOLD + player.getDisplayName(),
-					Main.getMainHandler().getPlayerHandler().getPlayerData(player).rightCPS()
-				)
-			);
 		}
 	}
 
