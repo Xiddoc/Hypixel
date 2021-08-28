@@ -22,7 +22,7 @@ public class GameHandler {
 		// New list
 		List<HypixelGame> allGames = new ArrayList<>();
 		// For each game
-		for (Map.Entry<Lobby, List<HypixelGame>> entry: this.getGamesList().entrySet()) {
+		for (Map.Entry<Lobby, List<HypixelGame>> entry : this.getGamesList().entrySet()) {
 			// Append to new list
 			allGames.addAll(entry.getValue());
 		}

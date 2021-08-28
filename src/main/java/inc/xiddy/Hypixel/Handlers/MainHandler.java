@@ -14,7 +14,8 @@ public class MainHandler {
 	private GameHandler gameHandler;
 	private AnticheatHandler anticheatHandler;
 
-	public MainHandler() {}
+	public MainHandler() {
+	}
 
 	public void initMainHandler() {
 		// Register logger

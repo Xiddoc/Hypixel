@@ -42,7 +42,7 @@ public class LobbyHandler {
 			player.teleport(lobbyData.getLocation());
 		}
 		// For each potion effect
-		for (PotionEffect effect: player.getActivePotionEffects()) {
+		for (PotionEffect effect : player.getActivePotionEffects()) {
 			// Remove it from the player
 			player.removePotionEffect(effect.getType());
 		}

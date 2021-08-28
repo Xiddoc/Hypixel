@@ -29,11 +29,14 @@ public class BedwarsInventory {
 		// Switch to operate per case
 		switch (this.getHotbarItem("pic").getType()) {
 			default:
-				upgrade = Material.WOOD_PICKAXE; break;
+				upgrade = Material.WOOD_PICKAXE;
+				break;
 			case WOOD_PICKAXE:
-				upgrade = Material.IRON_PICKAXE; break;
+				upgrade = Material.IRON_PICKAXE;
+				break;
 			case IRON_PICKAXE:
-				upgrade = Material.GOLD_PICKAXE; break;
+				upgrade = Material.GOLD_PICKAXE;
+				break;
 			case GOLD_PICKAXE:
 				upgrade = Material.DIAMOND_PICKAXE;
 		}
@@ -47,12 +50,15 @@ public class BedwarsInventory {
 		// Switch to operate per case
 		switch (this.getHotbarItem("pic").getType()) {
 			default:
-				upgrade = Material.AIR; break;
+				upgrade = Material.AIR;
+				break;
 			case WOOD_PICKAXE:
 			case IRON_PICKAXE:
-				upgrade = Material.WOOD_PICKAXE; break;
+				upgrade = Material.WOOD_PICKAXE;
+				break;
 			case GOLD_PICKAXE:
-				upgrade = Material.IRON_PICKAXE; break;
+				upgrade = Material.IRON_PICKAXE;
+				break;
 			case DIAMOND_PICKAXE:
 				upgrade = Material.GOLD_PICKAXE;
 		}
@@ -66,11 +72,14 @@ public class BedwarsInventory {
 		// Switch to operate per case
 		switch (this.getHotbarItem("axe").getType()) {
 			default:
-				upgrade = Material.WOOD_AXE; break;
+				upgrade = Material.WOOD_AXE;
+				break;
 			case WOOD_AXE:
-				upgrade = Material.IRON_AXE; break;
+				upgrade = Material.IRON_AXE;
+				break;
 			case IRON_AXE:
-				upgrade = Material.GOLD_AXE; break;
+				upgrade = Material.GOLD_AXE;
+				break;
 			case GOLD_AXE:
 				upgrade = Material.DIAMOND_AXE;
 		}
@@ -84,12 +93,15 @@ public class BedwarsInventory {
 		// Switch to operate per case
 		switch (this.getHotbarItem("axe").getType()) {
 			default:
-				upgrade = Material.AIR; break;
+				upgrade = Material.AIR;
+				break;
 			case WOOD_AXE:
 			case IRON_AXE:
-				upgrade = Material.WOOD_AXE; break;
+				upgrade = Material.WOOD_AXE;
+				break;
 			case GOLD_AXE:
-				upgrade = Material.IRON_AXE; break;
+				upgrade = Material.IRON_AXE;
+				break;
 			case DIAMOND_AXE:
 				upgrade = Material.GOLD_AXE;
 		}

@@ -17,6 +17,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,15 +25,16 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BedwarsEventHandler extends GameEventHandler {
@@ -117,8 +119,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// And they have a default sword
 			if (player.getInventory().contains(Material.WOOD_SWORD) &&
 				(event.getItem().getType().equals(Material.STONE_SWORD) ||
-				event.getItem().getType().equals(Material.IRON_SWORD) ||
-				event.getItem().getType().equals(Material.DIAMOND_SWORD))) {
+					event.getItem().getType().equals(Material.IRON_SWORD) ||
+					event.getItem().getType().equals(Material.DIAMOND_SWORD))) {
 				// Remove the default sword
 				player.getInventory().remove(Material.WOOD_SWORD);
 			}
@@ -187,7 +189,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// Prevent fall damage
 			event.getPlayer().setFallDistance(0);
 			// Play sound to nearby players
-			for (Entity entity: event.getPlayer().getWorld().getNearbyEntities(event.getTo(), 10, 10, 10)) {
+			for (Entity entity : event.getPlayer().getWorld().getNearbyEntities(event.getTo(), 10, 10, 10)) {
 				// If entity is a player
 				if (entity instanceof Player) {
 					// Play ender sound
@@ -265,7 +267,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 		if (this.verifyState(event)) return;
 
 		// For each material that should not drop
-		for (Material material: new Material[] {Material.BED, Material.SEEDS, Material.RED_ROSE, Material.TORCH}) {
+		for (Material material : new Material[]{Material.BED, Material.SEEDS, Material.RED_ROSE, Material.TORCH}) {
 			// If the material should not drop
 			if (event.getEntity().getItemStack().getType().equals(material)) {
 				// Don't drop it
@@ -303,7 +305,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 				// Otherwise, destroy the bed!
 				bedsTeam.setHasBed(false);
 				// Start by informing the players
-				for (Player player: this.getGame().getPlayers()) {
+				for (Player player : this.getGame().getPlayers()) {
 					// If on the broken bed team
 					if (this.getGame().getBedwarsPlayerData(player).getTeam().equals(bedsTeam)) {
 						// Credit any new deaths to the bed breaker
@@ -323,17 +325,17 @@ public class BedwarsEventHandler extends GameEventHandler {
 						// Otherwise, send them a non-personal message
 						player.sendMessage(
 							ChatColor.BOLD + "BED DESTRUCTION > " + ChatColor.RESET + ChatColor.GRAY +
-							"Your bed was destroyed by " + playersTeam.getTeamColor().getColorCode() +
-							event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
+								"Your bed was destroyed by " + playersTeam.getTeamColor().getColorCode() +
+								event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
 						);
 					} else {
 						// Otherwise,
 						// Send them a non-personal message
 						player.sendMessage(
 							ChatColor.BOLD + "BED DESTRUCTION > " + ChatColor.RESET +
-							bedsTeam.getTeamColor().getColorCode() + bedsTeam.getTeamColor().getCapitalizedString() +
-							" Bed" + ChatColor.GRAY + " was destroyed by " + playersTeam.getTeamColor().getColorCode() +
-							event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
+								bedsTeam.getTeamColor().getColorCode() + bedsTeam.getTeamColor().getCapitalizedString() +
+								" Bed" + ChatColor.GRAY + " was destroyed by " + playersTeam.getTeamColor().getColorCode() +
+								event.getPlayer().getDisplayName() + ChatColor.GRAY + "!"
 						);
 
 						// Scary sound! Spooky.
@@ -365,52 +367,66 @@ public class BedwarsEventHandler extends GameEventHandler {
 	}
 
 	@EventHandler
+	public void onPrime(ExplosionPrimeEvent event) {
+		if (this.verifyState(event)) return;
+
+		// If entity is a fireball
+		if (event.getEntity() instanceof Fireball) {
+			// Explode
+			TNTPrimed tnt = (TNTPrimed) event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.PRIMED_TNT);
+			tnt.setFuseTicks(0);
+			// Stop the prime (original fireball)
+			// And kill the entity
+			// This prevents 2x KB
+			event.getEntity().remove();
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
 	public void onExplode(EntityExplodeEvent event) {
 		if (this.verifyState(event)) return;
 
-		// Set blast radius
-		Main.getMainHandler().getLogger().error(event.getEntity().getType());
-		double radius = 10;
-		double strength = 4.0;
-		// Init variables for each player
-		Vector difVector;
-		// For each player
-		for (Entity entity: event.getLocation().getWorld().getNearbyEntities(event.getLocation(), radius, radius, radius)) {
-			// Get difference vector of entity to explosion
-			difVector = entity.getLocation().add(0.0D, 1.0D, 0.0D).toVector().subtract(event.getEntity().getLocation().toVector());
-			double length = difVector.length();
-			difVector = difVector.normalize();
-			difVector.multiply(strength / length);
-			// If entity within the radius
-			// AND the difference vector is NOT on the same x position OR z position
-			// AND they are not NPCs
-			if (entity.getLocation().distance(event.getLocation()) < radius &&
-				!(difVector.getX() == 0 || difVector.getZ() == 0) &&
-				!CitizensAPI.getNPCRegistry().isNPC(entity)) {
-				// Add velocity
-				entity.setVelocity(entity.getVelocity().add(difVector.divide(new Vector(1, 5, 1))));
-			}
-		}
+		// Explode
+		HypixelUtils.explode(event.getLocation());
 
 		// For each nearby block
 		for (Block block: event.blockList().toArray(new Block[0])) {
-			// If glass nearby
-			if (block.getType().equals(Material.STAINED_GLASS)) {
-				// Minimize damage
-				if (Math.random() > 0.25) {
-					event.blockList().remove((new Random()).nextInt(event.blockList().size()));
+			// If they are stained-glass (blastproof glass)
+			// OR
+			// If any blocks are protected
+			if (block.getType().equals(Material.STAINED_GLASS) ||
+				!this.getGame().isPlacedBlock(new SmallLocation(block.getLocation()))) {
+				// Remove them from the list
+				event.blockList().remove(block);
+			} else {
+				// Make iterator to get all blocks in a line between
+				// The current block
+				// And the TNT block
+				BlockIterator iterator = new BlockIterator(
+					block.getLocation().getWorld(),
+					block.getLocation().toVector(),
+					event.getLocation().toVector().subtract(block.getLocation().toVector()),
+					0,
+					(int) block.getLocation().toVector().distanceSquared(event.getLocation().toVector())
+				);
+
+				// Get current block
+				Block currentBlock = iterator.next();
+				// For each block between the current block and the TNT location
+				while (iterator.hasNext()) {
+					// If the current block is glass
+					if (currentBlock.getType().equals(Material.STAINED_GLASS)) {
+						// Remove the block
+						event.blockList().remove(block);
+						// Iterate to next block
+						break;
+					}
+					// Iterate down the "node"
+					currentBlock = iterator.next();
 				}
 			}
 		}
-
-		// For each block that is about to explode
-		// If any blocks are protected
-		// Or if they are stained-glass (blastproof glass)
-		// Remove them from the list
-		event.blockList().removeIf(block ->
-			!this.getGame().isPlacedBlock(new SmallLocation(block.getLocation())) ||
-				block.getType().equals(Material.STAINED_GLASS)
-		);
 	}
 
 	@EventHandler
@@ -491,7 +507,15 @@ public class BedwarsEventHandler extends GameEventHandler {
 					this.getGame().getBedwarsPlayerData(event.getPlayer()).timestampLastFireball();
 
 					// Shoot custom fireball
-					Fireball fireball = event.getPlayer().launchProjectile(Fireball.class);
+					// Get starting location
+					Location startingLocation = event.getPlayer().getEyeLocation().clone();
+					startingLocation.add(startingLocation.getDirection().normalize().multiply(2));
+
+					// Summon the fireball
+					Fireball fireball = event.getPlayer().getLocation().getWorld().spawn(
+						startingLocation,
+						Fireball.class
+					);
 
 					// Get NMS handle
 					EntityFireball nms = ((CraftFireball) fireball).getHandle();
@@ -511,10 +535,17 @@ public class BedwarsEventHandler extends GameEventHandler {
 					fireball.setVelocity(fireball.getDirection().multiply(5));
 
 					// Make fire
-					fireball.setIsIncendiary(true);
+					fireball.setIsIncendiary(false);
 
 					// Remove 1 fireball from hand
-					event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount() - 1);
+					// If player has more than one fireball
+					if (event.getPlayer().getItemInHand().getAmount() > 1) {
+						// Deduct one fireball
+						event.getPlayer().getItemInHand().setAmount(event.getPlayer().getItemInHand().getAmount() - 1);
+					} else {
+						// Remove last item from hand
+						event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+					}
 
 					// Give the player slowness
 					event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 1, false, false));
@@ -535,14 +566,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 			// Get player
 			Player player = (Player) event.getEntity().getShooter();
 
-			// If item is a fireball
-			if (player.getItemInHand().getType().equals(Material.FIREBALL)) {
-//				// Don't let them shoot it
-//				event.setCancelled(true);
-				// Steal the fireball
-				player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
-			} else if (player.getItemInHand().getType().equals(Material.EGG)) {
-				// If item is an egg
+			// If item is an egg
+			if (player.getItemInHand().getType().equals(Material.EGG)) {
 				// Make blocks behind bridge egg
 				new BukkitRunnable() {
 					private final Egg egg = (Egg) event.getEntity();
@@ -560,7 +585,7 @@ public class BedwarsEventHandler extends GameEventHandler {
 					@Override
 					public void run() {
 						// Increment ticks
-						this.ticks ++;
+						this.ticks++;
 
 						// If egg has travelled for a while
 						if (this.ticks > 30) {

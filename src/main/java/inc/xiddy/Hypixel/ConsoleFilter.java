@@ -22,7 +22,7 @@ public class ConsoleFilter implements Filter {
 
 	public Result checkMessage(String message) {
 		// Filter check
-		for (String string: this.stringList) {
+		for (String string : this.stringList) {
 			// Make sure message is not null
 			if (message != null) {
 				// If message contains the string

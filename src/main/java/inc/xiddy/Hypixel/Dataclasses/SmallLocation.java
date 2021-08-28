@@ -41,18 +41,6 @@ public class SmallLocation {
 		this.pitch = location.getPitch();
 	}
 
-	public Location toLocation(World world) {
-		return new Location(world, this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
-	}
-
-	public Location toLocation(String worldName) {
-		return this.toLocation(Bukkit.getWorld(worldName));
-	}
-
-	public Location toLocation() {
-		return this.toLocation((World) null);
-	}
-
 	public static SmallLocation center(SmallLocation location) {
 		// Propagate to other static method
 		return new SmallLocation(center(location.toLocation()));
@@ -91,6 +79,18 @@ public class SmallLocation {
 
 		// Return new instance
 		return copy;
+	}
+
+	public Location toLocation(World world) {
+		return new Location(world, this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
+	}
+
+	public Location toLocation(String worldName) {
+		return this.toLocation(Bukkit.getWorld(worldName));
+	}
+
+	public Location toLocation() {
+		return this.toLocation((World) null);
 	}
 
 	public float getPitch() {

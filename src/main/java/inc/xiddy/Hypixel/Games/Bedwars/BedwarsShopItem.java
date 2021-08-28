@@ -27,7 +27,7 @@ public abstract class BedwarsShopItem {
 		List<String> lore = new ArrayList<>();
 		lore.add(GRAY + "Cost: " + BedwarsFunds.getResourceColor(getPayment().getType()) + this.getPayment().getAmount() + " " + this.getPaymentResourceAsString());
 		lore.add("");
-		for (String line: WordUtils.wrap("Great for doing stuff! This is a good description. You're probably getting rushed right now, watch out!", 25).split("\r\n")) {
+		for (String line : WordUtils.wrap("Great for doing stuff! This is a good description. You're probably getting rushed right now, watch out!", 25).split("\r\n")) {
 			lore.add(GRAY + line);
 		}
 		lore.add("");

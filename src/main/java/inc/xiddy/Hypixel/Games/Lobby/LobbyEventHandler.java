@@ -80,7 +80,7 @@ public class LobbyEventHandler extends GameEventHandler {
 		// Remove join message
 		event.setJoinMessage("");
 		// For everyone in the lobby
-		for (Player player: Main.getMainHandler().getLobbyHandler().getPlayersInLobby(Lobby.HUB)) {
+		for (Player player : Main.getMainHandler().getLobbyHandler().getPlayersInLobby(Lobby.HUB)) {
 			// Announce join message
 			player.sendMessage(
 				GRAY + event.getPlayer().getDisplayName() + ChatColor.GOLD + " joined the lobby!"
@@ -91,14 +91,14 @@ public class LobbyEventHandler extends GameEventHandler {
 		// Set the lobby scoreboard
 		Main.getMainHandler().getPlayerHandler().getPlayerData(event.getPlayer()).setScoreboard(
 			GOLD + "" + BOLD + "BEDWARS" +
-			"\n\nLevel: " + GRAY + "48✫" +
-			"\n\nProgress: " + AQUA + "1.9k" + GRAY + "/" + GREEN + "5k" +
-			"\n" + DARK_GRAY + " [" + AQUA + "■■■■■" + GRAY + "■■■■■" + DARK_GRAY + "]" +
-			"\n\nLoot Chests: " + YELLOW + "0" +
-			"\n\nCoins: " + GOLD + "64,407" +
-			"\n\nTotal Kills: " + GREEN + "3,004" +
-			"\nTotal Wins: " + GREEN + "324" +
-			"\n\n" + YELLOW + "www.hypixel.net"
+				"\n\nLevel: " + GRAY + "48✫" +
+				"\n\nProgress: " + AQUA + "1.9k" + GRAY + "/" + GREEN + "5k" +
+				"\n" + DARK_GRAY + " [" + AQUA + "■■■■■" + GRAY + "■■■■■" + DARK_GRAY + "]" +
+				"\n\nLoot Chests: " + YELLOW + "0" +
+				"\n\nCoins: " + GOLD + "64,407" +
+				"\n\nTotal Kills: " + GREEN + "3,004" +
+				"\nTotal Wins: " + GREEN + "324" +
+				"\n\n" + YELLOW + "www.hypixel.net"
 		);
 	}
 

@@ -42,7 +42,7 @@ public class BedwarsSetup extends HypixelCommand {
 		}
 
 		// Lowercase the arguments for simplicity
-		for (int i = 0; i < args.length; i ++) {
+		for (int i = 0; i < args.length; i++) {
 			args[i] = args[i].toLowerCase();
 		}
 

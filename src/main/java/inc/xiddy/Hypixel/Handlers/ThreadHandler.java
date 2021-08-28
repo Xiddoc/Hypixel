@@ -3,7 +3,8 @@ package inc.xiddy.Hypixel.Handlers;
 import inc.xiddy.Hypixel.Main;
 
 public class ThreadHandler {
-	public ThreadHandler() {}
+	public ThreadHandler() {
+	}
 
 	public void runSyncTask(Runnable task) {
 		Main.getInstance().getServer().getScheduler().runTask(Main.getInstance(), task);

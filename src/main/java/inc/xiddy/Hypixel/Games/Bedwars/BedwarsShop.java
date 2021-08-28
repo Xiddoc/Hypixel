@@ -15,7 +15,7 @@ public class BedwarsShop {
 	private final BedwarsShopItem[] shopItems;
 
 	public BedwarsShop() {
-		this.shopItems = new BedwarsShopItem[] {
+		this.shopItems = new BedwarsShopItem[]{
 			new WoolShopItem(new ItemStack(Material.WOOL, 16), new ItemStack(Material.IRON_INGOT, 4)),
 			new DefaultShopItem(new ItemStack(Material.STAINED_CLAY, 16), new ItemStack(Material.IRON_INGOT, 12)),
 			new DefaultShopItem(new ItemStack(Material.WOOD, 16), new ItemStack(Material.GOLD_INGOT, 4)),
@@ -58,7 +58,7 @@ public class BedwarsShop {
 	public void buyItem(BedwarsRunnable game, Player player, Material item) {
 		// Find the item
 		// For each shop item
-		for (BedwarsShopItem shopItem: this.getShopItems()) {
+		for (BedwarsShopItem shopItem : this.getShopItems()) {
 			// If the item is not air
 			if (shopItem != null) {
 				// If the shop item is the one that the player took
@@ -97,7 +97,7 @@ public class BedwarsShop {
 		// Make item stack
 		ItemStack[] inventory = new ItemStack[this.getShopSize()];
 		// For each material
-		for (int i = 0; i < this.getShopItems().length; i ++) {
+		for (int i = 0; i < this.getShopItems().length; i++) {
 			// Add it to the inventory
 			inventory[i] = this.getShopItems()[i] == null ? new ItemStack(Material.AIR) : this.getShopItems()[i].getItem();
 		}
