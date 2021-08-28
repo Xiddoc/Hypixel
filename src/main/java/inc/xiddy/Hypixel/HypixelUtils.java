@@ -1,8 +1,16 @@
 package inc.xiddy.Hypixel;
 
+import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -35,7 +43,7 @@ public class HypixelUtils {
 		// New SB
 		StringBuilder result = new StringBuilder();
 		// For each word
-		for (String word: words) {
+		for (String word : words) {
 			// Capitalize it
 			result.append(capitalize(word)).append(" ");
 		}
@@ -70,6 +78,56 @@ public class HypixelUtils {
 			} else {
 				// Otherwise, return the offline player
 				return targetOffline;
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	public static List<Block> getNearbyBlocks(Location location, int radius) {
+		// Make new list
+		List<Block> blocks = new ArrayList<>();
+		Block block;
+		// For each x in the radius
+		for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+			// For each y in the radius
+			for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+				// For each z in the radius
+				for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+					// Get the block
+					block = location.getWorld().getBlockAt(x, y, z);
+					// If the block is not air
+					if (!block.getType().equals(Material.AIR)) {
+						// Add it to the list
+						blocks.add(block);
+					}
+				}
+			}
+		}
+		return blocks;
+	}
+
+	public static void explode(Location explosionLocation) {
+		// Set blast radius
+		double radius = 8;
+		double strength = 2;
+		// Init variables for each player
+		Vector difVector;
+		// For each player
+		for (Entity entity : explosionLocation.getWorld().getNearbyEntities(explosionLocation, radius, radius, radius)) {
+			// Get difference vector of entity to explosion
+			difVector = entity.getLocation().add(0.0D, 1.0D, 0.0D).toVector().subtract(explosionLocation.toVector());
+			// Math to make knockback differ by distance from explosion
+			double length = difVector.length();
+			difVector = difVector.normalize();
+			difVector.multiply(strength / length);
+			// If entity within the radius
+			// AND the difference vector is NOT on the same x position OR z position
+			// AND they are not NPCs
+			if (entity.getLocation().distance(explosionLocation) < radius &&
+				!(difVector.getX() == 0 || difVector.getZ() == 0) &&
+				!CitizensAPI.getNPCRegistry().isNPC(entity)) {
+				// Add velocity to the entity
+				entity.setVelocity(entity.getVelocity().add(difVector.divide(new Vector(1, 5, 1))));
 			}
 		}
 	}

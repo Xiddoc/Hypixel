@@ -18,6 +18,10 @@ public enum Permission {
 		this.namePrefix = namePrefix;
 	}
 
+	public static Permission fromString(String str) {
+		return Permission.valueOf(str.toUpperCase());
+	}
+
 	public int getPermissionCode() {
 		return permissionCode;
 	}
@@ -29,10 +33,6 @@ public enum Permission {
 
 	public String getCapitalizedString() {
 		return HypixelUtils.capitalize(this.toString());
-	}
-
-	public static Permission fromString(String str) {
-		return Permission.valueOf(str.toUpperCase());
 	}
 
 	public String getNamePrefix() {

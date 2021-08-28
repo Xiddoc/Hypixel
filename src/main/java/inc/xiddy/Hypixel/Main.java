@@ -15,10 +15,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-
 public class Main extends JavaPlugin {
 	private static JavaPlugin instance;
 	private static MainHandler mainHandler;
+
+	public static JavaPlugin getInstance() {
+		return Main.instance;
+	}
+
+	public static MainHandler getMainHandler() {
+		return Main.mainHandler;
+	}
 
 	// Function that happens when the plugin is enabled
 	@Override
@@ -61,7 +68,7 @@ public class Main extends JavaPlugin {
 
 		// Destroy all games
 		Main.getMainHandler().getLogger().warning("Shutting down games...");
-		for (HypixelGame game: Main.getMainHandler().getGameHandler().getAllGames()) {
+		for (HypixelGame game : Main.getMainHandler().getGameHandler().getAllGames()) {
 			// Shut down each game
 			game.stopGame();
 		}
@@ -97,14 +104,6 @@ public class Main extends JavaPlugin {
 
 		// Finish command listener function
 		return false;
-	}
-
-	public static JavaPlugin getInstance() {
-		return Main.instance;
-	}
-
-	public static MainHandler getMainHandler() {
-		return Main.mainHandler;
 	}
 }
 

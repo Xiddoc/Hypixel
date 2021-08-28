@@ -8,7 +8,8 @@ import java.util.Set;
 
 public abstract class HypixelRunnable extends BukkitRunnable {
 	@Override
-	public void run() { }
+	public void run() {
+	}
 
 	public abstract void stopGame();
 

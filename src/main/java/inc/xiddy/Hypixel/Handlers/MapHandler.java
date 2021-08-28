@@ -52,7 +52,7 @@ public class MapHandler {
 		Main.getMainHandler().getDataHandler().copyFolderContents(
 			new File(Main.getMainHandler().getDataHandler().getBasepath() + "\\" + map.getPathToMapWorld()),
 			Bukkit.getWorldContainer().getPath() + "\\" + worldName,
-			new String[] {"uid.dat", "session.lock"}
+			new String[]{"uid.dat", "session.lock"}
 		);
 		// Create the world
 		try {
@@ -71,10 +71,10 @@ public class MapHandler {
 		// Important to mention- the reason we get the world like this is that due to the above error catching,
 		// wc#createWorld() will not return a value, so we can't get the World object from the creation method.
 		World newWorld = Bukkit.getWorlds().stream()
-						.filter(world -> world.getName().equals(worldName))
-						.collect(Collectors.toList()).get(0);
+			.filter(world -> world.getName().equals(worldName))
+			.collect(Collectors.toList()).get(0);
 		// For each gamerule
-		for (Map.Entry<String, String> entry: this.getGamerules().entrySet()) {
+		for (Map.Entry<String, String> entry : this.getGamerules().entrySet()) {
 			// Set the gamerule
 			newWorld.setGameRuleValue(entry.getKey(), entry.getValue());
 		}

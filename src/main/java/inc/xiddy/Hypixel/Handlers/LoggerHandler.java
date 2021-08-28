@@ -4,13 +4,14 @@ import inc.xiddy.Hypixel.Constants.CColor;
 
 public class LoggerHandler {
 
-	public LoggerHandler() {}
+	public LoggerHandler() {
+	}
 
 	public <T> void log(CColor prefix, T message) {
 		System.out.println(
 			CColor.RESET + "" + prefix +
 				(message == null ? null : message.toString()) +
-			CColor.RESET
+				CColor.RESET
 		);
 	}
 

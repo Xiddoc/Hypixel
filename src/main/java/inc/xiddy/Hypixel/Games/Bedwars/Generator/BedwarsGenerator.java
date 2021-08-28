@@ -40,7 +40,7 @@ public class BedwarsGenerator extends BukkitRunnable {
 		this.incrementTicks();
 
 		// For each generated resource
-		for (BedwarsGeneratorType resource: this.getGeneratorTypes()) {
+		for (BedwarsGeneratorType resource : this.getGeneratorTypes()) {
 			// If this is the right tick
 			if (this.getTick() % resource.getRate() == 0) {
 
@@ -111,7 +111,7 @@ public class BedwarsGenerator extends BukkitRunnable {
 	}
 
 	private void incrementTicks() {
-		this.tick ++;
+		this.tick++;
 	}
 
 	private int getTick() {

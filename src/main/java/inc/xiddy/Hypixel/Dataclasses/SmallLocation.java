@@ -4,8 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import java.util.Objects;
-
 @SuppressWarnings("unused")
 public class SmallLocation {
 	private double x;
@@ -41,18 +39,6 @@ public class SmallLocation {
 		this.z = location.getZ();
 		this.yaw = location.getYaw();
 		this.pitch = location.getPitch();
-	}
-
-	public Location toLocation(World world) {
-		return new Location(world, this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
-	}
-
-	public Location toLocation(String worldName) {
-		return this.toLocation(Bukkit.getWorld(worldName));
-	}
-
-	public Location toLocation() {
-		return this.toLocation((World) null);
 	}
 
 	public static SmallLocation center(SmallLocation location) {
@@ -93,6 +79,18 @@ public class SmallLocation {
 
 		// Return new instance
 		return copy;
+	}
+
+	public Location toLocation(World world) {
+		return new Location(world, this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
+	}
+
+	public Location toLocation(String worldName) {
+		return this.toLocation(Bukkit.getWorld(worldName));
+	}
+
+	public Location toLocation() {
+		return this.toLocation((World) null);
 	}
 
 	public float getPitch() {
@@ -137,14 +135,15 @@ public class SmallLocation {
 
 	@Override
 	public boolean equals(Object o) {
+		// Null / class checks
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		SmallLocation that = (SmallLocation) o;
-		return Double.compare(that.x, x) == 0 && Double.compare(that.y, y) == 0 && Double.compare(that.z, z) == 0;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(x, y, z);
+		// Cast and floor
+		SmallLocation thatFloored = floor((SmallLocation) o);
+		SmallLocation thisFloored = floor(this);
+		// Check fields
+		return Double.compare(thatFloored.getX(), thisFloored.getX()) == 0 &&
+			Double.compare(thatFloored.getY(), thisFloored.getY()) == 0 &&
+			Double.compare(thatFloored.getZ(), thisFloored.getZ()) == 0;
 	}
 }

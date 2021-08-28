@@ -41,9 +41,7 @@ public class DataHandler {
 			return this.mapper.readValue(this.filenameToFile(filename, false), cls);
 		} catch (MismatchedInputException e) {
 			// Better alias and explanation for the error
-			Main.getMainHandler().getLogger().error(
-				"Invalid/corrupt JSON read [MIGHT REQUIRE .m2\\repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): "
-			);
+			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2\\repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
 //			e.printStackTrace();
 			throw new FileNotFoundException();
 		} catch (IOException e) {
@@ -90,7 +88,7 @@ public class DataHandler {
 
 	private void copyFolderContents(File sourceFolder, String originalFolder, String destFolder, String[] ignore) {
 		// Make sure file is not on the 'ignore' list
-		for (String filename: ignore) {
+		for (String filename : ignore) {
 			if (filename.equals(sourceFolder.getName())) {
 				return;
 			}
@@ -102,8 +100,7 @@ public class DataHandler {
 		// If path is a directory
 		if (sourceFolder.isDirectory()) {
 			// For each item in the directory
-			for (File file: Objects.requireNonNull(sourceFolder.listFiles()))
-			{
+			for (File file : Objects.requireNonNull(sourceFolder.listFiles())) {
 				// Recurse to copy folders and files
 				this.copyFolderContents(file, originalFolder, destFolder, ignore);
 			}
