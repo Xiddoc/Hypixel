@@ -4,6 +4,7 @@ import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
 import inc.xiddy.Hypixel.Games.Bedwars.BedwarsGame;
+import inc.xiddy.Hypixel.Games.Catch.CatchGame;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class CatchStart extends HypixelCommand {
 			player.sendMessage(ChatColor.DARK_RED + "Wait until your game is finished to make a new game (or stop the current game).");
 		} else {
 			// Add it to the game list
-			Main.getMainHandler().getGameHandler().addGame(new BedwarsGame(Lobby.CATCH));
+			Main.getMainHandler().getGameHandler().addGame(new CatchGame(Lobby.CATCH));
 		}
 	}
 }

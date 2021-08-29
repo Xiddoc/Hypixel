@@ -6,6 +6,8 @@ import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +54,7 @@ public class MapHandler {
 		Main.getMainHandler().getDataHandler().copyFolderContents(
 			new File(Main.getMainHandler().getDataHandler().getBasepath() + "\\" + map.getPathToMapWorld()),
 			Bukkit.getWorldContainer().getPath() + "\\" + worldName,
-			new String[]{"uid.dat", "session.lock"}
+			new String[] {"uid.dat", "session.lock"}
 		);
 		// Create the world
 		try {
@@ -80,6 +82,14 @@ public class MapHandler {
 		}
 		// Disable extra saving
 		newWorld.setAutoSave(false);
+		// For each entity
+		for (Entity entity: newWorld.getLivingEntities()) {
+			// If the entity is not a player
+			if (!(entity instanceof Player)) {
+				// Remove it
+				entity.remove();
+			}
+		}
 		// Set the world to the map object
 		map.setWorld(
 			newWorld

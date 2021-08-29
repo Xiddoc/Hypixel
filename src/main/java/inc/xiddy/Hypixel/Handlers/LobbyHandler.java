@@ -27,6 +27,7 @@ public class LobbyHandler {
 		this.lobbies.add(new LobbyData(Lobby.SKYWARS, GameMode.SURVIVAL, false));
 		this.lobbies.add(new LobbyData(Lobby.DUELS, GameMode.SURVIVAL, false));
 		this.lobbies.add(new LobbyData(Lobby.BRIDGE, GameMode.SURVIVAL, false));
+		this.lobbies.add(new LobbyData(Lobby.CATCH, GameMode.SURVIVAL, false));
 	}
 
 	public void setPlayer(Player player, Lobby lobby) {
