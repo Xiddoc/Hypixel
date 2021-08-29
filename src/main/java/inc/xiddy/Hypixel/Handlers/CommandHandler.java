@@ -23,12 +23,11 @@ public class CommandHandler {
 		this.hypixelCommands = new ArrayList<>();
 		// Bedwars commands
 		this.hypixelCommands.add(new BedwarsStart("startbedwars", Permission.OWNER));
-		this.hypixelCommands.add(new BedwarsStop("stopbedwars", Permission.OWNER));
 		this.hypixelCommands.add(new BedwarsSetup("setupbedwars", Permission.OWNER));
 		// Hide-and-seek commands
 		this.hypixelCommands.add(new CatchStart("startcatch", Permission.OWNER));
-		this.hypixelCommands.add(new CatchStop("stopcatch", Permission.OWNER));
 		// Global commands
+		this.hypixelCommands.add(new StopGame("stopgame", Permission.OWNER));
 		this.hypixelCommands.add(new SaveLocation("savelocation", Permission.OWNER));
 		this.hypixelCommands.add(new SetRole("setrole", Permission.OWNER));
 		this.hypixelCommands.add(new SetVelocity("setvelocity", Permission.OWNER));

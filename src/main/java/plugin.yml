@@ -6,12 +6,14 @@ version: 1.0
 description: "A replica of many Hypixel games and their server structure."
 depend: [Citizens]
 commands:
+  stopgame:
+    description: "Stop the current game you are in."
   setupbedwars:
     description: "Setup a game of bedwars."
   startbedwars:
     description: "Start a game of bedwars."
-  stopbedwars:
-    description: "Start the current game of bedwars."
+  startcatch:
+    description: "Start a game of catch."
   savelocation:
     description: "Saves a location to be used later."
   setrole:
