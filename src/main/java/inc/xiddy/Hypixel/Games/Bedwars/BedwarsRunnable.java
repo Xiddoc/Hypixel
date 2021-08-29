@@ -2,7 +2,7 @@ package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
-import inc.xiddy.Hypixel.Dataclasses.GameMap;
+import inc.xiddy.Hypixel.Dataclasses.GameState;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Games.Bedwars.Generator.BedwarsGenerator;
@@ -11,7 +11,10 @@ import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.LookClose;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -19,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -29,25 +31,22 @@ import static org.bukkit.ChatColor.*;
 public class BedwarsRunnable extends HypixelRunnable {
 	private final int teamSize;
 	private final List<BedwarsPlayerData> playerBedwarsDataList;
-	private final BedwarsGame game;
 	private final BedwarsEventHandler eventHandler;
 	private final List<SmallLocation> placedBlocks;
 	private final List<NPC> npcList;
 	private final BedwarsShop shop;
-	private final Lobby lobby;
-	private GameMap map;
 	private List<BedwarsTeam> teams;
 
-	public BedwarsRunnable(int teamSize, Player[] players, BedwarsGame bedwarsGame, Lobby lobby) {
+	public BedwarsRunnable(Set<Player> players, BedwarsGame bedwarsGame, Lobby lobby, int teamSize) {
+		super(players, bedwarsGame, lobby);
+
 		// Set to fields
 		this.teamSize = teamSize;
-		this.game = bedwarsGame;
-		this.lobby = lobby;
 		this.placedBlocks = new ArrayList<>();
 		this.playerBedwarsDataList = new ArrayList<>();
 		this.eventHandler = new BedwarsEventHandler(this);
 		// For each player
-		for (Player player : players) {
+		for (Player player: players) {
 			// Add to the data map
 			this.playerBedwarsDataList.add(new BedwarsPlayerData(player));
 		}
@@ -62,7 +61,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		// Make a new map
 		try {
-			this.setMap(Main.getMainHandler().getMapHandler().createMap(this.getLobby()));
+			this.generateMap();
 		} catch (FileNotFoundException e) {
 			// Print traceback
 			e.printStackTrace();
@@ -75,7 +74,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		this.broadcastMessage(
 			ChatColor.GREEN + "Starting Bedwars game on map " +
-				ChatColor.GOLD + map.getCapitalizedMapName() +
+				ChatColor.GOLD + this.getMap().getCapitalizedMapName() +
 				ChatColor.GREEN + "..."
 		);
 
@@ -215,7 +214,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	private void respawn(Player player) {
 		// Update state
-		this.getPlayerTeam(player).setPlayerState(player, BedwarsState.RESPAWNING);
+		this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
 		// Synchronously respawn them
 		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
 			// Teleport to respawn location
@@ -232,10 +231,6 @@ public class BedwarsRunnable extends HypixelRunnable {
 			// Give clothes
 			player.getInventory().setArmorContents(this.getBedwarsPlayerData(player).getBedwarsInventory().getArmor());
 		});
-	}
-
-	public Lobby getLobby() {
-		return this.lobby;
 	}
 
 	public void setDeadSpectator(Player player) {
@@ -284,7 +279,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// If the player still has a bed
 		if (this.getPlayerTeam(player).hasBed()) {
 			// Update state
-			this.getPlayerTeam(player).setPlayerState(player, BedwarsState.RESPAWNING);
+			this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
 			// Asynchronously run
 			new BukkitRunnable() {
 				private final Player spectatorPlayer = player;
@@ -318,7 +313,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 		} else {
 			// Update state
-			this.getPlayerTeam(player).setPlayerState(player, BedwarsState.SPECTATING);
+			this.getPlayerTeam(player).setPlayerState(player, GameState.SPECTATING);
 		}
 	}
 
@@ -463,37 +458,14 @@ public class BedwarsRunnable extends HypixelRunnable {
 			}
 		}
 		// Game over protocol
-		this.gameOver(aliveTeam);
-	}
-
-	private void gameOver(BedwarsTeam winnerTeam) {
-		// Length of game over message
-		double gameOverTime = 5.0;
-
-		// For each player
-		for (Player player : this.getPlayers()) {
-			// If you are the winner team
-			if (this.getPlayerTeam(player).equals(winnerTeam)) {
-				// Show winner message!
-				HypixelUtils.sendTitle(
-					player,
-					ChatColor.GOLD + "" + ChatColor.BOLD + "VICTORY!", "",
-					gameOverTime, 0, 0
-				);
-			} else {
-				// Otherwise,
-				// Show loser message!
-				HypixelUtils.sendTitle(
-					player,
-					ChatColor.RED + "" + ChatColor.BOLD + "GAME OVER!", "",
-					gameOverTime, 0, 0
-				);
-			}
-			// Play sound
-			player.playSound(player.getLocation(), Sound.FIREWORK_LAUNCH, 1, 1);
+		// If there is a winner
+		if (aliveTeam != null) {
+			// Game over in their favor
+			this.gameOver(aliveTeam.getPlayers());
+		} else {
+			// Somehow... everyone lost
+			this.gameOver(new HashSet<>());
 		}
-		// Stop the game
-		Main.getMainHandler().getThreadHandler().scheduleSyncTask(this::stopGame, gameOverTime);
 	}
 
 	public boolean isPlayerInBase(Player player, BedwarsTeam team) {
@@ -518,36 +490,19 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// Pop task off bukkit manager
 		this.cancel();
 
-		// Stop events
-		HandlerList.unregisterAll(this.getEventHandler());
-
-		// Move all players to lobby
-		for (Player player : this.getPlayers()) {
-			// Try to (player might have quit the game)
-			try {
-				// Kick them out of the game
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
-			} catch (NullPointerException ignored) {
-			}
-		}
+		// Remove game from ongoing games
+		Main.getMainHandler().getGameHandler().removeGame(this.getGame());
 
 		// Kill all NPCs
 		for (NPC npc : this.getNPCs()) {
 			CitizensAPI.getNPCRegistry().deregister(npc);
 		}
 
-		// Unload the world
-		Bukkit.unloadWorld(this.getMap().getWorld(), false);
+		// Stop events
+		HandlerList.unregisterAll(this.getEventHandler());
 
-		// Remove world files
-		try {
-			Main.getMainHandler().getDataHandler().removeFolder(
-				Bukkit.getWorldContainer() + "\\" + this.getMap().getWorld().getName()
-			);
-		} catch (IOException e) {
-			Main.getMainHandler().getLogger().error("Couldn't delete world:");
-			e.printStackTrace();
-		}
+		// Destroy the map
+		this.destroyMap();
 	}
 
 	public BedwarsTeam getTeamByBedLocation(Location location) {
@@ -566,14 +521,6 @@ public class BedwarsRunnable extends HypixelRunnable {
 		return null;
 	}
 
-	private GameMap getMap() {
-		return map;
-	}
-
-	private void setMap(GameMap map) {
-		this.map = map;
-	}
-
 	public List<BedwarsTeam> getTeams() {
 		return teams;
 	}
@@ -590,28 +537,12 @@ public class BedwarsRunnable extends HypixelRunnable {
 		return this.playerBedwarsDataList;
 	}
 
-	public Set<Player> getPlayers() {
-		// Init
-		Set<Player> playerSet = new HashSet<>();
-		// For player in the player data
-		for (BedwarsPlayerData data : this.getAllBedwarsPlayerData()) {
-			// Add player
-			playerSet.add(data.getPlayer());
-		}
-		// Return the set
-		return playerSet;
-	}
-
 	public List<NPC> getNPCs() {
 		return this.npcList;
 	}
 
 	public BedwarsTeam getPlayerTeam(Player player) {
 		return this.getBedwarsPlayerData(player).getTeam();
-	}
-
-	public BedwarsGame getGame() {
-		return game;
 	}
 
 	public BedwarsEventHandler getEventHandler() {

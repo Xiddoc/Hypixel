@@ -10,19 +10,22 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class BedwarsGameStop extends HypixelCommand {
+public class CatchStop extends HypixelCommand {
 
-	public BedwarsGameStop(String commandName, Permission permission) {
+	public CatchStop(String commandName, Permission permission) {
 		super(commandName, permission);
 	}
 
 	@Override
 	public void execute(Player player, String[] args) {
-		List<HypixelGame> games = Main.getMainHandler().getGameHandler().getGames(Lobby.BEDWARS);
+		// Get games of this type
+		List<HypixelGame> games = Main.getMainHandler().getGameHandler().getGames(Lobby.CATCH);
+		// If there are no games running
 		if (games.isEmpty()) {
 			// Send error
 			player.sendMessage(ChatColor.DARK_RED + "No games running.");
 		} else {
+			// Otherwise,
 			// For each game
 			for (HypixelGame game : games.toArray(new HypixelGame[0])) {
 				// If OP is in the game

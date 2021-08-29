@@ -11,6 +11,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -33,6 +34,10 @@ public class HypixelUtils {
 			Main.getInstance().getServer().getConsoleSender(),
 			command
 		);
+	}
+
+	public static <T> T randomFromArray(T[] array) {
+		return array[(new Random()).nextInt(array.length)];
 	}
 
 	public static String capitalize(String word) {

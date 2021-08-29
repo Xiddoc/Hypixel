@@ -2,35 +2,27 @@ package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.GameMap;
+import inc.xiddy.Hypixel.Dataclasses.HypixelTeam;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.FileNotFoundException;
-import java.util.*;
 
-public class BedwarsTeam {
-	private final TeamColor color;
-	private final Map<Player, BedwarsState> players;
+public class BedwarsTeam extends HypixelTeam {
 	private final Location generatorLocation;
 	private final Location itemshopLocation;
 	private final Location teamshopLocation;
 	private final Location respawnLocation;
 	private final Location bedLocation;
-	private final GameMap map;
-	private final int teamSize;
 	private boolean hasBed = true;
 
 	public BedwarsTeam(TeamColor color, GameMap map, int teamSize) throws FileNotFoundException {
 		// Set data to fields
-		this.color = color;
-		this.map = map;
-		this.teamSize = teamSize;
-		this.players = new HashMap<>();
+		super(color, map, teamSize);
+		this.isTeamFull();
 		// Pull stored data regarding locations
 		this.generatorLocation = this.getBedwarsMarkerLocation("gen");
 		this.itemshopLocation = this.getBedwarsMarkerLocation("itemshop");
@@ -46,58 +38,6 @@ public class BedwarsTeam {
 		loc.setWorld(this.getMap().getWorld());
 		// Return the world
 		return loc;
-	}
-
-	public boolean isTeamFull() {
-		return this.getPlayerCount() == this.getTeamSize();
-	}
-
-	public int getPlayerCount() {
-		return this.getPlayers().toArray(new Player[0]).length;
-	}
-
-	public Set<Player> getPlayers() {
-		return this.players.keySet();
-	}
-
-	public Map<Player, BedwarsState> getPlayerAliveMap() {
-		return this.players;
-	}
-
-	public void setPlayerState(Player player, BedwarsState state) {
-		this.getPlayerAliveMap().put(player, state);
-	}
-
-	public void addPlayer(Player player) {
-		this.players.put(player, BedwarsState.ALIVE);
-	}
-
-	public boolean isEliminated() {
-		// If there are no alive (respawning or alive) players, then they are eliminated
-		return this.getAlivePlayers().isEmpty();
-	}
-
-	public Set<Player> getAlivePlayers() {
-		// For each player in the map
-		// Filter by the .getValue of the map (the value stating if the player is alive)
-		Set<Player> players = new HashSet<>();
-		for (Map.Entry<Player, BedwarsState> entry : this.getPlayerAliveMap().entrySet()) {
-			// If not dead (spectating)
-			if (!entry.getValue().equals(BedwarsState.SPECTATING)) {
-				players.add(entry.getKey());
-			}
-		}
-		// Return the player set
-		return players;
-	}
-
-	public TeamColor getTeamColor() {
-		return this.color;
-	}
-
-	public ItemStack getWool(int amount) {
-		//noinspection deprecation
-		return new ItemStack(Material.WOOL, amount, this.getTeamColor().getDyeColor().getWoolData());
 	}
 
 	public boolean hasBed() {
@@ -130,14 +70,6 @@ public class BedwarsTeam {
 
 	public Location[] getBedLocations() {
 		return new Location[]{this.getBedLocation(), this.getBedLocation().add(this.getBedLocation().getDirection().normalize())};
-	}
-
-	public GameMap getMap() {
-		return map;
-	}
-
-	public int getTeamSize() {
-		return teamSize;
 	}
 
 	public void removeBed() {
@@ -187,18 +119,5 @@ public class BedwarsTeam {
 		// Update the blocks
 		bedFoot.update(true, false);
 		bedHead.update(true, false);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		BedwarsTeam that = (BedwarsTeam) o;
-		return color.equals(that.color) && Objects.equals(players, that.players);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(color, players);
 	}
 }

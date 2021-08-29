@@ -6,5 +6,6 @@ public enum Lobby {
 	BEDWARS,
 	SKYWARS,
 	DUELS,
-	BRIDGE
+	BRIDGE,
+	CATCH
 }

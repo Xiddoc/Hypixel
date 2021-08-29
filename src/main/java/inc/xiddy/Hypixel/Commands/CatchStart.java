@@ -8,9 +8,9 @@ import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class BedwarsGameStart extends HypixelCommand {
+public class CatchStart extends HypixelCommand {
 
-	public BedwarsGameStart(String commandName, Permission permission) {
+	public CatchStart(String commandName, Permission permission) {
 		super(commandName, permission);
 	}
 
@@ -22,7 +22,7 @@ public class BedwarsGameStart extends HypixelCommand {
 			player.sendMessage(ChatColor.DARK_RED + "Wait until your game is finished to make a new game (or stop the current game).");
 		} else {
 			// Add it to the game list
-			Main.getMainHandler().getGameHandler().addGame(new BedwarsGame(Lobby.BEDWARS));
+			Main.getMainHandler().getGameHandler().addGame(new BedwarsGame(Lobby.CATCH));
 		}
 	}
 }

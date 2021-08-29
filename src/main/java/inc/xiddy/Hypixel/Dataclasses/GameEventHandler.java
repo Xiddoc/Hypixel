@@ -4,8 +4,6 @@ import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.event.NPCEvent;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockEvent;
@@ -17,8 +15,6 @@ import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.weather.WeatherEvent;
 import org.bukkit.event.world.WorldEvent;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +31,7 @@ public abstract class GameEventHandler implements Listener {
 		Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
 	}
 
-	protected boolean verifyState(Event event) {
+	public final boolean verifyState(Event event) {
 		// Wrapper to add logic to private method
 		return !this.inverseVerifyState(event);
 	}
@@ -136,8 +132,8 @@ public abstract class GameEventHandler implements Listener {
 		return world.getName().toLowerCase().startsWith(this.getLobby().toString().toLowerCase());
 	}
 
-	@Deprecated
-	protected boolean oldVerifyState(Event event) {
+	/*
+	private boolean oldVerifyState(Event event) {
 		// Null check (spectators)
 		if (this.getLobby() == null) {
 			// Let spectators do whatever (Don't run any events)
@@ -200,6 +196,7 @@ public abstract class GameEventHandler implements Listener {
 		return true;
 	}
 
+	 */
 
 	private Lobby getLobby() {
 		return this.lobby;

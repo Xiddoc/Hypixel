@@ -18,7 +18,7 @@ public class SaveLocation extends HypixelCommand {
 		// Make sure user gave arguments
 		if (args.length == 0) {
 			// Send error
-			player.sendMessage(ChatColor.DARK_RED + "No file path specified.");
+			player.sendMessage(ChatColor.DARK_RED + "No file name/path specified.");
 		} else {
 			// Get location
 			SmallLocation loc = new SmallLocation(player.getLocation());

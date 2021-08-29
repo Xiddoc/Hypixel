@@ -1,19 +1,18 @@
-package inc.xiddy.Hypixel.Games.Bedwars;
+package inc.xiddy.Hypixel.Games.Catch;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Dataclasses.HypixelGame;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 
-public class BedwarsGame extends HypixelGame {
-	private final BedwarsRunnable game;
+public class CatchGame extends HypixelGame {
+	private final CatchRunnable game;
 
-	public BedwarsGame(Lobby lobby) {
+	public CatchGame(Lobby lobby) {
 		// Set game and initialize game as runnable
-		this.game = new BedwarsRunnable(new HashSet<>(Bukkit.getOnlinePlayers()), this, lobby, 1);
+		this.game = new CatchRunnable(new HashSet<>(Bukkit.getOnlinePlayers()), this, lobby);
 		// Run game
 		this.startGame();
 	}
@@ -27,7 +26,7 @@ public class BedwarsGame extends HypixelGame {
 	}
 
 	@Override
-	public BedwarsRunnable getRunnableGame() {
+	public CatchRunnable getRunnableGame() {
 		return game;
 	}
 }
