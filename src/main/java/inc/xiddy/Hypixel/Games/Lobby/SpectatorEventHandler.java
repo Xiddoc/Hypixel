@@ -1,5 +1,6 @@
 package inc.xiddy.Hypixel.Games.Lobby;
 
+import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import org.bukkit.event.EventHandler;
@@ -7,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class SpectatorEventHandler extends GameEventHandler {
 	public SpectatorEventHandler() {
-		super(null);
+		super((Lobby) null);
 	}
 
 	@EventHandler

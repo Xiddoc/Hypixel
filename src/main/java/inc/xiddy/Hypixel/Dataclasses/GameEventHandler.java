@@ -18,6 +18,7 @@ import org.bukkit.event.world.WorldEvent;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public abstract class GameEventHandler implements Listener {
 	private final Lobby lobby;
 	private final List<Class<? extends Event>> exemptedEvents = Arrays.asList(AsyncPlayerPreLoginEvent.class,
