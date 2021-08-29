@@ -1,6 +1,7 @@
 package inc.xiddy.Hypixel.Games.Lobby;
 
 import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -15,5 +16,10 @@ public class SpectatorEventHandler extends GameEventHandler {
 
 		// Do not let spectator take damage
 		event.setCancelled(true);
+	}
+
+	@Override
+	public HypixelRunnable getGame() {
+		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
@@ -17,7 +18,6 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -38,11 +38,8 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class BedwarsEventHandler extends GameEventHandler {
-	private final BedwarsRunnable game;
-
-	public BedwarsEventHandler(BedwarsRunnable game) {
-		super(game.getLobby());
-		this.game = game;
+	public BedwarsEventHandler(HypixelRunnable hypixelRunnable) {
+		super(hypixelRunnable);
 	}
 
 	@EventHandler
@@ -674,7 +671,8 @@ public class BedwarsEventHandler extends GameEventHandler {
 		}
 	}
 
+	@Override
 	public BedwarsRunnable getGame() {
-		return game;
+		return (BedwarsRunnable) this.getBaseGame();
 	}
 }

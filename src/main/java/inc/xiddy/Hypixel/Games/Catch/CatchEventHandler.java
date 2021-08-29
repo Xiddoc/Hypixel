@@ -1,18 +1,9 @@
 package inc.xiddy.Hypixel.Games.Catch;
 
 import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
-import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
-import inc.xiddy.Hypixel.Games.Bedwars.BedwarsTeam;
-import inc.xiddy.Hypixel.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
-import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -20,11 +11,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class CatchEventHandler extends GameEventHandler {
-	private final CatchRunnable game;
-
 	public CatchEventHandler(CatchRunnable game) {
-		super(game.getLobby());
-		this.game = game;
+		super(game);
 	}
 
 	@EventHandler
@@ -43,11 +31,28 @@ public class CatchEventHandler extends GameEventHandler {
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
 			player.getLastDamageCause() instanceof Player) {
-			// Update the damager
-			this.getGame().getBedwarsPlayerData(player).getLastDamage().updateDamager(
-				// To the last person who damaged the player
-				(Player) ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager()
-			);
+			// Get the damager
+			Player damager = (Player) ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
+			// For each team
+			for (CatchTeam team: this.getGame().getTeams()) {
+				// If this is the damager's team
+				if (team.getPlayers().contains(damager)) {
+					// If damager is on the same team as the player
+					if (team.getPlayers().contains(player)) {
+						// Prevent the damage
+						event.setCancelled(true);
+					} else {
+						// If the damager is a seeker
+						if (team.isSeeker()) {
+							// End the game
+							this.getGame().stopGame();
+						}
+					}
+					// Exit the event
+					return;
+				}
+			}
+
 		} else if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
 			// Don't let them take fall damage
 			event.setCancelled(true);
@@ -70,7 +75,7 @@ public class CatchEventHandler extends GameEventHandler {
 
 		// Otherwise, if not a special block
 		// Add block to placed blocks list
-//		this.getGame().addPlacedBlock(new SmallLocation(event.getBlock().getLocation()));
+		System.out.println("placed");
 	}
 
 	@EventHandler
@@ -83,7 +88,8 @@ public class CatchEventHandler extends GameEventHandler {
 		Main.getMainHandler().getAnticheatHandler().revokeLeftClick(event.getPlayer());
 	}
 
+	@Override
 	public CatchRunnable getGame() {
-		return game;
+		return (CatchRunnable) this.getBaseGame();
 	}
 }

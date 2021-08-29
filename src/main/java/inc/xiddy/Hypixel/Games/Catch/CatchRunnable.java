@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ public class CatchRunnable extends HypixelRunnable {
 	private final CatchEventHandler eventHandler;
 	private final List<CatchTeam> teams;
 	private Location spawnLoc;
+	private BukkitRunnable scoreboardTimer;
 
 	public CatchRunnable(Set<Player> players, CatchGame catchGame, Lobby lobby) {
 		super(players, catchGame, lobby);
@@ -49,7 +51,7 @@ public class CatchRunnable extends HypixelRunnable {
 		this.teams.add(hiderTeam);
 
 		// Make seeker team
-		CatchTeam seekerTeam = new CatchTeam(TeamColor.RED, null, 1, false);
+		CatchTeam seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
 		// Populate
 		for (Player player: players) {
 			// If the player is not the hider
@@ -62,10 +64,6 @@ public class CatchRunnable extends HypixelRunnable {
 		}
 		// Add to teams
 		this.teams.add(seekerTeam);
-	}
-
-	public Location getSpawnLoc() {
-		return spawnLoc;
 	}
 
 	@Override
@@ -107,8 +105,30 @@ public class CatchRunnable extends HypixelRunnable {
 			this.spawn(player);
 		}
 
-		// Repaint scoreboard
-		this.repaintScoreboardForAll();
+		// Make scoreboard painter
+		this.scoreboardTimer = new BukkitRunnable() {
+			private int time = 180;
+
+			@Override
+			public void run() {
+				// Repaint scoreboard
+				repaintScoreboardForAll(this.time);
+
+				// Decrement time
+				this.time --;
+
+				// If time hit zero
+				if (this.time == 0) {
+					// Stop the runnable
+					this.cancel();
+
+					// Stop the game
+					stopGame();
+				}
+			}
+		};
+		// Start the painter
+		this.scoreboardTimer.runTaskTimerAsynchronously(Main.getInstance(), 10, 20);
 	}
 
 	private void spawn(Player player) {
@@ -130,27 +150,37 @@ public class CatchRunnable extends HypixelRunnable {
 		}
 	}
 
-	public void repaintScoreboardForAll() {
+	public void repaintScoreboardForAll(int time) {
 		// For each player
 		for (Player player: this.getPlayers()) {
 			// Repaint the board for them
-			this.repaintScoreboard(player);
+			this.repaintScoreboard(player, time);
 		}
 	}
 
-	public void repaintScoreboard(Player player) {
+	public void repaintScoreboard(Player player, int time) {
 		StringBuilder str = new StringBuilder();
 		// Start by making header
 		str.append(YELLOW).append(BOLD).append("CATCH")
 			.append(GRAY).append("\n").append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
 			.append(DARK_GRAY).append(" m").append(this.getTaskId()).append("E")
-			.append(WHITE).append("\n\nDiamond II in ").append(GREEN).append("0:00 (Never!)\n\n");
+			.append(WHITE).append("\n\nGame Over in ").append(GREEN)
+			.append(time / 60).append(":").append(String.format("%02d", time % 60))
+			.append("\n\n");
 		// For each team
 		for (CatchTeam team: this.getTeams()) {
-			// Add team name to the scoreboard
+			// Get team name
+			String teamName;
+			if (team.getTeamColor() == TeamColor.GREEN) {
+				teamName = "SEEKER";
+			} else {
+				teamName = "HIDER";
+			}
+			// Add team name and size to the scoreboard
 			str.append(team.getTeamColor().getColorCode())
-				.append(team.getTeamColor().getCapitalizedString().charAt(0))
-				.append(" ").append(WHITE).append(team.getTeamColor().getCapitalizedString()).append(": ");
+				.append(teamName).append("S: ")
+				.append(WHITE).append(team.getTeamColor().getCapitalizedString()).append(": ")
+				.append(team.getAlivePlayers().size());
 			// If this is the player's team
 			if (team.getPlayers().contains(player)) {
 				// Add "YOU" next to team
@@ -159,9 +189,6 @@ public class CatchRunnable extends HypixelRunnable {
 			// Add newline for next iteration
 			str.append("\n");
 		}
-		// Make footer
-		str.append(WHITE).append("\nKills: ").append(GREEN).append("0\n")
-			.append(WHITE).append("Final Kills: ").append(GREEN).append("0");
 		// Update the lobby scoreboard
 		Main.getMainHandler().getThreadHandler().scheduleSyncTask(
 			() -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString()),
@@ -172,6 +199,9 @@ public class CatchRunnable extends HypixelRunnable {
 	public void stopGame() {
 		// Pop task off bukkit manager
 		this.cancel();
+
+		// Stop scoreboard
+		this.scoreboardTimer.cancel();
 
 		// Stop events
 		HandlerList.unregisterAll(this.getEventHandler());
@@ -198,5 +228,9 @@ public class CatchRunnable extends HypixelRunnable {
 
 	public int getBlockVoidMax() {
 		return 100;
+	}
+
+	public Location getSpawnLoc() {
+		return spawnLoc;
 	}
 }

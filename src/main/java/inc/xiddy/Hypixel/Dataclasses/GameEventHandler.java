@@ -23,10 +23,22 @@ public abstract class GameEventHandler implements Listener {
 	private final List<Class<? extends Event>> exemptedEvents = Arrays.asList(AsyncPlayerPreLoginEvent.class,
 		PlayerJoinEvent.class, PlayerKickEvent.class, PlayerLoginEvent.class, PlayerPreLoginEvent.class,
 		PlayerQuitEvent.class);
+	private final HypixelRunnable hypixelRunnable;
+
+	public GameEventHandler(HypixelRunnable hypixelRunnable) {
+		// Set lobby
+		this.lobby = hypixelRunnable.getLobby();
+		// Set runnable
+		this.hypixelRunnable = hypixelRunnable;
+		// Register events to server instance
+		Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
+	}
 
 	public GameEventHandler(Lobby lobby) {
 		// Set lobby
 		this.lobby = lobby;
+		// Set runnable
+		this.hypixelRunnable = null;
 		// Register events to server instance
 		Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
 	}
@@ -201,4 +213,10 @@ public abstract class GameEventHandler implements Listener {
 	private Lobby getLobby() {
 		return this.lobby;
 	}
+
+	public final HypixelRunnable getBaseGame() {
+		return this.hypixelRunnable;
+	}
+
+	public abstract HypixelRunnable getGame();
 }
