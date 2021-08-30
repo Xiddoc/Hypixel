@@ -2,7 +2,6 @@ package inc.xiddy.Hypixel.Games.Catch;
 
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Main;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,18 +19,35 @@ public class CatchEventHandler extends HypixelEventHandler {
 	public void onMove(PlayerMoveEvent event) {
 		if (this.verifyState(event)) return;
 
+		// Get player
+		Player player = event.getPlayer();
+
 		// If player is going to die by falling into the void
-		if (event.getPlayer().getLocation().getY() < this.getGame().getPlayerVoid()) {
+		if (player.getLocation().getY() < this.getGame().getPlayerVoid()) {
 			// Move them back to the spawn point
-			this.getGame().spawn(event.getPlayer());
+			this.getGame().spawn(player);
+		}
+
+		// If player is a seeker
+		if (this.getGame().getSeekerTeam().getPlayers().contains(player)) {
+			// Print the radar
+			this.getGame().getRadar().printRadar(
+				// To the seeker
+				player,
+				// Showing the distance between their location
+				(int) player.getLocation().distance(
+					// To the hiders location
+					this.getGame().getHiderTeam().getPlayers().toArray(new Player[0])[0].getLocation()
+				)
+			);
 		}
 	}
 
 	@EventHandler
-	public void onDamage(EntityDamageEvent event){
+	public void onDamage(EntityDamageEvent event) {
 		if (this.verifyState(event)) return;
 
-		// Prevent natural damage (fall damage, lava, etc.)
+		// Prevent natural (lava, etc.) damage
 		event.setCancelled(true);
 	}
 
@@ -73,19 +89,8 @@ public class CatchEventHandler extends HypixelEventHandler {
 	public void onPlace(BlockPlaceEvent event) {
 		if (this.verifyState(event)) return;
 
-		// If block is in not in block range
-		if (!(event.getBlock().getLocation().getY() >= this.getGame().getBlockVoidMin() &&
-			event.getBlock().getLocation().getY() <= this.getGame().getBlockVoidMax())) {
-			// Prevent player from placing the block
-			event.setCancelled(true);
-			// Send error
-			event.getPlayer().sendMessage(ChatColor.RED + "You have reached build limit!");
-			return;
-		}
-
-		// Otherwise, if not a special block
-		// Add block to placed blocks list
-		System.out.println("placed");
+		// Don't let players place blocks
+		event.setCancelled(true);
 	}
 
 	@EventHandler

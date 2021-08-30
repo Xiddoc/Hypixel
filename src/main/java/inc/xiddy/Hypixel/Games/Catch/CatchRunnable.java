@@ -22,6 +22,7 @@ import static org.bukkit.ChatColor.*;
 public class CatchRunnable extends HypixelRunnable {
 	private final CatchTeam seekerTeam;
 	private final CatchTeam hiderTeam;
+	private final CatchRadar radar;
 	private Location spawnLoc;
 	private BukkitRunnable scoreboardTimer;
 
@@ -52,6 +53,9 @@ public class CatchRunnable extends HypixelRunnable {
 				this.seekerTeam.addPlayer(player);
 			}
 		}
+
+		// Make radar
+		this.radar = new CatchRadar();
 	}
 
 	@Override
@@ -216,5 +220,9 @@ public class CatchRunnable extends HypixelRunnable {
 
 	public CatchTeam getHiderTeam() {
 		return hiderTeam;
+	}
+
+	public CatchRadar getRadar() {
+		return radar;
 	}
 }

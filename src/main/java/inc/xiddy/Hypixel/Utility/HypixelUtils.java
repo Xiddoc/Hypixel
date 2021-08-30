@@ -10,6 +10,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -33,8 +34,14 @@ public class HypixelUtils {
 	}
 
 	public static void hidePlayerName(Player player) {
+		// https://www.spigotmc.org/threads/hiding-nametags-in-minecraft-1-8.285887/
+		// Spawn armor stand
 		ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+		// Invisible
 		stand.setVisible(false);
+		// Set metadata
+		stand.setMetadata("HideNametag", new FixedMetadataValue(Main.getInstance(), true)); //Optional
+		// Set passenger
 		player.setPassenger(stand);
 	}
 
