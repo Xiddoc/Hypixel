@@ -96,15 +96,15 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Make scoreboard painter
 		this.scoreboardTimer = new BukkitRunnable() {
-			private int time = 10;
+			private int time = 180;
 
 			@Override
 			public void run() {
-				// Repaint scoreboard
-				repaintScoreboardForAll(this.time);
-
 				// Decrement time
 				this.time --;
+
+				// Repaint scoreboard
+				repaintScoreboardForAll(this.time);
 
 				// If time hit zero
 				if (this.time == 0) {
@@ -159,17 +159,17 @@ public class CatchRunnable extends HypixelRunnable {
 			.append("\n\n");
 		// Add team name and size to the scoreboard (Seekers)
 		str.append(this.getSeekerTeam().getTeamColor().getColorCode()).append("S ")
-			.append(WHITE).append("SEEKERS: ")
-			.append(this.getSeekerTeam().getAlivePlayers().size())
+			.append(WHITE).append("Seekers: ")
+			.append(YELLOW).append(this.getSeekerTeam().getAlivePlayers().size()).append("\n")
 			// Add team name and size to the scoreboard (Hiders)
 			.append(this.getHiderTeam().getTeamColor().getColorCode()).append("H ")
-			.append(WHITE).append("HIDERS: ")
-			.append(this.getHiderTeam().getAlivePlayers().size())
+			.append(WHITE).append("Hiders: ")
+			.append(YELLOW).append(this.getHiderTeam().getAlivePlayers().size())
 			// Get player's team
 			.append(GRAY).append("\n\nYou are a ")
 			.append(this.getSeekerTeam().getPlayers().contains(player) ?
-				this.getSeekerTeam().getTeamColor().getColorCode() + "SEEKER" :
-				this.getHiderTeam().getTeamColor().getColorCode() + "HIDER");
+				this.getSeekerTeam().getTeamColor().getColorCode() + "" + BOLD + "SEEKER!" :
+				this.getHiderTeam().getTeamColor().getColorCode() + "" + BOLD + "HIDER!");
 		// Add footer
 		str.append("\n\n").append(YELLOW).append("www.hypixel.net");
 
