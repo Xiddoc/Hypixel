@@ -2,9 +2,8 @@ package inc.xiddy.Hypixel.Commands;
 
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
-import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
-import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class SaveLocation extends HypixelCommand {
@@ -15,20 +14,12 @@ public class SaveLocation extends HypixelCommand {
 
 	@Override
 	public void execute(Player player, String[] args) {
-		// Make sure user gave arguments
-		if (args.length == 0) {
-			// Send error
-			player.sendMessage(ChatColor.DARK_RED + "No file name/path specified.");
-		} else {
-			// Get location
-			SmallLocation loc = new SmallLocation(player.getLocation());
-			// Center the location
-			loc = SmallLocation.center(loc);
-			// Write the location to the disk
-			Main.getMainHandler().getDataHandler().write(
-				"other\\" + Main.getMainHandler().getDataHandler().stripSlashes(args[0]),
-				loc
-			);
-		}
+		// Get ping from player connection
+		// Send to player
+		player.sendMessage(
+			ChatColor.GREEN + "Your ping is " +
+				ChatColor.GOLD + ChatColor.BOLD + ((CraftPlayer) player).getHandle().ping + "ms" +
+				ChatColor.GREEN + "!"
+		);
 	}
 }

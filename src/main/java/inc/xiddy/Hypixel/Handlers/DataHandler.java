@@ -35,6 +35,7 @@ public class DataHandler {
 	}
 
 	public <T> T read(String filename, Class<T> cls) throws FileNotFoundException {
+		Main.getMainHandler().getLogger().warning(this.filenameToFile(filename, false).getPath());
 		// Try in case of file error
 		try {
 			// Convert to object and return
@@ -62,7 +63,18 @@ public class DataHandler {
 			semiPath.mkdirs();
 		}
 		// Return the full path as a File object
-		return new File(this.getBasepath() + "\\" + strippedPath);
+		return new File(this.accountForOS(this.getBasepath() + "\\" + strippedPath));
+	}
+
+	private String accountForOS(String path) {
+		// If the operating system is not windows
+		if (!System.getProperty("os.name").toLowerCase().contains("win")) {
+			// Change all the slashes to forward slashes (in the path)
+			return path.replaceAll("\\\\", "/");
+		} else {
+			// Otherwise, use the current settings
+			return path;
+		}
 	}
 
 	public String stripSlashes(String path) {

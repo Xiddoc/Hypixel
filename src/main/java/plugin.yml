@@ -6,6 +6,8 @@ version: 1.0
 description: "A replica of many Hypixel games and their server structure."
 depend: [Citizens]
 commands:
+  ping:
+    description: "Ping the server to see your connection."
   stopgame:
     description: "Stop the current game you are in."
   setupbedwars:
