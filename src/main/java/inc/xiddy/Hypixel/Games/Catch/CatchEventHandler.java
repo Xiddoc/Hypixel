@@ -28,7 +28,15 @@ public class CatchEventHandler extends HypixelEventHandler {
 	}
 
 	@EventHandler
-	public void onDamage(EntityDamageEvent event) {
+	public void onDamage(EntityDamageEvent event){
+		if (this.verifyState(event)) return;
+
+		// Prevent natural damage (fall damage, lava, etc.)
+		event.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onDamageByEntity(EntityDamageByEntityEvent event) {
 		if (this.verifyState(event)) return;
 
 		// If not player
@@ -48,9 +56,9 @@ public class CatchEventHandler extends HypixelEventHandler {
 
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
-			player.getLastDamageCause() instanceof Player) {
+			event.getDamager() instanceof Player) {
 			// Get the damager
-			Player damager = (Player) ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
+			Player damager = (Player) event.getDamager();
 			// If the damager is on the seeker team
 			// And the player is also on the seeker team
 			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&

@@ -49,9 +49,15 @@ public class SetRole extends HypixelCommand {
 			return;
 		}
 
-		// Otherwise
 		// Get the role
-		Permission role = Permission.fromString(args[1]);
+		Permission role = null;
+		try {
+			role = Permission.fromString(args[1]);
+		} catch (IllegalArgumentException ignored) {
+			// Throw error
+			player.sendMessage(ChatColor.DARK_RED + "Invalid role.");
+		}
+
 		// If role is valid
 		if (role != null) {
 			// Set the role to the player
@@ -67,9 +73,8 @@ public class SetRole extends HypixelCommand {
 					ChatColor.GOLD + role.getCapitalizedString() + ChatColor.GREEN + "."
 			);
 		} else {
-			// Otherwise
 			// Throw error
-			player.sendMessage(ChatColor.DARK_RED + "Invalid role.");
+			player.sendMessage(ChatColor.DARK_RED + "Invalid role / Error occurred.");
 		}
 	}
 }
