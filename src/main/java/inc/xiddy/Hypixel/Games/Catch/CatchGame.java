@@ -13,8 +13,6 @@ public class CatchGame extends HypixelGame {
 	public CatchGame(Lobby lobby) {
 		// Set game and initialize game as runnable
 		this.game = new CatchRunnable(new HashSet<>(Bukkit.getOnlinePlayers()), this, lobby);
-		// Run game
-		this.startGame();
 	}
 
 	@Override

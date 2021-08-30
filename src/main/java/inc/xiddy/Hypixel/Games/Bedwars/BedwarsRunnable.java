@@ -403,10 +403,10 @@ public class BedwarsRunnable extends HypixelRunnable {
 	public void repaintScoreboard(Player player) {
 		StringBuilder str = new StringBuilder();
 		// Start by making header
-		str.append(YELLOW).append(BOLD).append("BEDWARS")
-			.append(GRAY).append("\n").append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
+		str.append(YELLOW).append(BOLD).append("BEDWARS\n")
+			.append(GRAY).append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
 			.append(DARK_GRAY).append(" m").append(this.getTaskId()).append("E")
-			.append(WHITE).append("\n\nDiamond II in ").append(GREEN).append("0:00 (Never!)\n\n");
+			.append(WHITE).append("\n\nDiamond II in ").append(GREEN).append("0:00\n\n");
 		// For each team
 		for (BedwarsTeam team : this.getTeams()) {
 			// Add team name to the scoreboard
@@ -425,7 +425,9 @@ public class BedwarsRunnable extends HypixelRunnable {
 		}
 		// Make footer
 		str.append(WHITE).append("\nKills: ").append(GREEN).append("0\n")
-			.append(WHITE).append("Final Kills: ").append(GREEN).append("0");
+			.append(WHITE).append("Final Kills: ").append(GREEN).append("0\n")
+			.append(WHITE).append("Beds Broken: ").append(GREEN).append("0\n\n")
+			.append(YELLOW).append("www.hypixel.net");
 		// Update the lobby scoreboard
 		Main.getMainHandler().getThreadHandler().scheduleSyncTask(
 			() -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString()),

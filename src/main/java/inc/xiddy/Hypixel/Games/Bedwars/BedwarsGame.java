@@ -4,7 +4,6 @@ import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Dataclasses.HypixelGame;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 
@@ -14,8 +13,6 @@ public class BedwarsGame extends HypixelGame {
 	public BedwarsGame(Lobby lobby) {
 		// Set game and initialize game as runnable
 		this.game = new BedwarsRunnable(new HashSet<>(Bukkit.getOnlinePlayers()), this, lobby, 1);
-		// Run game
-		this.startGame();
 	}
 
 	@Override

@@ -89,18 +89,6 @@ public class LobbyEventHandler extends GameEventHandler {
 			// Play sound
 			player.playSound(player.getLocation(), Sound.FIREWORK_LAUNCH, 1, 1);
 		}
-		// Set the lobby scoreboard
-		Main.getMainHandler().getPlayerHandler().getPlayerData(event.getPlayer()).setScoreboard(
-			GOLD + "" + BOLD + "BEDWARS" +
-				"\n\nLevel: " + GRAY + "48✫" +
-				"\n\nProgress: " + AQUA + "1.9k" + GRAY + "/" + GREEN + "5k" +
-				"\n" + DARK_GRAY + " [" + AQUA + "■■■■■" + GRAY + "■■■■■" + DARK_GRAY + "]" +
-				"\n\nLoot Chests: " + YELLOW + "0" +
-				"\n\nCoins: " + GOLD + "64,407" +
-				"\n\nTotal Kills: " + GREEN + "3,004" +
-				"\nTotal Wins: " + GREEN + "324" +
-				"\n\n" + YELLOW + "www.hypixel.net"
-		);
 	}
 
 	@EventHandler

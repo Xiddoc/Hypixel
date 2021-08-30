@@ -83,7 +83,7 @@ public class MapHandler {
 		// Disable extra saving
 		newWorld.setAutoSave(false);
 		// For each entity
-		for (Entity entity: newWorld.getLivingEntities()) {
+		for (Entity entity: newWorld.getEntities()) {
 			// If the entity is not a player
 			if (!(entity instanceof Player)) {
 				// Remove it

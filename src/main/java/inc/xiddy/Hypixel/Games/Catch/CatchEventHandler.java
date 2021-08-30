@@ -28,34 +28,21 @@ public class CatchEventHandler extends GameEventHandler {
 		// Cast to player object
 		Player player = (Player) event.getEntity();
 
+		// Prevent the damage as they are on the same team
+		event.setCancelled(true);
+
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
 			player.getLastDamageCause() instanceof Player) {
 			// Get the damager
 			Player damager = (Player) ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
-			// For each team
-			for (CatchTeam team: this.getGame().getTeams()) {
-				// If this is the damager's team
-				if (team.getPlayers().contains(damager)) {
-					// If damager is on the same team as the player
-					if (team.getPlayers().contains(player)) {
-						// Prevent the damage
-						event.setCancelled(true);
-					} else {
-						// If the damager is a seeker
-						if (team.isSeeker()) {
-							// End the game
-							this.getGame().stopGame();
-						}
-					}
-					// Exit the event
-					return;
-				}
+			// If the damager is on the seeker team
+			// And the player is also on the seeker team
+			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&
+				this.getGame().getHiderTeam().getPlayers().contains(player)) {
+				// End the game in favor of the seekers
+				this.getGame().gameOver(this.getGame().getSeekerTeam().getPlayers());
 			}
-
-		} else if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
-			// Don't let them take fall damage
-			event.setCancelled(true);
 		}
 	}
 

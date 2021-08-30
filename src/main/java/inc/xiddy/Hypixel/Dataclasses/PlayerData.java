@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.bukkit.ChatColor.*;
+
 @JsonIgnoreProperties(value = {"player", "online"})
 public class PlayerData {
 	private final UUID playerUUID;
@@ -83,12 +85,24 @@ public class PlayerData {
 		this.getPlayer().setFoodLevel(20);
 		// Clear their inventory
 		this.getPlayer().getInventory().clear();
-		this.getPlayer().getInventory().setArmorContents(new ItemStack[]{
+		this.getPlayer().getInventory().setArmorContents(new ItemStack[] {
 			new ItemStack(Material.AIR),
 			new ItemStack(Material.AIR),
 			new ItemStack(Material.AIR),
 			new ItemStack(Material.AIR)
 		});
+		// Update scoreboard
+		this.setScoreboard(
+			GOLD + "" + BOLD + "BEDWARS" +
+				"\n\nLevel: " + GRAY + "48✫" +
+				"\n\nProgress: " + AQUA + "1.9k" + GRAY + "/" + GREEN + "5k" +
+				"\n" + DARK_GRAY + " [" + AQUA + "■■■■■" + GRAY + "■■■■■" + DARK_GRAY + "]" +
+				"\n\nLoot Chests: " + YELLOW + "0" +
+				"\n\nCoins: " + GOLD + "64,407" +
+				"\n\nTotal Kills: " + GREEN + "3,004" +
+				"\nTotal Wins: " + GREEN + "324" +
+				"\n\n" + YELLOW + "www.hypixel.net"
+		);
 	}
 
 	public UUID getPlayerUUID() {

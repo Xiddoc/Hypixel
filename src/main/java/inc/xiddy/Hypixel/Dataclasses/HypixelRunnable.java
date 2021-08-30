@@ -47,16 +47,21 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 
 	public final void destroyMap() {
 		// Move all players to lobby
-		for (Player player : this.getPlayers()) {
+		for (Player player: this.getPlayers()) {
 			// Try to (player might have quit the game)
 			try {
-				// Kick them out of the game
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
+				// Synchronously
+				Main.getMainHandler().getThreadHandler().pendSyncTask(() -> {
+					// Kick them out of the game
+					Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
+				});
 			} catch (NullPointerException ignored) {}
 		}
 
 		// Unload the world
-		Bukkit.unloadWorld(this.getMap().getWorld(), false);
+		Main.getMainHandler().getThreadHandler().pendSyncTask(
+			() -> Bukkit.unloadWorld(this.getMap().getWorld().getName(), false)
+		);
 
 		// Remove world files
 		try {

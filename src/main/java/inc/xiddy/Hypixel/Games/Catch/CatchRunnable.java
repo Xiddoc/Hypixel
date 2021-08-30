@@ -15,16 +15,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import static org.bukkit.ChatColor.*;
 
 public class CatchRunnable extends HypixelRunnable {
 	private final CatchEventHandler eventHandler;
-	private final List<CatchTeam> teams;
+	private final CatchTeam seekerTeam;
+	private final CatchTeam hiderTeam;
 	private Location spawnLoc;
 	private BukkitRunnable scoreboardTimer;
 
@@ -34,12 +33,8 @@ public class CatchRunnable extends HypixelRunnable {
 		// Make event handler
 		this.eventHandler = new CatchEventHandler(this);
 
-		// Make teams
-		// Init list
-		this.teams = new ArrayList<>();
-
 		// Make hider team
-		CatchTeam hiderTeam = new CatchTeam(TeamColor.RED, null, 1, false);
+		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1, false);
 		// Populate
 		// Select hider
 		Player hider = HypixelUtils.randomFromArray(players.toArray(new Player[0]));
@@ -47,11 +42,9 @@ public class CatchRunnable extends HypixelRunnable {
 		hiderTeam.setPlayerState(hider, GameState.ALIVE);
 		// Add hider to hider team
 		hiderTeam.addPlayer(hider);
-		// Add to teams
-		this.teams.add(hiderTeam);
 
 		// Make seeker team
-		CatchTeam seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
+		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
 		// Populate
 		for (Player player: players) {
 			// If the player is not the hider
@@ -62,8 +55,6 @@ public class CatchRunnable extends HypixelRunnable {
 				seekerTeam.addPlayer(player);
 			}
 		}
-		// Add to teams
-		this.teams.add(seekerTeam);
 	}
 
 	@Override
@@ -107,7 +98,7 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Make scoreboard painter
 		this.scoreboardTimer = new BukkitRunnable() {
-			private int time = 180;
+			private int time = 10;
 
 			@Override
 			public void run() {
@@ -123,7 +114,7 @@ public class CatchRunnable extends HypixelRunnable {
 					this.cancel();
 
 					// Stop the game
-					stopGame();
+					gameOver(getHiderTeam().getPlayers());
 				}
 			}
 		};
@@ -159,6 +150,7 @@ public class CatchRunnable extends HypixelRunnable {
 	}
 
 	public void repaintScoreboard(Player player, int time) {
+		//noinspection StringBufferReplaceableByString
 		StringBuilder str = new StringBuilder();
 		// Start by making header
 		str.append(YELLOW).append(BOLD).append("CATCH")
@@ -167,33 +159,23 @@ public class CatchRunnable extends HypixelRunnable {
 			.append(WHITE).append("\n\nGame Over in ").append(GREEN)
 			.append(time / 60).append(":").append(String.format("%02d", time % 60))
 			.append("\n\n");
-		// For each team
-		for (CatchTeam team: this.getTeams()) {
-			// Get team name
-			String teamName;
-			if (team.getTeamColor() == TeamColor.GREEN) {
-				teamName = "SEEKER";
-			} else {
-				teamName = "HIDER";
-			}
-			// Add team name and size to the scoreboard
-			str.append(team.getTeamColor().getColorCode())
-				.append(teamName).append("S: ")
-				.append(WHITE).append(team.getTeamColor().getCapitalizedString()).append(": ")
-				.append(team.getAlivePlayers().size());
-			// If this is the player's team
-			if (team.getPlayers().contains(player)) {
-				// Add "YOU" next to team
-				str.append(GRAY).append(" YOU");
-			}
-			// Add newline for next iteration
-			str.append("\n");
-		}
+		// Add team name and size to the scoreboard (Seekers)
+		str.append(this.getSeekerTeam().getTeamColor().getColorCode()).append("S ")
+			.append(WHITE).append("SEEKERS: ")
+			.append(this.getSeekerTeam().getAlivePlayers().size())
+			// Add team name and size to the scoreboard (Hiders)
+			.append(this.getHiderTeam().getTeamColor().getColorCode()).append("H ")
+			.append(WHITE).append("HIDERS: ")
+			.append(this.getHiderTeam().getAlivePlayers().size())
+			// Get player's team
+			.append(GRAY).append("\n\nYou are a ")
+			.append(this.getSeekerTeam().getPlayers().contains(player) ?
+				this.getSeekerTeam().getTeamColor().getColorCode() + "SEEKER" :
+				this.getHiderTeam().getTeamColor().getColorCode() + "HIDER");
+		// Add footer
+		str.append("\n\n").append(YELLOW).append("www.hypixel.net");
 		// Update the lobby scoreboard
-		Main.getMainHandler().getThreadHandler().scheduleSyncTask(
-			() -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString()),
-			1L
-		);
+		Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString());
 	}
 
 	public void stopGame() {
@@ -208,10 +190,6 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Destroy the map
 		this.destroyMap();
-	}
-
-	public List<CatchTeam> getTeams() {
-		return this.teams;
 	}
 
 	public CatchEventHandler getEventHandler() {
@@ -232,5 +210,13 @@ public class CatchRunnable extends HypixelRunnable {
 
 	public Location getSpawnLoc() {
 		return spawnLoc;
+	}
+
+	public CatchTeam getSeekerTeam() {
+		return seekerTeam;
+	}
+
+	public CatchTeam getHiderTeam() {
+		return hiderTeam;
 	}
 }

@@ -9,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public class GameHandler {
-	private final Map<Lobby, List<HypixelGame>> games;
+	private final Map<Lobby, List<HypixelGame>> lobbyGameMap;
 
 	public GameHandler() {
 		// Initialize map
-		this.games = new HashMap<>();
-		// Init lists
-		this.games.put(Lobby.BEDWARS, new ArrayList<>());
+		this.lobbyGameMap = new HashMap<>();
 	}
 
 	public List<HypixelGame> getAllGames() {
@@ -35,15 +33,29 @@ public class GameHandler {
 	}
 
 	public List<HypixelGame> getGames(Lobby lobby) {
-		return this.getGamesList().get(lobby);
+		// Get games for that lobby
+		List<HypixelGame> retrievedGames = this.getGamesList().get(lobby);
+		// If games is null
+		if (retrievedGames == null) {
+			// Make a new list for the lobby
+			this.getGamesList().put(lobby, new ArrayList<>());
+			// Get the pointer to the list of games
+			return this.getGamesList().get(lobby);
+		} else {
+			// Otherwise, return the list of games
+			return retrievedGames;
+		}
 	}
 
 	private Map<Lobby, List<HypixelGame>> getGamesList() {
-		return this.games;
+		return this.lobbyGameMap;
 	}
 
 	public void addGame(HypixelGame game) {
+		// Add game to game list
 		this.getGames(game.getRunnableGame().getLobby()).add(game);
+		// Run game
+		game.startGame();
 	}
 
 	public void removeGame(HypixelGame game) {

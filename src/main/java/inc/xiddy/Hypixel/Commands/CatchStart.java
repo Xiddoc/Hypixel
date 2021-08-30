@@ -3,7 +3,6 @@ package inc.xiddy.Hypixel.Commands;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
-import inc.xiddy.Hypixel.Games.Bedwars.BedwarsGame;
 import inc.xiddy.Hypixel.Games.Catch.CatchGame;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
