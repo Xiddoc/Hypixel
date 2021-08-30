@@ -9,10 +9,22 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class CatchEventHandler extends HypixelEventHandler {
 	public CatchEventHandler(CatchRunnable game) {
 		super(game);
+	}
+
+	@EventHandler
+	public void onMove(PlayerMoveEvent event) {
+		if (this.verifyState(event)) return;
+
+		// If player is going to die by falling into the void
+		if (event.getPlayer().getLocation().getY() < this.getGame().getPlayerVoid()) {
+			// Move them back to the spawn point
+			this.getGame().spawn(event.getPlayer());
+		}
 	}
 
 	@EventHandler

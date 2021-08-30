@@ -214,7 +214,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 	public void onMove(PlayerMoveEvent event) {
 		if (this.verifyState(event)) return;
 
-		// If player is going to die (health - damage less or equal to 0)
+		// If player is going to die by falling into the void
 		if (event.getPlayer().getLocation().getY() < this.getGame().getPlayerVoid()) {
 			// Turn them into a spectator
 			this.getGame().setDeadSpectator(event.getPlayer());

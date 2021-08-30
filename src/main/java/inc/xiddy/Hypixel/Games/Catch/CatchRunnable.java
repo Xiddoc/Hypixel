@@ -120,7 +120,7 @@ public class CatchRunnable extends HypixelRunnable {
 		this.scoreboardTimer.runTaskTimerAsynchronously(Main.getInstance(), 10, 20);
 	}
 
-	private void spawn(Player player) {
+	public void spawn(Player player) {
 		// Synchronously respawn them
 		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
 			// Teleport to respawn location
