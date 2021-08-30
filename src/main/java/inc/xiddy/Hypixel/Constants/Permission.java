@@ -1,6 +1,6 @@
 package inc.xiddy.Hypixel.Constants;
 
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 
 @SuppressWarnings("SpellCheckingInspection")
 public enum Permission {

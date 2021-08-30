@@ -6,7 +6,7 @@ import inc.xiddy.Hypixel.Dataclasses.GameState;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Games.Bedwars.Generator.BedwarsGenerator;
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;

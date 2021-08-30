@@ -1,6 +1,6 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -5,8 +5,8 @@ import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.GameState;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
-import inc.xiddy.Hypixel.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -33,13 +33,12 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Make hider team
 		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1, false);
-		// Populate
 		// Select hider
 		Player hider = HypixelUtils.randomFromArray(players.toArray(new Player[0]));
 		// Update state
-		hiderTeam.setPlayerState(hider, GameState.ALIVE);
+		this.hiderTeam.setPlayerState(hider, GameState.ALIVE);
 		// Add hider to hider team
-		hiderTeam.addPlayer(hider);
+		this.hiderTeam.addPlayer(hider);
 
 		// Make seeker team
 		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
@@ -48,9 +47,9 @@ public class CatchRunnable extends HypixelRunnable {
 			// If the player is not the hider
 			if (!player.equals(hider)) {
 				// Update state
-				seekerTeam.setPlayerState(player, GameState.ALIVE);
+				this.seekerTeam.setPlayerState(player, GameState.ALIVE);
 				// Add player to seeker team
-				seekerTeam.addPlayer(player);
+				this.seekerTeam.addPlayer(player);
 			}
 		}
 	}
@@ -125,6 +124,9 @@ public class CatchRunnable extends HypixelRunnable {
 		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
 			// Teleport to respawn location
 			player.teleport(this.getSpawnLoc());
+
+			// Make name tag invisible for hiders
+			this.getHiderTeam().getPlayers().forEach(HypixelUtils::hidePlayerName);
 
 			// Set mode
 			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby());

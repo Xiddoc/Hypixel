@@ -2,7 +2,7 @@ package inc.xiddy.Hypixel.Commands;
 
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

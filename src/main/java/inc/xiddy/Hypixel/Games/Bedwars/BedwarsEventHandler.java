@@ -3,7 +3,7 @@ package inc.xiddy.Hypixel.Games.Bedwars;
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCRightClickEvent;

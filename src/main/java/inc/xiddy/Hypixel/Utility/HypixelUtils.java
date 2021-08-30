@@ -1,11 +1,14 @@
-package inc.xiddy.Hypixel;
+package inc.xiddy.Hypixel.Utility;
 
+import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -27,6 +30,12 @@ public class HypixelUtils {
 		sendCommand("title " + player.getDisplayName() + " title \"" + title.replaceAll("\\\\", "\\\\").replaceAll("\"", "\\\"") + "\"");
 		// Set subtitle
 		sendCommand("title " + player.getDisplayName() + " subtitle \"" + subtitle.replaceAll("\\\\", "\\\\").replaceAll("\"", "\\\"") + "\"");
+	}
+
+	public static void hidePlayerName(Player player) {
+		ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+		stand.setVisible(false);
+		player.setPassenger(stand);
 	}
 
 	public static void sendCommand(String command) {

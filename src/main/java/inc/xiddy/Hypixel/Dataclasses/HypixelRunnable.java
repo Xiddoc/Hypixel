@@ -1,7 +1,7 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

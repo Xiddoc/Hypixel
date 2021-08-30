@@ -1,7 +1,7 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.World;
 
 public class GameMap {
