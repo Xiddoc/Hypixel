@@ -1,6 +1,7 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
+import inc.xiddy.Hypixel.Games.Catch.CatchEventHandler;
 import inc.xiddy.Hypixel.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
@@ -50,18 +51,13 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		for (Player player: this.getPlayers()) {
 			// Try to (player might have quit the game)
 			try {
-				// Synchronously
-				Main.getMainHandler().getThreadHandler().pendSyncTask(() -> {
-					// Kick them out of the game
-					Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
-				});
+				// Kick them out of the game
+				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
 			} catch (NullPointerException ignored) {}
 		}
 
 		// Unload the world
-		Main.getMainHandler().getThreadHandler().pendSyncTask(
-			() -> Bukkit.unloadWorld(this.getMap().getWorld().getName(), false)
-		);
+		Bukkit.unloadWorld(this.getMap().getWorld().getName(), false);
 
 		// Remove world files
 		try {
@@ -100,7 +96,8 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 			// Play sound
 			player.playSound(player.getLocation(), Sound.FIREWORK_LAUNCH, 1, 1);
 		}
-		// Stop the game
+
+		// Stop the game in a few seconds
 		Main.getMainHandler().getThreadHandler().scheduleSyncTask(this::stopGame, gameOverTime);
 	}
 

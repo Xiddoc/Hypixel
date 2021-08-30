@@ -503,8 +503,8 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// Stop events
 		HandlerList.unregisterAll(this.getEventHandler());
 
-		// Destroy the map
-		this.destroyMap();
+		// Synchronously destroy the map
+		Main.getMainHandler().getThreadHandler().runSyncTask(this::destroyMap);
 	}
 
 	public BedwarsTeam getTeamByBedLocation(Location location) {

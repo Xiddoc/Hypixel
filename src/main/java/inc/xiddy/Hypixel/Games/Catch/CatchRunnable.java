@@ -174,10 +174,15 @@ public class CatchRunnable extends HypixelRunnable {
 				this.getHiderTeam().getTeamColor().getColorCode() + "HIDER");
 		// Add footer
 		str.append("\n\n").append(YELLOW).append("www.hypixel.net");
-		// Update the lobby scoreboard
-		Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString());
+
+		// Synchronously
+		Main.getMainHandler().getThreadHandler().runSyncTask(() ->
+			// Update the lobby scoreboard
+			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString())
+		);
 	}
 
+	@Override
 	public void stopGame() {
 		// Pop task off bukkit manager
 		this.cancel();
@@ -188,8 +193,8 @@ public class CatchRunnable extends HypixelRunnable {
 		// Stop events
 		HandlerList.unregisterAll(this.getEventHandler());
 
-		// Destroy the map
-		this.destroyMap();
+		// Synchronously destroy the map
+		Main.getMainHandler().getThreadHandler().runSyncTask(this::destroyMap);
 	}
 
 	public CatchEventHandler getEventHandler() {
