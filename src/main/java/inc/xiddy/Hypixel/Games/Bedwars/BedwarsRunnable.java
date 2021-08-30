@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,7 +30,6 @@ import static org.bukkit.ChatColor.*;
 public class BedwarsRunnable extends HypixelRunnable {
 	private final int teamSize;
 	private final List<BedwarsPlayerData> playerBedwarsDataList;
-	private final BedwarsEventHandler eventHandler;
 	private final List<SmallLocation> placedBlocks;
 	private final List<NPC> npcList;
 	private final BedwarsShop shop;
@@ -44,7 +42,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		this.teamSize = teamSize;
 		this.placedBlocks = new ArrayList<>();
 		this.playerBedwarsDataList = new ArrayList<>();
-		this.eventHandler = new BedwarsEventHandler(this);
+		this.setEventHandler(new BedwarsEventHandler(this));
 		// For each player
 		for (Player player: players) {
 			// Add to the data map
@@ -539,10 +537,6 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	public BedwarsTeam getPlayerTeam(Player player) {
 		return this.getBedwarsPlayerData(player).getTeam();
-	}
-
-	public BedwarsEventHandler getEventHandler() {
-		return eventHandler;
 	}
 
 	public List<SmallLocation> getPlacedBlocks() {

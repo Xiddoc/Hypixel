@@ -31,6 +31,9 @@ public class CatchEventHandler extends HypixelEventHandler {
 		// Prevent the damage as they are on the same team
 		event.setCancelled(true);
 
+		// If game is over
+		if (this.getGame().isGameOver()) return;
+
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
 			player.getLastDamageCause() instanceof Player) {

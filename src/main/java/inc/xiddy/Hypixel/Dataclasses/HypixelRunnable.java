@@ -20,12 +20,14 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 	private final Set<Player> players;
 	private final HypixelGame externalGame;
 	private HypixelEventHandler eventHandler;
+	private boolean gameOver;
 
 	public HypixelRunnable(Set<Player> players, HypixelGame hypixelGame, Lobby lobby) {
 		// Set to fields
 		this.externalGame = hypixelGame;
 		this.lobby = lobby;
 		this.players = players;
+		this.gameOver = false;
 	}
 
 	@Override
@@ -72,6 +74,9 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 	}
 
 	public final void gameOver(Set<Player> winners) {
+		// Set game over
+		this.gameOver = true;
+
 		// Length of game over message
 		double gameOverTime = 5.0;
 
@@ -125,11 +130,15 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		HandlerList.unregisterAll(this.getEventHandler());
 	}
 
-	public void setEventHandler(HypixelEventHandler eventHandler) {
+	public final void setEventHandler(HypixelEventHandler eventHandler) {
 		this.eventHandler = eventHandler;
 	}
 
-	public HypixelEventHandler getEventHandler() {
+	public final HypixelEventHandler getEventHandler() {
 		return eventHandler;
+	}
+
+	public final boolean isGameOver() {
+		return gameOver;
 	}
 }
