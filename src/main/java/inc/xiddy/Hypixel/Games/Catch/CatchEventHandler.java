@@ -1,6 +1,6 @@
 package inc.xiddy.Hypixel.Games.Catch;
 
-import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class CatchEventHandler extends GameEventHandler {
+public class CatchEventHandler extends HypixelEventHandler {
 	public CatchEventHandler(CatchRunnable game) {
 		super(game);
 	}

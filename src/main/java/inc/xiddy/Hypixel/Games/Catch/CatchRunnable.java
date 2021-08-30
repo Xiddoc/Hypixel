@@ -10,7 +10,6 @@ import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
@@ -21,7 +20,6 @@ import java.util.Set;
 import static org.bukkit.ChatColor.*;
 
 public class CatchRunnable extends HypixelRunnable {
-	private final CatchEventHandler eventHandler;
 	private final CatchTeam seekerTeam;
 	private final CatchTeam hiderTeam;
 	private Location spawnLoc;
@@ -31,7 +29,7 @@ public class CatchRunnable extends HypixelRunnable {
 		super(players, catchGame, lobby);
 
 		// Make event handler
-		this.eventHandler = new CatchEventHandler(this);
+		this.setEventHandler(new CatchEventHandler(this));
 
 		// Make hider team
 		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1, false);
@@ -184,21 +182,14 @@ public class CatchRunnable extends HypixelRunnable {
 
 	@Override
 	public void stopGame() {
-		// Pop task off bukkit manager
-		this.cancel();
-
 		// Stop scoreboard
 		this.scoreboardTimer.cancel();
 
-		// Stop events
-		HandlerList.unregisterAll(this.getEventHandler());
+		// Stop game mechanics
+		this.internalStopGame();
 
 		// Synchronously destroy the map
 		Main.getMainHandler().getThreadHandler().runSyncTask(this::destroyMap);
-	}
-
-	public CatchEventHandler getEventHandler() {
-		return eventHandler;
 	}
 
 	public int getPlayerVoid() {

@@ -19,6 +19,7 @@ public class CatchGame extends HypixelGame {
 	public void stopGame() {
 		// Stop the runnable
 		this.getRunnableGame().stopGame();
+
 		// Remove game from ongoing games
 		Main.getMainHandler().getGameHandler().removeGame(this);
 	}

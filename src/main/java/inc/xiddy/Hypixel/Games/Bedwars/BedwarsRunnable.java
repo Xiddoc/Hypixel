@@ -489,19 +489,13 @@ public class BedwarsRunnable extends HypixelRunnable {
 	}
 
 	public void stopGame() {
-		// Pop task off bukkit manager
-		this.cancel();
-
-		// Remove game from ongoing games
-		Main.getMainHandler().getGameHandler().removeGame(this.getGame());
-
 		// Kill all NPCs
 		for (NPC npc : this.getNPCs()) {
 			CitizensAPI.getNPCRegistry().deregister(npc);
 		}
 
-		// Stop events
-		HandlerList.unregisterAll(this.getEventHandler());
+		// Stop game mechanics
+		this.internalStopGame();
 
 		// Synchronously destroy the map
 		Main.getMainHandler().getThreadHandler().runSyncTask(this::destroyMap);

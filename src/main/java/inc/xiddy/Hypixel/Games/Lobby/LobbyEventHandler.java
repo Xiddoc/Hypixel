@@ -2,7 +2,7 @@ package inc.xiddy.Hypixel.Games.Lobby;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
-import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.PlayerData;
 import inc.xiddy.Hypixel.Main;
@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 import static org.bukkit.ChatColor.*;
 
-public class LobbyEventHandler extends GameEventHandler {
+public class LobbyEventHandler extends HypixelEventHandler {
 	public LobbyEventHandler() {
 		super(Lobby.HUB);
 	}

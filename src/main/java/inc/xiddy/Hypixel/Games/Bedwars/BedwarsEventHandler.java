@@ -1,6 +1,6 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
-import inc.xiddy.Hypixel.Dataclasses.GameEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.HypixelUtils;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class BedwarsEventHandler extends GameEventHandler {
+public class BedwarsEventHandler extends HypixelEventHandler {
 	public BedwarsEventHandler(HypixelRunnable hypixelRunnable) {
 		super(hypixelRunnable);
 	}

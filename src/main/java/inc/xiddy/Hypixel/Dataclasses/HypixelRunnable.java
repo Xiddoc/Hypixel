@@ -1,13 +1,13 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
-import inc.xiddy.Hypixel.Games.Catch.CatchEventHandler;
 import inc.xiddy.Hypixel.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
@@ -19,6 +19,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 	private final Lobby lobby;
 	private final Set<Player> players;
 	private final HypixelGame externalGame;
+	private HypixelEventHandler eventHandler;
 
 	public HypixelRunnable(Set<Player> players, HypixelGame hypixelGame, Lobby lobby) {
 		// Set to fields
@@ -111,5 +112,24 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 
 	public final HypixelGame getGame() {
 		return this.externalGame;
+	}
+
+	public final void internalStopGame() {
+		// Pop task off bukkit manager
+		this.cancel();
+
+		// Remove game from ongoing games
+		Main.getMainHandler().getGameHandler().removeGame(this.getGame());
+
+		// Stop events
+		HandlerList.unregisterAll(this.getEventHandler());
+	}
+
+	public void setEventHandler(HypixelEventHandler eventHandler) {
+		this.eventHandler = eventHandler;
+	}
+
+	public HypixelEventHandler getEventHandler() {
+		return eventHandler;
 	}
 }
