@@ -33,8 +33,24 @@ public class CatchEventHandler extends HypixelEventHandler {
 			this.getGame().spawn(player, false, false);
 		}
 
-		// If player is a seeker
-		if (this.getGame().getSeekerTeam().getPlayers().contains(player)) {
+		// If it was a hider who moved
+		if (this.getGame().getHiderTeam().getPlayers().contains(player)) {
+			// Update for each seeker
+			this.getGame().getSeekerTeam().getPlayers().forEach(seeker -> {
+				// Print the radar
+				this.getGame().getRadar().printRadar(
+					// To the seeker
+					seeker,
+					// Showing the distance between their location
+					(int) seeker.getLocation().distance(
+						// To the hiders location
+						this.getGame().getHiderTeam().getPlayers().toArray(new Player[0])[0].getLocation()
+					)
+				);
+			});
+		} else {
+			// If a seeker moved
+			// Then it is not necessary to update the radar for every other player
 			// Print the radar
 			this.getGame().getRadar().printRadar(
 				// To the seeker
