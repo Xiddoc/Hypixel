@@ -1,8 +1,8 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
-import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import inc.xiddy.Hypixel.Main;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -53,10 +53,10 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		// Move all players to lobby
 		for (Player player: this.getPlayers()) {
 			// Try to (player might have quit the game)
-			try {
+//			try {
 				// Kick them out of the game
 				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
-			} catch (NullPointerException ignored) {}
+//			} catch (NullPointerException ignored) {}
 		}
 
 		// Unload the world

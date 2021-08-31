@@ -11,7 +11,6 @@ import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -100,18 +99,18 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Make scoreboard painter
 		this.gameTimer = new HypixelTimer(10) {
-			private final int gameTime = 180;
 
 			@Override
 			public void onLoop() {
 				// Get remaining time
-				int remainingTime = this.gameTime - this.getElapsedTime();
+				int gameTime = 180;
+				int remainingTime = gameTime - this.getElapsedTime();
 
 				// Repaint scoreboard
 				repaintScoreboardForAll(remainingTime);
 
 				// If time hit zero
-				if (this.getElapsedTime() == this.gameTime) {
+				if (this.getElapsedTime() == gameTime) {
 					// Stop the runnable
 					this.cancel();
 
@@ -220,14 +219,6 @@ public class CatchRunnable extends HypixelRunnable {
 
 	public int getPlayerVoid() {
 		return 0;
-	}
-
-	public int getBlockVoidMin() {
-		return 0;
-	}
-
-	public int getBlockVoidMax() {
-		return 100;
 	}
 
 	public Location getSpawnLoc() {

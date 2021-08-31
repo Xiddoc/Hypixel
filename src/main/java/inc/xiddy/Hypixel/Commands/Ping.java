@@ -2,8 +2,6 @@ package inc.xiddy.Hypixel.Commands;
 
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
-import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
-import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;

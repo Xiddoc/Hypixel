@@ -35,7 +35,6 @@ public class DataHandler {
 	}
 
 	public <T> T read(String filename, Class<T> cls) throws FileNotFoundException {
-		Main.getMainHandler().getLogger().warning(this.filenameToFile(filename, false).getPath());
 		// Try in case of file error
 		try {
 			// Convert to object and return
@@ -43,7 +42,6 @@ public class DataHandler {
 		} catch (MismatchedInputException e) {
 			// Better alias and explanation for the error
 			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2 repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
-//			e.printStackTrace();
 			throw new FileNotFoundException();
 		} catch (IOException e) {
 			// Better alias and explanation for the error

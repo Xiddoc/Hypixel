@@ -23,7 +23,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static org.bukkit.ChatColor.*;
+import static org.bukkit.ChatColor.GRAY;
 
 public class LobbyEventHandler extends HypixelEventHandler {
 	public LobbyEventHandler() {
