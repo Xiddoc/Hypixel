@@ -70,6 +70,8 @@ public class CatchEventHandler extends HypixelEventHandler {
 
 		// Prevent natural (lava, etc.) damage
 		event.setCancelled(true);
+		// Remove fire ticks to prevent massive fire picture taking up half your screen
+		event.getEntity().setFireTicks(0);
 	}
 
 	@EventHandler

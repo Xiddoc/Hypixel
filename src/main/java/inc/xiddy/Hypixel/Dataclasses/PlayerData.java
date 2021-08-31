@@ -83,6 +83,7 @@ public class PlayerData {
 		// Heal player
 		this.getPlayer().setHealth(20);
 		this.getPlayer().setFoodLevel(20);
+		this.getPlayer().setFireTicks(0);
 		// Clear their inventory
 		this.getPlayer().getInventory().clear();
 		this.getPlayer().getInventory().setArmorContents(new ItemStack[] {
