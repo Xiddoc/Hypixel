@@ -22,10 +22,15 @@ public class CatchEventHandler extends HypixelEventHandler {
 		// Get player
 		Player player = event.getPlayer();
 
+		// If game hasn't started, don't execute
+		if (this.getGame().getGameTimer().getElapsedTime() < 30) {
+			return;
+		}
+
 		// If player is going to die by falling into the void
 		if (player.getLocation().getY() < this.getGame().getPlayerVoid()) {
 			// Move them back to the spawn point
-			this.getGame().spawn(player);
+			this.getGame().spawn(player, false, false);
 		}
 
 		// If player is a seeker

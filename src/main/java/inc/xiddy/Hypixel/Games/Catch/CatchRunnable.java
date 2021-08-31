@@ -4,6 +4,7 @@ import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.GameState;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
+import inc.xiddy.Hypixel.Dataclasses.HypixelTimer;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;
@@ -24,7 +25,7 @@ public class CatchRunnable extends HypixelRunnable {
 	private final CatchTeam hiderTeam;
 	private final CatchRadar radar;
 	private Location spawnLoc;
-	private BukkitRunnable scoreboardTimer;
+	private HypixelTimer gameTimer;
 
 	public CatchRunnable(Set<Player> players, CatchGame catchGame, Lobby lobby) {
 		super(players, catchGame, lobby);
@@ -90,47 +91,66 @@ public class CatchRunnable extends HypixelRunnable {
 		);
 
 		// Start the game sequence
-		// For each player
-		for (Player player: this.getPlayers()) {
-			// Set lobby mode
-			// Move player to respawn location
-			this.spawn(player);
-		}
+		// For each hider
+		// Move player to respawn location
+		this.getHiderTeam().getPlayers().forEach(player -> this.spawn(player, false, true));
+		// For each seeker
+		// Move player to blind location
+		this.getSeekerTeam().getPlayers().forEach(player -> this.spawn(player, true, false));
 
 		// Make scoreboard painter
-		this.scoreboardTimer = new BukkitRunnable() {
-			private int time = 180;
+		this.gameTimer = new HypixelTimer(10) {
+			private final int gameTime = 180;
 
 			@Override
-			public void run() {
-				// Decrement time
-				this.time --;
+			public void onLoop() {
+				// Get remaining time
+				int remainingTime = this.gameTime - this.getElapsedTime();
 
 				// Repaint scoreboard
-				repaintScoreboardForAll(this.time);
+				repaintScoreboardForAll(remainingTime);
 
 				// If time hit zero
-				if (this.time == 0) {
+				if (this.getElapsedTime() == this.gameTime) {
 					// Stop the runnable
 					this.cancel();
 
 					// Stop the game
 					gameOver(getHiderTeam().getPlayers());
+				} else if (this.getElapsedTime() < 30 && this.getElapsedTime() % 5 == 0) {
+					// If it is still the first 30 seconds of the game
+					// And it is a multiple of 5
+					// Announce the time
+					broadcastMessage(GREEN + "Hiders have " + GOLD + (30 - this.getElapsedTime()) + GREEN + " seconds left to hide...");
+				} else if (this.getElapsedTime() == 30) {
+					// If it is the 30th second of the game
+					// Tell the players that the game has started
+					broadcastMessage(GREEN + "The seekers have been released!");
+					// For each seeker
+					// Move player to respawn location
+					getSeekerTeam().getPlayers().forEach(player -> spawn(player, false, false));
 				}
 			}
 		};
-		// Start the painter
-		this.scoreboardTimer.runTaskTimerAsynchronously(Main.getInstance(), 10, 20);
 	}
 
-	public void spawn(Player player) {
+	public void spawn(Player player, boolean blindPlayer, boolean hideName) {
 		// Synchronously respawn them
 		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
-			// Teleport to respawn location
-			player.teleport(this.getSpawnLoc());
+			// If spawn blind
+			if (blindPlayer) {
+				// Teleport below respawn location
+				player.teleport(this.getSpawnLoc().clone().add(0, -500, 0));
+			} else {
+				// Teleport to respawn location
+				player.teleport(this.getSpawnLoc());
+			}
 
-			// Make name tag invisible for hiders
-			this.getHiderTeam().getPlayers().forEach(HypixelUtils::hidePlayerName);
+			// If player is a hider
+			if (hideName) {
+				// Make name tag invisible
+				HypixelUtils.hidePlayerName(player);
+			}
 
 			// Set mode
 			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby());
@@ -189,7 +209,7 @@ public class CatchRunnable extends HypixelRunnable {
 	@Override
 	public void stopGame() {
 		// Stop scoreboard
-		this.scoreboardTimer.cancel();
+		this.getGameTimer().cancel();
 
 		// Stop game mechanics
 		this.internalStopGame();
@@ -224,5 +244,9 @@ public class CatchRunnable extends HypixelRunnable {
 
 	public CatchRadar getRadar() {
 		return radar;
+	}
+
+	public HypixelTimer getGameTimer() {
+		return gameTimer;
 	}
 }
