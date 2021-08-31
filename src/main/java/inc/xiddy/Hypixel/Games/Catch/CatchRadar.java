@@ -1,113 +1,13 @@
 package inc.xiddy.Hypixel.Games.Catch;
 
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class CatchRadar {
-	private final String[][] font = {
-		{
-			"   ___   ",
-			"  / _ \\  ",
-			" | | | | ",
-			" | | | | ",
-			" | |_| | ",
-			"  \\___/  "
-		},
-		{
-			"  __     ",
-			" /_ |    ",
-			"  | |    ",
-			"  | |    ",
-			"  | |    ",
-			"  |_|    "
-		},
-		{
-			"  ___    ",
-			" |__ \\   ",
-			"    ) |  ",
-			"   / /   ",
-			"  / /_   ",
-			" |____|  "
-		},
-		{
-			"  ____   ",
-			" |___ \\  ",
-			"   __) | ",
-			"  |__ <  ",
-			"  ___) | ",
-			" |____/  "
-		},
-		{
-			"  _  _   ",
-			" | || |  ",
-			" | || |_ ",
-			" |__   _|",
-			"    | |  ",
-			"    |_|  "
-		},
-		{
-			"  _____  ",
-			" | ____| ",
-			" | |__   ",
-			" |___ \\  ",
-			"  ___) | ",
-			" |____/  "
-		},
-		{
-			"    __   ",
-			"   / /   ",
-			"  / /_   ",
-			" | '_ \\  ",
-			" | (_) | ",
-			"  \\___/  "
-		},
-		{
-			"  ______ ",
-			" |____  |",
-			"     / / ",
-			"    / /  ",
-			"   / /   ",
-			"  /_/    "
-		},
-		{
-			"   ___   ",
-			"  / _ \\  ",
-			" | (_) | ",
-			"  > _ <  ",
-			" | (_) | ",
-			"  \\___/  "
-		},
-		{
-			"   ___   ",
-			"  / _ \\  ",
-			" | (_) | ",
-			"  \\__, | ",
-			"    / /  ",
-			"   /_/   "
-		}
-	};
-
 	public CatchRadar() {}
-
-	public String getRadar(int distance) {
-		// Init
-		StringBuilder radar = new StringBuilder();
-		// Get string of distance
-		char[] distanceString = String.valueOf(distance).toCharArray();
-
-		// For each row
-		for (int row = 0; row < 6; row ++) {
-			// For each character
-			for (char number: distanceString) {
-				// Get the font row for that character
-				radar.append(this.font[Integer.parseInt(String.valueOf(number))][row]);
-			}
-			// Newline
-			radar.append("\n");
-		}
-		// Return
-		return radar.toString();
-	}
 
 	public void printRadar(Player player, int distance) {
 		// Switch case for color
@@ -124,6 +24,8 @@ public class CatchRadar {
 		}
 
 		// Print radar to player
-		player.sendMessage(color + this.getRadar(distance));
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(
+			new PacketPlayOutChat(new ChatComponentText(color + "" + ChatColor.BOLD + "[ " + distance + " ]"), (byte) 2)
+		);
 	}
 }
