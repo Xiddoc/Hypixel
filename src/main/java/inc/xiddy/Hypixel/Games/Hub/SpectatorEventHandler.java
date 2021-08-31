@@ -1,4 +1,4 @@
-package inc.xiddy.Hypixel.Games.Lobby;
+package inc.xiddy.Hypixel.Games.Hub;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;

@@ -90,6 +90,12 @@ public class CatchRunnable extends HypixelRunnable {
 		);
 
 		// Start the game sequence
+		// Set each player's lobby
+		this.getPlayers().forEach(
+			player -> Main.getMainHandler().getThreadHandler().runSyncTask(() ->
+				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby())
+			)
+		);
 		// For each hider
 		// Move player to respawn location
 		this.getHiderTeam().getPlayers().forEach(player -> this.spawn(player, false, true));
@@ -150,26 +156,19 @@ public class CatchRunnable extends HypixelRunnable {
 				// Make name tag invisible
 				HypixelUtils.hidePlayerName(player);
 			}
-
-			// Set mode
-			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby());
 		});
 	}
 
 	private void broadcastMessage(String message) {
 		// For each player
-		for (Player player: this.getPlayers()) {
-			// Send the message
-			player.sendMessage(message);
-		}
+		// Send the message
+		this.getPlayers().forEach(player -> player.sendMessage(message));
 	}
 
 	public void repaintScoreboardForAll(int time) {
 		// For each player
-		for (Player player: this.getPlayers()) {
-			// Repaint the board for them
-			this.repaintScoreboard(player, time);
-		}
+		// Repaint the board for them
+		this.getPlayers().forEach(player -> this.repaintScoreboard(player, time));
 	}
 
 	public void repaintScoreboard(Player player, int time) {

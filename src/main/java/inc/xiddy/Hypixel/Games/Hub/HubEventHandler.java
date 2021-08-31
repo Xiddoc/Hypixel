@@ -1,10 +1,9 @@
-package inc.xiddy.Hypixel.Games.Lobby;
+package inc.xiddy.Hypixel.Games.Hub;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
-import inc.xiddy.Hypixel.Dataclasses.PlayerData;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,8 +24,8 @@ import org.bukkit.inventory.ItemStack;
 
 import static org.bukkit.ChatColor.GRAY;
 
-public class LobbyEventHandler extends HypixelEventHandler {
-	public LobbyEventHandler() {
+public class HubEventHandler extends HypixelEventHandler {
+	public HubEventHandler() {
 		super(Lobby.HUB);
 	}
 
@@ -75,13 +74,12 @@ public class LobbyEventHandler extends HypixelEventHandler {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		// Register player
-		PlayerData data = Main.getMainHandler().getPlayerHandler().register(event.getPlayer());
 		// Move player to the lobby
-		data.setLobby(Lobby.HUB);
+		Main.getMainHandler().getPlayerHandler().register(event.getPlayer()).setLobby(Lobby.HUB);
 		// Remove join message
 		event.setJoinMessage("");
 		// For everyone in the lobby
-		for (Player player : Main.getMainHandler().getLobbyHandler().getPlayersInLobby(Lobby.HUB)) {
+		for (Player player : Lobby.HUB.getPlayersInLobby()) {
 			// Announce join message
 			player.sendMessage(
 				GRAY + event.getPlayer().getDisplayName() + ChatColor.GOLD + " joined the lobby!"

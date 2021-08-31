@@ -1,8 +1,8 @@
 package inc.xiddy.Hypixel;
 
 import inc.xiddy.Hypixel.Dataclasses.HypixelGame;
-import inc.xiddy.Hypixel.Games.Lobby.LobbyEventHandler;
-import inc.xiddy.Hypixel.Games.Lobby.SpectatorEventHandler;
+import inc.xiddy.Hypixel.Games.Hub.HubEventHandler;
+import inc.xiddy.Hypixel.Games.Hub.SpectatorEventHandler;
 import inc.xiddy.Hypixel.Handlers.MainHandler;
 import net.citizensnpcs.api.CitizensAPI;
 import org.apache.logging.log4j.LogManager;
@@ -46,7 +46,7 @@ public class Main extends JavaPlugin {
 		// Register events to EventClass
 		// Initialization is done in inherited constructor
 		Main.getMainHandler().getLogger().warning("Registering all event handlers...");
-		new LobbyEventHandler();
+		new HubEventHandler();
 		new SpectatorEventHandler();
 
 		// Register console filter

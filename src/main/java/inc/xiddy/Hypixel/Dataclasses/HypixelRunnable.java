@@ -52,11 +52,11 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 	public final void destroyMap() {
 		// Move all players to lobby
 		for (Player player: this.getPlayers()) {
+			// Kick off all passengers (otherwise you can not teleport them)
+			player.eject();
 			// Try to (player might have quit the game)
-//			try {
-				// Kick them out of the game
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
-//			} catch (NullPointerException ignored) {}
+			// Kick them out of the game
+			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
 		}
 
 		// Unload the world
@@ -68,7 +68,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 				Bukkit.getWorldContainer() + "/" + this.getMap().getWorld().getName()
 			);
 		} catch (IOException e) {
-			Main.getMainHandler().getLogger().error("Couldn't delete world:");
+			Main.getMainHandler().getLogger().error("Couldn't delete world (maybe a player is still in the world?):");
 			e.printStackTrace();
 		}
 	}

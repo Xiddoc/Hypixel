@@ -1,11 +1,8 @@
 package inc.xiddy.Hypixel.Handlers;
 
-import java.io.FileNotFoundException;
-
 public class MainHandler {
 	private DataHandler dataHandler;
 	private ScoreboardHandler boardHandler;
-	private LobbyHandler lobbyHandler;
 	private MapHandler mapHandler;
 	private LoggerHandler logger;
 	private PlayerHandler playerHandler;
@@ -29,15 +26,6 @@ public class MainHandler {
 		// Set up Scoreboard handler
 		this.getLogger().warning("Registering scoreboard handler...");
 		this.boardHandler = new ScoreboardHandler();
-
-		// Set up lobby handler
-		this.getLogger().warning("Registering lobby handler...");
-		try {
-			this.lobbyHandler = new LobbyHandler();
-		} catch (FileNotFoundException e) {
-			this.getLogger().error("LOBBY HANDLER ERROR");
-			throw new RuntimeException("Lobby Handler Error: ", e);
-		}
 
 		// Set up Map handler
 		this.getLogger().warning("Registering map handler...");
@@ -70,10 +58,6 @@ public class MainHandler {
 
 	public ScoreboardHandler getBoardHandler() {
 		return boardHandler;
-	}
-
-	public LobbyHandler getLobbyHandler() {
-		return lobbyHandler;
 	}
 
 	public MapHandler getMapHandler() {

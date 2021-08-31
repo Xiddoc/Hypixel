@@ -79,7 +79,7 @@ public class PlayerData {
 		// Set field
 		this.lobby = lobby;
 		// Set lobby
-		if (this.getOnline()) Main.getMainHandler().getLobbyHandler().setPlayer(this.getPlayer(), lobby);
+		if (this.getOnline()) lobby.setPlayer(this.getPlayer());
 		// Heal player
 		this.getPlayer().setHealth(20);
 		this.getPlayer().setFoodLevel(20);
