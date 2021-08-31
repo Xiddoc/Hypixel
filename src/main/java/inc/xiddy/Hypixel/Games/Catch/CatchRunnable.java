@@ -69,7 +69,7 @@ public class CatchRunnable extends HypixelRunnable {
 			this.generateMap();
 
 			// Get map spawn
-			this.spawnLoc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "\\spawn.json", SmallLocation.class).toLocation();
+			this.spawnLoc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "/spawn.json", SmallLocation.class).toLocation();
 
 			// Update the world
 			this.spawnLoc.setWorld(this.getMap().getWorld());

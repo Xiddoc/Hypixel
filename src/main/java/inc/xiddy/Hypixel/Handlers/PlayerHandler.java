@@ -90,7 +90,7 @@ public class PlayerHandler {
 	}
 
 	private String getPlayerDataPath(UUID playerUUID) {
-		return "server\\players\\" + playerUUID.toString() + ".json";
+		return "server/players/" + playerUUID.toString() + ".json";
 	}
 
 	private Map<UUID, PlayerData> getPlayerDataMap() {

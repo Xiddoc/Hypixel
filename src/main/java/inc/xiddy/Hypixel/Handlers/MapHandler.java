@@ -35,7 +35,7 @@ public class MapHandler {
 
 	public GameMap createMap(Lobby lobby) throws FileNotFoundException {
 		// Get the path
-		return this.createMap(lobby, this.getRandomMap(Main.getMainHandler().getDataHandler().getBasepath() + "\\" + GameMap.getPathToGameMaps(lobby)).getName());
+		return this.createMap(lobby, this.getRandomMap(Main.getMainHandler().getDataHandler().getBasepath() + "/" + GameMap.getPathToGameMaps(lobby)).getName());
 	}
 
 	public GameMap createMap(Lobby lobby, String mapName) {
@@ -52,8 +52,8 @@ public class MapHandler {
 		String worldName = map.getGameAsString().toUpperCase() + "-" + UUID.randomUUID();
 		// Move map to world
 		Main.getMainHandler().getDataHandler().copyFolderContents(
-			new File(Main.getMainHandler().getDataHandler().getBasepath() + "\\" + map.getPathToMapWorld()),
-			Bukkit.getWorldContainer().getPath() + "\\" + worldName,
+			new File(Main.getMainHandler().getDataHandler().getBasepath() + "/" + map.getPathToMapWorld()),
+			Bukkit.getWorldContainer().getPath() + "/" + worldName,
 			new String[] {"uid.dat", "session.lock"}
 		);
 		// Create the world

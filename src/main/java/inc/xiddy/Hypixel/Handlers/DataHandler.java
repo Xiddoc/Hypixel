@@ -42,7 +42,7 @@ public class DataHandler {
 			return this.mapper.readValue(this.filenameToFile(filename, false), cls);
 		} catch (MismatchedInputException e) {
 			// Better alias and explanation for the error
-			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2\\repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
+			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2 repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
 //			e.printStackTrace();
 			throw new FileNotFoundException();
 		} catch (IOException e) {
@@ -57,29 +57,18 @@ public class DataHandler {
 		// If we should create the filepath
 		if (makeDirs) {
 			// Get path to file
-			File semiPath = new File(this.getBasepath() + "\\" + strippedPath.substring(0, strippedPath.lastIndexOf("\\")));
+			File semiPath = new File(this.getBasepath() + "/" + strippedPath.substring(0, strippedPath.lastIndexOf("/")));
 			// Make the directory if it doesn't exist
 			//noinspection ResultOfMethodCallIgnored
 			semiPath.mkdirs();
 		}
 		// Return the full path as a File object
-		return new File(this.accountForOS(this.getBasepath() + "\\" + strippedPath));
-	}
-
-	private String accountForOS(String path) {
-		// If the operating system is not windows
-		if (!System.getProperty("os.name").toLowerCase().contains("win")) {
-			// Change all the slashes to forward slashes (in the path)
-			return path.replaceAll("\\\\", "/");
-		} else {
-			// Otherwise, use the current settings
-			return path;
-		}
+		return new File(this.getBasepath() + "/" + strippedPath);
 	}
 
 	public String stripSlashes(String path) {
-		// Similar to .strip('\\') in Python
-		return path.replaceAll("^[\\\\]+|[\\\\]+$", "");
+		// Similar to .strip('/') in Python
+		return path.replaceAll("^[\\\\|/]+|[\\\\|/]+$", "");
 	}
 
 	public String getBasepath() {

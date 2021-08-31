@@ -27,7 +27,7 @@ public class SaveLocation extends HypixelCommand {
 			loc = SmallLocation.center(loc);
 			// Write the location to the disk
 			Main.getMainHandler().getDataHandler().write(
-				"other\\" + Main.getMainHandler().getDataHandler().stripSlashes(args[0]),
+				"other/" + Main.getMainHandler().getDataHandler().stripSlashes(args[0]),
 				loc
 			);
 		}

@@ -65,7 +65,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		// Remove world files
 		try {
 			Main.getMainHandler().getDataHandler().removeFolder(
-				Bukkit.getWorldContainer() + "\\" + this.getMap().getWorld().getName()
+				Bukkit.getWorldContainer() + "/" + this.getMap().getWorld().getName()
 			);
 		} catch (IOException e) {
 			Main.getMainHandler().getLogger().error("Couldn't delete world:");

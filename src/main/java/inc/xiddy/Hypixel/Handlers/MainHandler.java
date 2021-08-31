@@ -24,7 +24,7 @@ public class MainHandler {
 
 		// Set up File handler
 		this.getLogger().warning("Registering file handler...");
-		this.dataHandler = new DataHandler("plugins\\Hypixel");
+		this.dataHandler = new DataHandler("plugins/Hypixel");
 
 		// Set up Scoreboard handler
 		this.getLogger().warning("Registering scoreboard handler...");

@@ -33,7 +33,7 @@ public class BedwarsTeam extends HypixelTeam {
 
 	private Location getBedwarsMarkerLocation(String markerName) throws FileNotFoundException {
 		// Get the location for the marker
-		Location loc = Main.getMainHandler().getDataHandler().read("bedwars\\maps\\" + this.getMap().getMapName() + "\\" + this.getTeamColor() + "\\" + markerName + ".json", SmallLocation.class).toLocation();
+		Location loc = Main.getMainHandler().getDataHandler().read("bedwars/maps/" + this.getMap().getMapName() + "/" + this.getTeamColor() + "/" + markerName + ".json", SmallLocation.class).toLocation();
 		// Update the world
 		loc.setWorld(this.getMap().getWorld());
 		// Return the world

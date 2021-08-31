@@ -21,7 +21,7 @@ public class LobbyHandler {
 		// Make a lobby map
 		this.lobbies = new ArrayList<>();
 		// Add the lobby data to it
-		this.lobbies.add(new LobbyData(Lobby.HUB, GameMode.ADVENTURE, true, "server\\hub.json", "hub"));
+		this.lobbies.add(new LobbyData(Lobby.HUB, GameMode.ADVENTURE, true, "server/hub.json", "hub"));
 		this.lobbies.add(new LobbyData(Lobby.SPECTATOR, GameMode.SPECTATOR, true));
 		this.lobbies.add(new LobbyData(Lobby.BEDWARS, GameMode.SURVIVAL, false));
 		this.lobbies.add(new LobbyData(Lobby.SKYWARS, GameMode.SURVIVAL, false));
