@@ -1,8 +1,8 @@
 package inc.xiddy.Hypixel.Games.Catch;
 
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Main;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -20,7 +20,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// Get player
-		Player player = event.getPlayer();
+		HypixelPlayer player = new HypixelPlayer(event.getPlayer());
 
 		// If game hasn't started, don't execute
 		if (this.getGame().getGameTimer().getElapsedTime() < 30) {
@@ -28,13 +28,14 @@ public class CatchEventHandler extends HypixelEventHandler {
 		}
 
 		// If player is going to die by falling into the void
+		boolean isHider = this.getGame().getHiderTeam().getPlayers().contains(player);
 		if (player.getLocation().getY() < this.getGame().getPlayerVoid()) {
 			// Move them back to the spawn point
-			this.getGame().spawn(player, false, false);
+			this.getGame().spawn(player, false, isHider);
 		}
 
 		// If it was a hider who moved
-		if (this.getGame().getHiderTeam().getPlayers().contains(player)) {
+		if (isHider) {
 			// Update for each seeker
 			this.getGame().getSeekerTeam().getPlayers().forEach(seeker -> {
 				// Print the radar
@@ -44,7 +45,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 					// Showing the distance between their location
 					(int) seeker.getLocation().distance(
 						// To the hiders location
-						this.getGame().getHiderTeam().getPlayers().toArray(new Player[0])[0].getLocation()
+						this.getGame().getHiderTeam().getPlayers().toArray(new HypixelPlayer[0])[0].getLocation()
 					)
 				);
 			});
@@ -58,7 +59,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 				// Showing the distance between their location
 				(int) player.getLocation().distance(
 					// To the hiders location
-					this.getGame().getHiderTeam().getPlayers().toArray(new Player[0])[0].getLocation()
+					this.getGame().getHiderTeam().getPlayers().toArray(new HypixelPlayer[0])[0].getLocation()
 				)
 			);
 		}
@@ -79,13 +80,13 @@ public class CatchEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// If not player
-		if (!(event.getEntity() instanceof Player)) {
+		if (!(event.getEntity() instanceof HypixelPlayer)) {
 			// Exit
 			return;
 		}
 		// Otherwise,
 		// Cast to player object
-		Player player = (Player) event.getEntity();
+		HypixelPlayer player = new HypixelPlayer(event.getEntity());
 
 		// Prevent the damage as they are on the same team
 		event.setCancelled(true);
@@ -95,9 +96,9 @@ public class CatchEventHandler extends HypixelEventHandler {
 
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
-			event.getDamager() instanceof Player) {
+			event.getDamager() instanceof HypixelPlayer) {
 			// Get the damager
-			Player damager = (Player) event.getDamager();
+			HypixelPlayer damager = new HypixelPlayer(event.getDamager());
 			// If the damager is on the seeker team
 			// And the player is also on the seeker team
 			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&
@@ -123,7 +124,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 		// Stop them from destroying the map
 		event.setCancelled(true);
 		// Don't set off anticheat
-		Main.getMainHandler().getAnticheatHandler().revokeLeftClick(event.getPlayer());
+		Main.getMainHandler().getAnticheatHandler().revokeLeftClick(new HypixelPlayer(event.getPlayer()));
 	}
 
 	@Override

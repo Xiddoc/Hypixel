@@ -3,12 +3,12 @@ package inc.xiddy.Hypixel.Games.Hub;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -67,7 +67,7 @@ public class HubEventHandler extends HypixelEventHandler {
 		// If player falling in void
 		if (event.getTo().getY() < 0) {
 			// Teleport back to spawn
-			Main.getMainHandler().getPlayerHandler().getPlayerData(event.getPlayer()).setLobby(Lobby.HUB);
+			Main.getMainHandler().getPlayerHandler().getPlayerData(new HypixelPlayer(event.getPlayer())).setLobby(Lobby.HUB);
 		}
 	}
 
@@ -75,11 +75,11 @@ public class HubEventHandler extends HypixelEventHandler {
 	public void onJoin(PlayerJoinEvent event) {
 		// Register player
 		// Move player to the lobby
-		Main.getMainHandler().getPlayerHandler().register(event.getPlayer()).setLobby(Lobby.HUB);
+		Main.getMainHandler().getPlayerHandler().register(new HypixelPlayer(event.getPlayer())).setLobby(Lobby.HUB);
 		// Remove join message
 		event.setJoinMessage("");
 		// For everyone in the lobby
-		for (Player player : Lobby.HUB.getPlayersInLobby()) {
+		for (HypixelPlayer player : Lobby.HUB.getPlayersInLobby()) {
 			// Announce join message
 			player.sendMessage(
 				GRAY + event.getPlayer().getDisplayName() + ChatColor.GOLD + " joined the lobby!"
@@ -112,7 +112,7 @@ public class HubEventHandler extends HypixelEventHandler {
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent event) {
 		// Deregister the player
-		Main.getMainHandler().getPlayerHandler().deregister(event.getPlayer());
+		Main.getMainHandler().getPlayerHandler().deregister(new HypixelPlayer(event.getPlayer()));
 		// Remove quitting message
 		event.setQuitMessage("");
 	}
@@ -169,7 +169,7 @@ public class HubEventHandler extends HypixelEventHandler {
 	@EventHandler
 	public void onPreCommand(PlayerCommandPreprocessEvent event) {
 		// If user has the privilege to execute any command
-		if (Main.getMainHandler().getPlayerHandler().getPlayerData(event.getPlayer()).getRole().equals(Permission.OWNER)) {
+		if (Main.getMainHandler().getPlayerHandler().getPlayerData(new HypixelPlayer(event.getPlayer())).getRole().equals(Permission.OWNER)) {
 			// Bypass the permission checks
 			return;
 		}
@@ -192,7 +192,7 @@ public class HubEventHandler extends HypixelEventHandler {
 		// If command is not registered
 		if (!Main.getMainHandler().getCommandHandler().isHypixelCommandRegistered(command)) {
 			// Send error
-			Main.getMainHandler().getCommandHandler().sendInvalidCommand(event.getPlayer());
+			Main.getMainHandler().getCommandHandler().sendInvalidCommand(new HypixelPlayer(event.getPlayer()));
 			// Cancel the command
 			event.setCancelled(true);
 		}

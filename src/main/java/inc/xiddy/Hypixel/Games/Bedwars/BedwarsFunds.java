@@ -1,8 +1,8 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class BedwarsFunds {
@@ -11,7 +11,7 @@ public class BedwarsFunds {
 	private int gold = 0;
 	private int iron = 0;
 
-	public BedwarsFunds(Player player) {
+	public BedwarsFunds(HypixelPlayer player) {
 		// For each item in the players inventory
 		for (ItemStack item : player.getInventory().getContents()) {
 			// If item not AIR

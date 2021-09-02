@@ -2,8 +2,8 @@ package inc.xiddy.Hypixel.Commands;
 
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class SetVelocity extends HypixelCommand {
@@ -13,7 +13,7 @@ public class SetVelocity extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(Player player, String[] args) {
+	public void execute(HypixelPlayer player, String[] args) {
 		// Validate arguments
 		if (args.length != 3) {
 			// Send error

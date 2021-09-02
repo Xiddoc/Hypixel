@@ -1,15 +1,13 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
-import org.bukkit.entity.Player;
-
 public class DamageStamp {
-	private Player damager;
+	private HypixelPlayer damager;
 	private long timestamp;
 
 	public DamageStamp() {
 	}
 
-	public void updateDamager(Player damager) {
+	public void updateDamager(HypixelPlayer damager) {
 		this.damager = damager;
 		this.timeStamp();
 	}
@@ -22,7 +20,7 @@ public class DamageStamp {
 		return timestamp;
 	}
 
-	public Player getDamager() {
+	public HypixelPlayer getDamager() {
 		return damager;
 	}
 }

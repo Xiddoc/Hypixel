@@ -1,15 +1,15 @@
 package inc.xiddy.Hypixel.Games.Catch;
 
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 public class CatchRadar {
 	public CatchRadar() {}
 
-	public void printRadar(Player player, int distance) {
+	public void printRadar(HypixelPlayer player, int distance) {
 		// Switch case for color
 		ChatColor color;
 		if (distance > 50) {

@@ -2,15 +2,11 @@ package inc.xiddy.Hypixel.Games.Catch;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
-import inc.xiddy.Hypixel.Dataclasses.GameState;
-import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
-import inc.xiddy.Hypixel.Dataclasses.HypixelTimer;
-import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
+import inc.xiddy.Hypixel.Dataclasses.*;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -26,7 +22,7 @@ public class CatchRunnable extends HypixelRunnable {
 	private Location spawnLoc;
 	private HypixelTimer gameTimer;
 
-	public CatchRunnable(Set<Player> players, CatchGame catchGame, Lobby lobby) {
+	public CatchRunnable(Set<HypixelPlayer> players, CatchGame catchGame, Lobby lobby) {
 		super(players, catchGame, lobby);
 
 		// Make event handler
@@ -35,7 +31,7 @@ public class CatchRunnable extends HypixelRunnable {
 		// Make hider team
 		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1, false);
 		// Select hider
-		Player hider = HypixelUtils.randomFromArray(players.toArray(new Player[0]));
+		HypixelPlayer hider = HypixelUtils.randomFromArray(players.toArray(new HypixelPlayer[0]));
 		// Update state
 		this.hiderTeam.setPlayerState(hider, GameState.ALIVE);
 		// Add hider to hider team
@@ -44,7 +40,7 @@ public class CatchRunnable extends HypixelRunnable {
 		// Make seeker team
 		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
 		// Populate
-		for (Player player: players) {
+		for (HypixelPlayer player: players) {
 			// If the player is not the hider
 			if (!player.equals(hider)) {
 				// Update state
@@ -139,7 +135,7 @@ public class CatchRunnable extends HypixelRunnable {
 		};
 	}
 
-	public void spawn(Player player, boolean blindPlayer, boolean hideName) {
+	public void spawn(HypixelPlayer player, boolean blindPlayer, boolean hideName) {
 		// Synchronously respawn them
 		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
 			// If spawn blind
@@ -171,7 +167,7 @@ public class CatchRunnable extends HypixelRunnable {
 		this.getPlayers().forEach(player -> this.repaintScoreboard(player, time));
 	}
 
-	public void repaintScoreboard(Player player, int time) {
+	public void repaintScoreboard(HypixelPlayer player, int time) {
 		//noinspection StringBufferReplaceableByString
 		StringBuilder str = new StringBuilder();
 		// Start by making header

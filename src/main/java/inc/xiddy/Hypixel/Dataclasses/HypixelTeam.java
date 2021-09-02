@@ -2,7 +2,6 @@ package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -12,7 +11,7 @@ import java.util.Set;
 
 public abstract class HypixelTeam {
 	private final TeamColor color;
-	private final Map<Player, GameState> players;
+	private final Map<HypixelPlayer, GameState> players;
 	private final GameMap map;
 	private final int teamSize;
 
@@ -29,22 +28,22 @@ public abstract class HypixelTeam {
 	}
 
 	public final int getPlayerCount() {
-		return this.getPlayers().toArray(new Player[0]).length;
+		return this.getPlayers().toArray(new HypixelPlayer[0]).length;
 	}
 
-	public final Set<Player> getPlayers() {
+	public final Set<HypixelPlayer> getPlayers() {
 		return this.players.keySet();
 	}
 
-	public final Map<Player, GameState> getPlayerAliveMap() {
+	public final Map<HypixelPlayer, GameState> getPlayerAliveMap() {
 		return this.players;
 	}
 
-	public final void setPlayerState(Player player, GameState state) {
+	public final void setPlayerState(HypixelPlayer player, GameState state) {
 		this.getPlayerAliveMap().put(player, state);
 	}
 
-	public final void addPlayer(Player player) {
+	public final void addPlayer(HypixelPlayer player) {
 		this.players.put(player, GameState.ALIVE);
 	}
 
@@ -53,11 +52,11 @@ public abstract class HypixelTeam {
 		return this.getAlivePlayers().isEmpty();
 	}
 
-	public final Set<Player> getAlivePlayers() {
+	public final Set<HypixelPlayer> getAlivePlayers() {
 		// For each player in the map
 		// Filter by the .getValue of the map (the value stating if the player is alive)
-		Set<Player> players = new HashSet<>();
-		for (Map.Entry<Player, GameState> entry : this.getPlayerAliveMap().entrySet()) {
+		Set<HypixelPlayer> players = new HashSet<>();
+		for (Map.Entry<HypixelPlayer, GameState> entry : this.getPlayerAliveMap().entrySet()) {
 			// If not dead (spectating)
 			if (!entry.getValue().equals(GameState.SPECTATING)) {
 				players.add(entry.getKey());

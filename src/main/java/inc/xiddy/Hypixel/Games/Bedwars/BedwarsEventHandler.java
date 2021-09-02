@@ -1,6 +1,7 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
@@ -55,7 +56,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// Get player
-		Player player = (Player) event.getPlayer();
+		HypixelPlayer player = new HypixelPlayer(event.getPlayer());
 		// If player clicked on a chest
 		// And the player is not at his base
 		if (!this.getGame().isPlayerInBase(player, this.getGame().getPlayerTeam(player)) &&
@@ -78,7 +79,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 				// If item is not AIR
 				if (!event.getCurrentItem().getType().equals(Material.AIR)) {
 					// Buy the clicked item
-					this.getGame().getShop().buyItem(this.getGame(), (Player) event.getWhoClicked(), event.getCurrentItem().getType());
+					this.getGame().getShop().buyItem(this.getGame(), new HypixelPlayer(event.getWhoClicked()), event.getCurrentItem().getType());
 				}
 				// Don't let them steal the item from the shop interface!
 				event.setCancelled(true);
@@ -91,7 +92,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// Get player
-		Player player = (Player) event.getSource().getViewers().get(0);
+		HypixelPlayer player = new HypixelPlayer(event.getSource().getViewers().get(0));
 
 		// If player clicked their inventory (to move item from their inventory to another)
 		if (event.getSource().getType().equals(InventoryType.PLAYER)) {
@@ -136,7 +137,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 		}
 		// Otherwise,
 		// Cast to player object
-		Player player = (Player) event.getEntity();
+		HypixelPlayer player = new HypixelPlayer(event.getEntity());
 
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
@@ -144,7 +145,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 			// Update the damager
 			this.getGame().getBedwarsPlayerData(player).getLastDamage().updateDamager(
 				// To the last person who damaged the player
-				(Player) ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager()
+				new HypixelPlayer(((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager())
 			);
 		} else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
 			event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
@@ -190,7 +191,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 				// If entity is a player
 				if (entity instanceof Player) {
 					// Play ender sound
-					((Player) entity).playSound(event.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 1);
+					new HypixelPlayer(entity).playSound(event.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 1);
 				}
 			}
 		}
@@ -217,7 +218,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 		// If player is going to die by falling into the void
 		if (event.getPlayer().getLocation().getY() < this.getGame().getPlayerVoid()) {
 			// Turn them into a spectator
-			this.getGame().setDeadSpectator(event.getPlayer());
+			this.getGame().setDeadSpectator(new HypixelPlayer(event.getPlayer()));
 		}
 	}
 
@@ -283,7 +284,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 			// Get the team by the bed's location
 			BedwarsTeam bedsTeam = this.getGame().getTeamByBedLocation(event.getBlock().getLocation());
 			// Get the player's team
-			BedwarsTeam playersTeam = this.getGame().getBedwarsPlayerData(event.getPlayer()).getTeam();
+			BedwarsTeam playersTeam = this.getGame().getBedwarsPlayerData(new HypixelPlayer(event.getPlayer())).getTeam();
 
 			// If somehow, no one's bed was broken or a bedless team was destroyed
 			if (bedsTeam == null) {
@@ -302,11 +303,11 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 				// Otherwise, destroy the bed!
 				bedsTeam.setHasBed(false);
 				// Start by informing the players
-				for (Player player : this.getGame().getPlayers()) {
+				for (HypixelPlayer player : this.getGame().getPlayers()) {
 					// If on the broken bed team
 					if (this.getGame().getBedwarsPlayerData(player).getTeam().equals(bedsTeam)) {
 						// Credit any new deaths to the bed breaker
-						this.getGame().getBedwarsPlayerData(player).getLastDamage().updateDamager(event.getPlayer());
+						this.getGame().getBedwarsPlayerData(player).getLastDamage().updateDamager(new HypixelPlayer(event.getPlayer()));
 
 						// Scary sound! Spooky.
 						player.playSound(player.getLocation(), Sound.WITHER_DEATH, 1, 1);
@@ -358,7 +359,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 				// Stop them from destroying the map
 				event.setCancelled(true);
 				// Don't set off anticheat
-				Main.getMainHandler().getAnticheatHandler().revokeLeftClick(event.getPlayer());
+				Main.getMainHandler().getAnticheatHandler().revokeLeftClick(new HypixelPlayer(event.getPlayer()));
 			}
 		}
 	}
@@ -443,7 +444,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 			// If player threw their upgraded sword
 			// Give them a default one
 			event.getPlayer().getInventory().addItem(
-				this.getGame().getBedwarsPlayerData(event.getPlayer()).getBedwarsInventory().getHotbarItem("sword")
+				this.getGame().getBedwarsPlayerData(new HypixelPlayer(event.getPlayer())).getBedwarsInventory().getHotbarItem("sword")
 			);
 		}
 	}
@@ -472,7 +473,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 			if (!event.getItem().hasMetadata("ItemThrown")) {
 				// Then you should split them
 				// For player in teammates
-				for (Player teammate : this.getGame().getPlayerTeam(event.getPlayer()).getPlayers()) {
+				for (Player teammate : this.getGame().getPlayerTeam(new HypixelPlayer(event.getPlayer())).getPlayers()) {
 					// If the player is not the original player
 					// And the player is nearby the original player
 					if (!player.equals(teammate) &&
@@ -505,9 +506,9 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 				event.setCancelled(true);
 
 				// If player can shoot fireball
-				if (System.currentTimeMillis() > this.getGame().getBedwarsPlayerData(event.getPlayer()).getLastFireball() + 500) {
+				if (System.currentTimeMillis() > this.getGame().getBedwarsPlayerData(new HypixelPlayer(event.getPlayer())).getLastFireball() + 500) {
 					// Timestamp fireball
-					this.getGame().getBedwarsPlayerData(event.getPlayer()).timestampLastFireball();
+					this.getGame().getBedwarsPlayerData(new HypixelPlayer(event.getPlayer())).timestampLastFireball();
 
 					// Shoot custom fireball
 					// Get starting location
@@ -567,7 +568,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 		// If player shot the item
 		if (event.getEntity().getShooter() instanceof Player) {
 			// Get player
-			Player player = (Player) event.getEntity().getShooter();
+			HypixelPlayer player = new HypixelPlayer((Entity) event.getEntity().getShooter());
 
 			// If item is an egg
 			if (player.getItemInHand().getType().equals(Material.EGG)) {
@@ -642,7 +643,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 										// If entity is a player
 										if (entity instanceof Player) {
 											// Play the sound
-											((Player) entity).playSound(baseLoc, Sound.CHICKEN_EGG_POP, 15, 0.8F);
+											new HypixelPlayer(entity).playSound(baseLoc, Sound.CHICKEN_EGG_POP, 15, 0.8F);
 										}
 									}
 								}, 3L);

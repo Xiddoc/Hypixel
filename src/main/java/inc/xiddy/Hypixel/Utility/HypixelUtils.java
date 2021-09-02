@@ -1,5 +1,6 @@
 package inc.xiddy.Hypixel.Utility;
 
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
@@ -13,18 +14,52 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class HypixelUtils {
-	public static void sendTitle(Player player, String title, String subtitle, double stayIn, double fadeIn, double fadeOut) {
+	public static Set<HypixelPlayer> getOnlinePlayers() {
+		// Make new set for the new objects
+		Set<HypixelPlayer> players = new HashSet<>();
+		// Add all players
+		Bukkit.getOnlinePlayers().forEach(player -> players.add(new HypixelPlayer(player)));
+		// Return the object
+		return players;
+	}
+
+	public static HypixelPlayer getPlayer(String name) {
+		// Get player
+		Player player = Bukkit.getPlayer(name);
+		// If object is not null
+		return player != null ? new HypixelPlayer(player) : null;
+	}
+
+	public static HypixelPlayer getOfflinePlayer(String name) {
+		// Get offline player
+		Player player = Bukkit.getOfflinePlayer(name).getPlayer();
+		// If object is not null
+		return player != null ? new HypixelPlayer(player) : null;
+	}
+
+	public static HypixelPlayer getPlayer(UUID uuid) {
+		// Get player
+		Player player = Bukkit.getPlayer(uuid);
+		// If object is not null
+		return player != null ? new HypixelPlayer(player) : null;
+	}
+
+	public static HypixelPlayer getOfflinePlayer(UUID uuid) {
+		// Get offline player
+		Player player = Bukkit.getOfflinePlayer(uuid).getPlayer();
+		// If object is not null
+		return player != null ? new HypixelPlayer(player) : null;
+	}
+
+	public static void sendTitle(HypixelPlayer player, String title, String subtitle, double stayIn, double fadeIn, double fadeOut) {
 		sendTitle(player, title, subtitle, (int) (stayIn * 20), (int) (fadeIn * 20), (int) (fadeOut * 20));
 	}
 
-	public static void sendTitle(Player player, String title, String subtitle, int stayInTicks, int fadeInTicks, int fadeOutTicks) {
+	public static void sendTitle(HypixelPlayer player, String title, String subtitle, int stayInTicks, int fadeInTicks, int fadeOutTicks) {
 		// Set animation time
 		sendCommand("title " + player.getDisplayName() + " times " + fadeInTicks + " " + stayInTicks + " " + fadeOutTicks);
 		// Set title
@@ -33,7 +68,7 @@ public class HypixelUtils {
 		sendCommand("title " + player.getDisplayName() + " subtitle \"" + subtitle.replaceAll("\\\\", "\\\\").replaceAll("\"", "\\\"") + "\"");
 	}
 
-	public static void hidePlayerName(Player player) {
+	public static void hidePlayerName(HypixelPlayer player) {
 		// https://www.spigotmc.org/threads/hiding-nametags-in-minecraft-1-8.285887/
 		// Spawn armor stand
 		ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
@@ -72,17 +107,17 @@ public class HypixelUtils {
 		return result.substring(0, result.length() - 1);
 	}
 
-	public static Player getPlayerGlobal(String player) {
+	public static HypixelPlayer getPlayerGlobal(String playerName) {
 		// Get player
-		Player targetOnline = Bukkit.getPlayer(player);
-		Player targetOffline = Bukkit.getOfflinePlayer(player).getPlayer();
+		HypixelPlayer targetOnline = getPlayer(playerName);
+		HypixelPlayer targetOffline = getOfflinePlayer(playerName);
 		return XORReturn(targetOnline, targetOffline);
 	}
 
-	public static Player getPlayerGlobal(UUID player) {
+	public static HypixelPlayer getPlayerGlobal(UUID playerUUID) {
 		// Get player
-		Player targetOnline = Bukkit.getPlayer(player);
-		Player targetOffline = Bukkit.getOfflinePlayer(player).getPlayer();
+		HypixelPlayer targetOnline = getPlayer(playerUUID);
+		HypixelPlayer targetOffline = getOfflinePlayer(playerUUID);
 		return XORReturn(targetOnline, targetOffline);
 	}
 

@@ -2,12 +2,12 @@ package inc.xiddy.Hypixel.Handlers;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Dataclasses.GameMap;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,7 +85,7 @@ public class MapHandler {
 		// For each entity
 		for (Entity entity: newWorld.getEntities()) {
 			// If the entity is not a player
-			if (!(entity instanceof Player)) {
+			if (!(entity instanceof HypixelPlayer)) {
 				// Remove it
 				entity.remove();
 			}

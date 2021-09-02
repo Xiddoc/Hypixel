@@ -1,13 +1,14 @@
 package inc.xiddy.Hypixel;
 
 import inc.xiddy.Hypixel.Dataclasses.HypixelGame;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Games.Hub.HubEventHandler;
 import inc.xiddy.Hypixel.Games.Hub.SpectatorEventHandler;
 import inc.xiddy.Hypixel.Handlers.MainHandler;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -75,7 +76,7 @@ public class Main extends JavaPlugin {
 
 		// Kick everyone off to prevent issues with lobbies
 		Main.getMainHandler().getLogger().warning("Kicking all players...");
-		for (Player player : Bukkit.getOnlinePlayers()) {
+		for (HypixelPlayer player : HypixelUtils.getOnlinePlayers()) {
 			// Unregister
 			try {
 				Main.getMainHandler().getPlayerHandler().deregister(player);
@@ -94,13 +95,13 @@ public class Main extends JavaPlugin {
 							 String label,
 							 String[] args) {
 		// Check if console
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof HypixelPlayer)) {
 			sender.sendMessage(ChatColor.DARK_RED + "Invalid command caller, must be Player.");
 			return true;
 		}
 
 		// Execute command
-		Main.getMainHandler().getCommandHandler().execute(command, (Player) sender, args);
+		Main.getMainHandler().getCommandHandler().execute(command, new HypixelPlayer((Player) sender), args);
 
 		// Finish command listener function
 		return false;

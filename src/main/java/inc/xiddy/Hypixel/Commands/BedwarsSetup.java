@@ -3,10 +3,10 @@ package inc.xiddy.Hypixel.Commands;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +34,7 @@ public class BedwarsSetup extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(Player player, String[] args) {
+	public void execute(HypixelPlayer player, String[] args) {
 		// Assure that there are 2 arguments
 		if (args.length != 2) {
 			player.sendMessage(ChatColor.DARK_RED + "Command requires 2 arguments.");

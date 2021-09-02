@@ -1,11 +1,12 @@
 package inc.xiddy.Hypixel.Constants;
 
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 import java.io.FileNotFoundException;
@@ -62,7 +63,7 @@ public enum Lobby {
 		return location;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(HypixelPlayer player) {
 		// Update player data
 		// Update gamemode
 		player.setGameMode(this.getGamemode());
@@ -79,13 +80,13 @@ public enum Lobby {
 		}
 	}
 
-	public Set<Player> getPlayersInLobby() {
+	public Set<HypixelPlayer> getPlayersInLobby() {
 		// For each player online
 		// Run a filter
 		// If the player's lobby is equal to the lobby
 		// Add it to the set
 		// Return the full set
-		return Bukkit.getOnlinePlayers().stream().filter(
+		return HypixelUtils.getOnlinePlayers().stream().filter(
 			player -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).getLobby().equals(this)
 		).collect(Collectors.toSet());
 	}

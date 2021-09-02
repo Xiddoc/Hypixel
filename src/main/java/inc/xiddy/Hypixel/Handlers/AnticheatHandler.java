@@ -1,8 +1,9 @@
 package inc.xiddy.Hypixel.Handlers;
 
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Main;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -17,7 +18,7 @@ public class AnticheatHandler {
 
 	public void onClick(PlayerInteractEvent event) {
 		// Get player
-		Player player = event.getPlayer();
+		HypixelPlayer player = new HypixelPlayer(event.getPlayer());
 		// Get action
 		Action action = event.getAction();
 
@@ -64,13 +65,13 @@ public class AnticheatHandler {
 		}
 	}
 
-	public void revokeLeftClick(Player player) {
+	public void revokeLeftClick(HypixelPlayer player) {
 		Main.getMainHandler().getPlayerHandler().getPlayerData(player).revokeLeftClick();
 	}
 
 	public void punish(String message) {
 		// For each player online
-		for (Player onlinePlayer : Main.getInstance().getServer().getOnlinePlayers()) {
+		for (HypixelPlayer onlinePlayer : HypixelUtils.getOnlinePlayers()) {
 			// Alert
 			onlinePlayer.sendMessage(message);
 		}

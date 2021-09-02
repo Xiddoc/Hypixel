@@ -3,11 +3,11 @@ package inc.xiddy.Hypixel.Handlers;
 import inc.xiddy.Hypixel.Commands.*;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.PlayerData;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ public class CommandHandler {
 		this.hypixelCommands.add(new SetVelocity("setvelocity", Permission.OWNER));
 	}
 
-	public void execute(Command cmd, Player player, String[] args) {
+	public void execute(Command cmd, HypixelPlayer player, String[] args) {
 		// Get command
 		HypixelCommand hypixelCommand = this.getCommand(cmd);
 		if (hypixelCommand != null) {
@@ -54,14 +54,14 @@ public class CommandHandler {
 		}
 	}
 
-	public void sendInvalidCommand(Player player) {
+	public void sendInvalidCommand(HypixelPlayer player) {
 		// Send error
 		player.sendMessage(
 			ChatColor.DARK_RED + "Invalid command."
 		);
 	}
 
-	public void sendInvalidPermissions(Player player, PlayerData playerData, HypixelCommand hypixelCommand) {
+	public void sendInvalidPermissions(HypixelPlayer player, PlayerData playerData, HypixelCommand hypixelCommand) {
 		// Send error
 		player.sendMessage(
 			ChatColor.DARK_RED + "Invalid permissions (" +

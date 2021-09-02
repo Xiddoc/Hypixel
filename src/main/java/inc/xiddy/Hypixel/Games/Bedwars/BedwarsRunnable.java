@@ -3,6 +3,7 @@ package inc.xiddy.Hypixel.Games.Bedwars;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.GameState;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Games.Bedwars.Generator.BedwarsGenerator;
@@ -16,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -35,7 +35,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 	private final BedwarsShop shop;
 	private List<BedwarsTeam> teams;
 
-	public BedwarsRunnable(Set<Player> players, BedwarsGame bedwarsGame, Lobby lobby, int teamSize) {
+	public BedwarsRunnable(Set<HypixelPlayer> players, BedwarsGame bedwarsGame, Lobby lobby, int teamSize) {
 		super(players, bedwarsGame, lobby);
 
 		// Set to fields
@@ -44,7 +44,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		this.playerBedwarsDataList = new ArrayList<>();
 		this.setEventHandler(new BedwarsEventHandler(this));
 		// For each player
-		for (Player player: players) {
+		for (HypixelPlayer player: players) {
 			// Add to the data map
 			this.playerBedwarsDataList.add(new BedwarsPlayerData(player));
 		}
@@ -86,7 +86,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			// Make initial team
 			BedwarsTeam team = new BedwarsTeam(TeamColor.values()[teamIdx], this.getMap(), this.getTeamSize());
 			// For each player
-			for (Player player : this.getPlayers()) {
+			for (HypixelPlayer player : this.getPlayers()) {
 				// If no space for new player, then make a new team
 				if (team.isTeamFull()) {
 					// Add the team to the list
@@ -122,7 +122,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		// Start the game sequence
 		// For each player
-		for (Player player : this.getPlayers()) {
+		for (HypixelPlayer player : this.getPlayers()) {
 			// Remove enderchest items
 			player.getEnderChest().clear();
 
@@ -144,7 +144,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			// Summon NPC (Random player from the team)
 			NPC teamshopNPC = CitizensAPI.getNPCRegistry().createNPC(
 				EntityType.PLAYER,
-				team.getPlayers().toArray(new Player[0])[new Random().nextInt(team.getPlayers().size())].getDisplayName()
+				team.getPlayers().toArray(new HypixelPlayer[0])[new Random().nextInt(team.getPlayers().size())].getDisplayName()
 			);
 			teamshopNPC.setAlwaysUseNameHologram(false);
 			// Protect them
@@ -210,7 +210,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		generator.runTaskTimerAsynchronously(Main.getInstance(), 0, 5);
 	}
 
-	private void respawn(Player player) {
+	private void respawn(HypixelPlayer player) {
 		// Update state
 		this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
 		// Synchronously respawn them
@@ -231,12 +231,12 @@ public class BedwarsRunnable extends HypixelRunnable {
 		});
 	}
 
-	public void setDeadSpectator(Player player) {
+	public void setDeadSpectator(HypixelPlayer player) {
 		// Announce death
 		// If the last hit was within 10 seconds of the death
 		if (this.getBedwarsPlayerData(player).getLastDamage().getTimestamp() + 10 * 1000 > System.currentTimeMillis()) {
 			// Set killer
-			Player killer = this.getBedwarsPlayerData(player).getLastDamage().getDamager();
+			HypixelPlayer killer = this.getBedwarsPlayerData(player).getLastDamage().getDamager();
 
 			// Accredit the death to the killer
 			this.announceDeath(player, killer);
@@ -280,7 +280,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
 			// Asynchronously run
 			new BukkitRunnable() {
-				private final Player spectatorPlayer = player;
+				private final HypixelPlayer spectatorPlayer = player;
 				private int timeLeft = 5;
 
 				@Override
@@ -317,13 +317,13 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	private void broadcastMessage(String message) {
 		// For each player
-		for (Player player : this.getPlayers()) {
+		for (HypixelPlayer player : this.getPlayers()) {
 			// Send the message
 			player.sendMessage(message);
 		}
 	}
 
-	public BedwarsPlayerData getBedwarsPlayerData(Player player) {
+	public BedwarsPlayerData getBedwarsPlayerData(HypixelPlayer player) {
 		// For each data point
 		for (BedwarsPlayerData data : this.getAllBedwarsPlayerData()) {
 			// If the player matches the data point
@@ -336,11 +336,11 @@ public class BedwarsRunnable extends HypixelRunnable {
 		throw new RuntimeException();
 	}
 
-	public void announceDeath(Player victim) {
+	public void announceDeath(HypixelPlayer victim) {
 		this.announceDeath(victim, null);
 	}
 
-	public void announceDeath(Player victim, Player killer) {
+	public void announceDeath(HypixelPlayer victim, HypixelPlayer killer) {
 		// Init message
 		String message;
 		BedwarsTeam victimTeam = this.getPlayerTeam(victim);
@@ -392,13 +392,13 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	public void repaintScoreboardForAll() {
 		// For each player
-		for (Player player : this.getPlayers()) {
+		for (HypixelPlayer player : this.getPlayers()) {
 			// Repaint the board for them
 			this.repaintScoreboard(player);
 		}
 	}
 
-	public void repaintScoreboard(Player player) {
+	public void repaintScoreboard(HypixelPlayer player) {
 		StringBuilder str = new StringBuilder();
 		// Start by making header
 		str.append(YELLOW).append(BOLD).append("BEDWARS\n")
@@ -468,7 +468,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		}
 	}
 
-	public boolean isPlayerInBase(Player player, BedwarsTeam team) {
+	public boolean isPlayerInBase(HypixelPlayer player, BedwarsTeam team) {
 		// Get locations
 		Location respawnLoc = team.getRespawnLocation();
 		Location playerLoc = player.getLocation().clone();
@@ -535,7 +535,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		return this.npcList;
 	}
 
-	public BedwarsTeam getPlayerTeam(Player player) {
+	public BedwarsTeam getPlayerTeam(HypixelPlayer player) {
 		return this.getBedwarsPlayerData(player).getTeam();
 	}
 

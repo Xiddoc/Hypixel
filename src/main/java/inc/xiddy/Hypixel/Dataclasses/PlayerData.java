@@ -6,9 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Main;
-import org.bukkit.Bukkit;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class PlayerData {
 	private final List<Long> leftClicks;
 	private final List<Long> rightClicks;
 	// Non-serialized fields
-	private final Player player;
+	private final HypixelPlayer player;
 	// Serialized fields
 	private Permission role;
 	private Lobby lobby;
@@ -118,7 +117,7 @@ public class PlayerData {
 		this.online = online;
 	}
 
-	private Player getPlayer() {
+	private HypixelPlayer getPlayer() {
 		return this.player;
 	}
 
@@ -127,8 +126,8 @@ public class PlayerData {
 		Main.getMainHandler().getBoardHandler().setScoreboard(this.getPlayer(), string);
 	}
 
-	private Player bukkitGetPlayer() {
-		return Bukkit.getPlayer(this.getPlayerUUID());
+	private HypixelPlayer bukkitGetPlayer() {
+		return HypixelUtils.getPlayer(this.getPlayerUUID());
 	}
 
 	public void revokeLeftClick() {

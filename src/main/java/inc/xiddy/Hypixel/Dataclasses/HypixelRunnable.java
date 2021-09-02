@@ -6,7 +6,6 @@ import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,12 +16,12 @@ import java.util.Set;
 public abstract class HypixelRunnable extends BukkitRunnable {
 	private GameMap map;
 	private final Lobby lobby;
-	private final Set<Player> players;
+	private final Set<HypixelPlayer> players;
 	private final HypixelGame externalGame;
 	private HypixelEventHandler eventHandler;
 	private boolean gameOver;
 
-	public HypixelRunnable(Set<Player> players, HypixelGame hypixelGame, Lobby lobby) {
+	public HypixelRunnable(Set<HypixelPlayer> players, HypixelGame hypixelGame, Lobby lobby) {
 		// Set to fields
 		this.externalGame = hypixelGame;
 		this.lobby = lobby;
@@ -39,7 +38,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		return this.lobby;
 	}
 
-	public final Set<Player> getPlayers() {
+	public final Set<HypixelPlayer> getPlayers() {
 		return this.players;
 	}
 
@@ -51,9 +50,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 
 	public final void destroyMap() {
 		// Move all players to lobby
-		for (Player player: this.getPlayers()) {
-			// Kick off all passengers (otherwise you can not teleport them)
-			player.eject();
+		for (HypixelPlayer player: this.getPlayers()) {
 			// Try to (player might have quit the game)
 			// Kick them out of the game
 			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
@@ -73,7 +70,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		}
 	}
 
-	public final void gameOver(Set<Player> winners) {
+	public final void gameOver(Set<HypixelPlayer> winners) {
 		// Set game over
 		this.gameOver = true;
 
@@ -81,7 +78,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		double gameOverTime = 5.0;
 
 		// For each player
-		for (Player player: this.getPlayers()) {
+		for (HypixelPlayer player: this.getPlayers()) {
 			// If you are a winner
 			if (winners.contains(player)) {
 				// Show winner message!
