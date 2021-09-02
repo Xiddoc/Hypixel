@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class CommandHandler {
 	private final List<HypixelCommand> hypixelCommands;
 	private final List<String> bukkitCommands = Arrays.asList("plugins", "timings", "version", "?", "about", "pl", "rl", "ver");
@@ -26,6 +27,8 @@ public class CommandHandler {
 		this.hypixelCommands.add(new BedwarsSetup("setupbedwars", Permission.OWNER));
 		// Hide-and-seek commands
 		this.hypixelCommands.add(new CatchStart("startcatch", Permission.OWNER));
+		// Sumo commands
+		this.hypixelCommands.add(new CatchStart("startsumo", Permission.OWNER));
 		// Global commands
 		this.hypixelCommands.add(new Ping("ping", Permission.DEFAULT));
 		this.hypixelCommands.add(new StopGame("stopgame", Permission.OWNER));

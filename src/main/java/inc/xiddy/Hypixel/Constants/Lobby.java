@@ -18,7 +18,7 @@ public enum Lobby {
 	SPECTATOR(GameMode.SPECTATOR, true),
 	BEDWARS(GameMode.SURVIVAL, false),
 	SKYWARS(GameMode.SURVIVAL, false),
-	DUELS(GameMode.SURVIVAL, false),
+	SUMO(GameMode.SURVIVAL, false),
 	BRIDGE(GameMode.SURVIVAL, false),
 	CATCH(GameMode.SURVIVAL, false);
 
