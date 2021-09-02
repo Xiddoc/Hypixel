@@ -285,6 +285,14 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 				@Override
 				public void run() {
+					// If game is over
+					if (isGameOver()) {
+						// Stop the runnable
+						this.cancel();
+						// Return
+						return;
+					}
+
 					// If time is up
 					if (timeLeft == 0) {
 						// Clear title

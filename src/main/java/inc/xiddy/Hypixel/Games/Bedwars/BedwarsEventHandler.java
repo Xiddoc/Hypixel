@@ -494,10 +494,15 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 
 		// If player right-clicked
 		if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			// If player right-clicked a bed
-			if (event.getClickedBlock().getType() == Material.BED_BLOCK) {
-				// Don't display the message
-				event.setCancelled(true);
+			// If player right-clicked a block
+			if (event.getClickedBlock() != null) {
+				// If player right-clicked a bed
+				// And he is not sneaking (you must sneak to place a block on bed)
+				if (event.getClickedBlock().getType() == Material.BED_BLOCK &&
+					!event.getPlayer().isSneaking()) {
+					// Don't display the message
+					event.setCancelled(true);
+				}
 			}
 
 			// If player is holding a fireball

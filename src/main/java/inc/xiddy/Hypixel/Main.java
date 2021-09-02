@@ -95,7 +95,7 @@ public class Main extends JavaPlugin {
 							 String label,
 							 String[] args) {
 		// Check if console
-		if (!(sender instanceof HypixelPlayer)) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.DARK_RED + "Invalid command caller, must be Player.");
 			return true;
 		}
