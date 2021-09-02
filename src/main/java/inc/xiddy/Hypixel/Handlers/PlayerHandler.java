@@ -1,9 +1,9 @@
 package inc.xiddy.Hypixel.Handlers;
 
 import inc.xiddy.Hypixel.Constants.Permission;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.PlayerData;
 import inc.xiddy.Hypixel.Main;
-import org.bukkit.entity.Player;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ public class PlayerHandler {
 		this.playerDataMap = new HashMap<>();
 	}
 
-	public void deregister(Player player) {
+	public void deregister(HypixelPlayer player) {
 		// Get player from map
 		PlayerData data = this.getPlayerDataMap().remove(player.getUniqueId());
 		// Change online state
@@ -27,7 +27,7 @@ public class PlayerHandler {
 		this.savePlayerData(data);
 	}
 
-	public PlayerData register(Player player) {
+	public PlayerData register(HypixelPlayer player) {
 		// Make a data object
 		PlayerData data;
 
@@ -51,7 +51,7 @@ public class PlayerHandler {
 		return data;
 	}
 
-	public PlayerData getPlayerData(Player player) {
+	public PlayerData getPlayerData(HypixelPlayer player) {
 		return this.getPlayerData(player.getUniqueId());
 	}
 
@@ -77,7 +77,7 @@ public class PlayerHandler {
 		Main.getMainHandler().getDataHandler().write(this.getPlayerDataPath(playerData), playerData);
 	}
 
-	private PlayerData loadPlayerData(Player player) throws FileNotFoundException {
+	private PlayerData loadPlayerData(HypixelPlayer player) throws FileNotFoundException {
 		return this.loadPlayerData(player.getUniqueId());
 	}
 
@@ -90,7 +90,7 @@ public class PlayerHandler {
 	}
 
 	private String getPlayerDataPath(UUID playerUUID) {
-		return "server\\players\\" + playerUUID.toString() + ".json";
+		return "server/players/" + playerUUID.toString() + ".json";
 	}
 
 	private Map<UUID, PlayerData> getPlayerDataMap() {

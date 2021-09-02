@@ -1,7 +1,6 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Permission;
-import org.bukkit.entity.Player;
 
 public abstract class HypixelCommand {
 	private final String commandName;
@@ -13,7 +12,7 @@ public abstract class HypixelCommand {
 		this.permission = permission;
 	}
 
-	public abstract void execute(Player player, String[] args);
+	public abstract void execute(HypixelPlayer player, String[] args);
 
 	public String getCommandName() {
 		return commandName;

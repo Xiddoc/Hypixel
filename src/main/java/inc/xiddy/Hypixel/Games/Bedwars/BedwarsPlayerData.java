@@ -1,16 +1,16 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Dataclasses.DamageStamp;
-import org.bukkit.entity.Player;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 
 public class BedwarsPlayerData {
-	private final Player player;
+	private final HypixelPlayer player;
 	private BedwarsInventory inventory;
 	private BedwarsTeam team;
 	private DamageStamp lastDamage;
 	private long lastFireball = System.currentTimeMillis();
 
-	public BedwarsPlayerData(Player player) {
+	public BedwarsPlayerData(HypixelPlayer player) {
 		// Set to field
 		this.player = player;
 	}
@@ -33,7 +33,7 @@ public class BedwarsPlayerData {
 		return lastDamage;
 	}
 
-	public Player getPlayer() {
+	public HypixelPlayer getPlayer() {
 		return player;
 	}
 

@@ -3,11 +3,11 @@ package inc.xiddy.Hypixel.Handlers;
 import inc.xiddy.Hypixel.Commands.*;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Dataclasses.PlayerData;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,15 +21,20 @@ public class CommandHandler {
 	public CommandHandler() {
 		// Register the commands
 		this.hypixelCommands = new ArrayList<>();
-		this.hypixelCommands.add(new BedwarsGameStart("startbedwars", Permission.OWNER));
-		this.hypixelCommands.add(new BedwarsGameStop("stopbedwars", Permission.OWNER));
+		// Bedwars commands
+		this.hypixelCommands.add(new BedwarsStart("startbedwars", Permission.OWNER));
 		this.hypixelCommands.add(new BedwarsSetup("setupbedwars", Permission.OWNER));
+		// Hide-and-seek commands
+		this.hypixelCommands.add(new CatchStart("startcatch", Permission.OWNER));
+		// Global commands
+		this.hypixelCommands.add(new Ping("ping", Permission.DEFAULT));
+		this.hypixelCommands.add(new StopGame("stopgame", Permission.OWNER));
 		this.hypixelCommands.add(new SaveLocation("savelocation", Permission.OWNER));
 		this.hypixelCommands.add(new SetRole("setrole", Permission.OWNER));
 		this.hypixelCommands.add(new SetVelocity("setvelocity", Permission.OWNER));
 	}
 
-	public void execute(Command cmd, Player player, String[] args) {
+	public void execute(Command cmd, HypixelPlayer player, String[] args) {
 		// Get command
 		HypixelCommand hypixelCommand = this.getCommand(cmd);
 		if (hypixelCommand != null) {
@@ -49,14 +54,14 @@ public class CommandHandler {
 		}
 	}
 
-	public void sendInvalidCommand(Player player) {
+	public void sendInvalidCommand(HypixelPlayer player) {
 		// Send error
 		player.sendMessage(
 			ChatColor.DARK_RED + "Invalid command."
 		);
 	}
 
-	public void sendInvalidPermissions(Player player, PlayerData playerData, HypixelCommand hypixelCommand) {
+	public void sendInvalidPermissions(HypixelPlayer player, PlayerData playerData, HypixelCommand hypixelCommand) {
 		// Send error
 		player.sendMessage(
 			ChatColor.DARK_RED + "Invalid permissions (" +

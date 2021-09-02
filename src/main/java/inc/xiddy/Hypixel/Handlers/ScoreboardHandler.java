@@ -1,7 +1,7 @@
 package inc.xiddy.Hypixel.Handlers;
 
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -10,7 +10,7 @@ public class ScoreboardHandler {
 	public ScoreboardHandler() {
 	}
 
-	public void setScoreboard(Player player, String text) {
+	public void setScoreboard(HypixelPlayer player, String text) {
 		// Split by newlines
 		String[] lines = text.split("\n");
 		// Make a new scoreboard

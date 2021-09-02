@@ -41,8 +41,7 @@ public class DataHandler {
 			return this.mapper.readValue(this.filenameToFile(filename, false), cls);
 		} catch (MismatchedInputException e) {
 			// Better alias and explanation for the error
-			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2\\repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
-//			e.printStackTrace();
+			Main.getMainHandler().getLogger().error("Invalid/corrupt JSON read [MIGHT REQUIRE .m2 repository DELETION, SEE https://stackoverflow.com/questions/32090921/deploying-maven-project-throws-java-util-zip-zipexception-invalid-loc-header-b] (MismatchedInputException): ");
 			throw new FileNotFoundException();
 		} catch (IOException e) {
 			// Better alias and explanation for the error
@@ -56,18 +55,18 @@ public class DataHandler {
 		// If we should create the filepath
 		if (makeDirs) {
 			// Get path to file
-			File semiPath = new File(this.getBasepath() + "\\" + strippedPath.substring(0, strippedPath.lastIndexOf("\\")));
+			File semiPath = new File(this.getBasepath() + "/" + strippedPath.substring(0, strippedPath.lastIndexOf("/")));
 			// Make the directory if it doesn't exist
 			//noinspection ResultOfMethodCallIgnored
 			semiPath.mkdirs();
 		}
 		// Return the full path as a File object
-		return new File(this.getBasepath() + "\\" + strippedPath);
+		return new File(this.getBasepath() + "/" + strippedPath);
 	}
 
 	public String stripSlashes(String path) {
-		// Similar to .strip('\\') in Python
-		return path.replaceAll("^[\\\\]+|[\\\\]+$", "");
+		// Similar to .strip('/') in Python
+		return path.replaceAll("^[\\\\|/]+|[\\\\|/]+$", "");
 	}
 
 	public String getBasepath() {

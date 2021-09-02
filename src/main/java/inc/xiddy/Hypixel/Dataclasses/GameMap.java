@@ -1,7 +1,7 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.World;
 
 public class GameMap {
@@ -20,19 +20,19 @@ public class GameMap {
 	}
 
 	public static String getPathToGameMaps(Lobby lobby) {
-		return lobby.toString().toLowerCase() + "\\maps";
+		return lobby.toString().toLowerCase() + "/maps";
 	}
 
 	public String getPathToMapWorld() {
-		return this.getPathToMap() + "\\world";
+		return this.getPathToMap() + "/world";
 	}
 
 	public String getPathToMapGlobals() {
-		return this.getPathToMap() + "\\global";
+		return this.getPathToMap() + "/global";
 	}
 
 	public String getPathToMap() {
-		return this.getGameAsString() + "\\maps\\" + this.getMapName();
+		return this.getGameAsString() + "/maps/" + this.getMapName();
 	}
 
 	public String getGameAsString() {

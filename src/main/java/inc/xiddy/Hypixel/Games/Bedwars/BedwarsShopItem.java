@@ -1,8 +1,8 @@
 package inc.xiddy.Hypixel.Games.Bedwars;
 
-import inc.xiddy.Hypixel.HypixelUtils;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
+import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -82,7 +82,7 @@ public abstract class BedwarsShopItem {
 		return HypixelUtils.capitalize(this.getItem().getType().toString().split("_"));
 	}
 
-	public void executeTransaction(Player player, BedwarsRunnable game) {
+	public void executeTransaction(HypixelPlayer player, BedwarsRunnable game) {
 		// Give the player the item (without metadata)
 		player.getInventory().addItem(this.getCleanedItem());
 	}

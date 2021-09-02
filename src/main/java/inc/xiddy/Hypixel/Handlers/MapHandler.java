@@ -2,10 +2,12 @@ package inc.xiddy.Hypixel.Handlers;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Dataclasses.GameMap;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Entity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +35,7 @@ public class MapHandler {
 
 	public GameMap createMap(Lobby lobby) throws FileNotFoundException {
 		// Get the path
-		return this.createMap(lobby, this.getRandomMap(Main.getMainHandler().getDataHandler().getBasepath() + "\\" + GameMap.getPathToGameMaps(lobby)).getName());
+		return this.createMap(lobby, this.getRandomMap(Main.getMainHandler().getDataHandler().getBasepath() + "/" + GameMap.getPathToGameMaps(lobby)).getName());
 	}
 
 	public GameMap createMap(Lobby lobby, String mapName) {
@@ -50,9 +52,9 @@ public class MapHandler {
 		String worldName = map.getGameAsString().toUpperCase() + "-" + UUID.randomUUID();
 		// Move map to world
 		Main.getMainHandler().getDataHandler().copyFolderContents(
-			new File(Main.getMainHandler().getDataHandler().getBasepath() + "\\" + map.getPathToMapWorld()),
-			Bukkit.getWorldContainer().getPath() + "\\" + worldName,
-			new String[]{"uid.dat", "session.lock"}
+			new File(Main.getMainHandler().getDataHandler().getBasepath() + "/" + map.getPathToMapWorld()),
+			Bukkit.getWorldContainer().getPath() + "/" + worldName,
+			new String[] {"uid.dat", "session.lock"}
 		);
 		// Create the world
 		try {
@@ -80,6 +82,14 @@ public class MapHandler {
 		}
 		// Disable extra saving
 		newWorld.setAutoSave(false);
+		// For each entity
+		for (Entity entity: newWorld.getEntities()) {
+			// If the entity is not a player
+			if (!(entity instanceof HypixelPlayer)) {
+				// Remove it
+				entity.remove();
+			}
+		}
 		// Set the world to the map object
 		map.setWorld(
 			newWorld
