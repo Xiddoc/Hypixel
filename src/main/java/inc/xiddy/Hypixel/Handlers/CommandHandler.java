@@ -28,7 +28,7 @@ public class CommandHandler {
 		// Hide-and-seek commands
 		this.hypixelCommands.add(new CatchStart("startcatch", Permission.OWNER));
 		// Sumo commands
-		this.hypixelCommands.add(new CatchStart("startsumo", Permission.OWNER));
+		this.hypixelCommands.add(new SumoStart("startsumo", Permission.OWNER));
 		// Global commands
 		this.hypixelCommands.add(new Ping("ping", Permission.DEFAULT));
 		this.hypixelCommands.add(new StopGame("stopgame", Permission.OWNER));

@@ -4,7 +4,7 @@ import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
 import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
-import inc.xiddy.Hypixel.Games.Catch.SumoGame;
+import inc.xiddy.Hypixel.Games.Sumo.SumoGame;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 
