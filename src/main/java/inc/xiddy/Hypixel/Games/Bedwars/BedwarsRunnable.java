@@ -409,8 +409,8 @@ public class BedwarsRunnable extends HypixelRunnable {
 	public void repaintScoreboard(HypixelPlayer player) {
 		StringBuilder str = new StringBuilder();
 		// Start by making header
-		str.append(YELLOW).append(BOLD).append("BEDWARS\n")
-			.append(GRAY).append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
+		str.append(YELLOW).append(BOLD).append(this.getLobby().toString().toUpperCase())
+			.append(GRAY).append("\n").append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
 			.append(DARK_GRAY).append(" m").append(this.getTaskId()).append("E")
 			.append(WHITE).append("\n\nDiamond II in ").append(GREEN).append("0:00\n\n");
 		// For each team

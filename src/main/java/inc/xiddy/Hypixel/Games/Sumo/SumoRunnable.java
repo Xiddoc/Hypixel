@@ -3,7 +3,6 @@ package inc.xiddy.Hypixel.Games.Sumo;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.*;
-import inc.xiddy.Hypixel.Games.Catch.CatchRadar;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;
@@ -19,8 +18,7 @@ import static org.bukkit.ChatColor.*;
 public class SumoRunnable extends HypixelRunnable {
 	private final SumoTeam seekerTeam;
 	private final SumoTeam hiderTeam;
-	private final CatchRadar radar;
-	private Location spawnLoc;
+	private Location centerLoc;
 	private HypixelTimer gameTimer;
 
 	public SumoRunnable(Set<HypixelPlayer> players, SumoGame sumoGame, Lobby lobby) {
@@ -50,15 +48,12 @@ public class SumoRunnable extends HypixelRunnable {
 				this.seekerTeam.addPlayer(player);
 			}
 		}
-
-		// Make radar
-		this.radar = new CatchRadar();
 	}
 
 	@Override
 	public void run() {
 		// Start loading the game
-		this.broadcastMessage(ChatColor.GREEN + "Loading Catch game...");
+		this.broadcastMessage(ChatColor.GREEN + "Loading Sumo game...");
 
 		// Load map
 		try {
@@ -66,10 +61,10 @@ public class SumoRunnable extends HypixelRunnable {
 			this.generateMap();
 
 			// Get map spawn
-			this.spawnLoc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "/spawn.json", SmallLocation.class).toLocation();
+			this.centerLoc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "/spawn.json", SmallLocation.class).toLocation();
 
 			// Update the world
-			this.spawnLoc.setWorld(this.getMap().getWorld());
+			this.centerLoc.setWorld(this.getMap().getWorld());
 		} catch (FileNotFoundException e) {
 			// Print traceback
 			e.printStackTrace();
@@ -81,7 +76,7 @@ public class SumoRunnable extends HypixelRunnable {
 		}
 
 		this.broadcastMessage(
-			ChatColor.GREEN + "Starting Catch game on map " +
+			ChatColor.GREEN + "Starting Sumo game on map " +
 				ChatColor.GOLD + this.getMap().getCapitalizedMapName() +
 				ChatColor.GREEN + "..."
 		);
@@ -110,7 +105,7 @@ public class SumoRunnable extends HypixelRunnable {
 				int remainingTime = gameTime - this.getElapsedTime();
 
 				// Repaint scoreboard
-				repaintScoreboardForAll(remainingTime);
+				repaintScoreboardForAll();
 
 				// If time hit zero
 				if (this.getElapsedTime() == gameTime) {
@@ -142,10 +137,10 @@ public class SumoRunnable extends HypixelRunnable {
 			// If spawn blind
 			if (blindPlayer) {
 				// Teleport below respawn location
-				player.teleport(this.getSpawnLoc().clone().add(0, -500, 0));
+				player.teleport(this.getCenterLoc().clone().add(0, -500, 0));
 			} else {
 				// Teleport to respawn location
-				player.teleport(this.getSpawnLoc());
+				player.teleport(this.getCenterLoc());
 			}
 
 			// If player is a hider
@@ -162,35 +157,25 @@ public class SumoRunnable extends HypixelRunnable {
 		this.getPlayers().forEach(player -> player.sendMessage(message));
 	}
 
-	public void repaintScoreboardForAll(int time) {
+	public void repaintScoreboardForAll() {
 		// For each player
 		// Repaint the board for them
-		this.getPlayers().forEach(player -> this.repaintScoreboard(player, time));
+		this.getPlayers().forEach(this::repaintScoreboard);
 	}
 
-	public void repaintScoreboard(HypixelPlayer player, int time) {
+	public void repaintScoreboard(HypixelPlayer player) {
 		//noinspection StringBufferReplaceableByString
 		StringBuilder str = new StringBuilder();
 		// Start by making header
-		str.append(YELLOW).append(BOLD).append("CATCH")
+		str.append(YELLOW).append(BOLD).append(this.getLobby().toString().toUpperCase())
 			.append(GRAY).append("\n").append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
 			.append(DARK_GRAY).append(" m").append(this.getTaskId()).append("E")
-			.append(WHITE).append("\n\nGame Over in ").append(GREEN)
-			.append(time / 60).append(":").append(String.format("%02d", time % 60))
 			.append("\n\n");
-		// Add team name and size to the scoreboard (Seekers)
-		str.append(this.getSeekerTeam().getTeamColor().getColorCode()).append("S ")
-			.append(WHITE).append("Seekers: ")
-			.append(YELLOW).append(this.getSeekerTeam().getAlivePlayers().size()).append("\n")
-			// Add team name and size to the scoreboard (Hiders)
-			.append(this.getHiderTeam().getTeamColor().getColorCode()).append("H ")
-			.append(WHITE).append("Hiders: ")
-			.append(YELLOW).append(this.getHiderTeam().getAlivePlayers().size())
-			// Get player's team
-			.append(GRAY).append("\n\nYou are a ")
-			.append(this.getSeekerTeam().getPlayers().contains(player) ?
-				this.getSeekerTeam().getTeamColor().getColorCode() + "" + BOLD + "SEEKER!" :
-				this.getHiderTeam().getTeamColor().getColorCode() + "" + BOLD + "HIDER!");
+		// Add ping difference
+		str.append(GRAY).append("\n\nPing difference is ")
+			.append(GOLD).append(BOLD).append(
+				this.getPlayers().stream().mapToInt(HypixelUtils::getPlayerPing).sum() / this.getPlayers().size()
+			).append("ms!");
 		// Add footer
 		str.append("\n\n").append(YELLOW).append("www.hypixel.net");
 
@@ -217,8 +202,8 @@ public class SumoRunnable extends HypixelRunnable {
 		return 0;
 	}
 
-	public Location getSpawnLoc() {
-		return spawnLoc;
+	public Location getCenterLoc() {
+		return centerLoc;
 	}
 
 	public SumoTeam getSeekerTeam() {
@@ -227,10 +212,6 @@ public class SumoRunnable extends HypixelRunnable {
 
 	public SumoTeam getHiderTeam() {
 		return hiderTeam;
-	}
-
-	public CatchRadar getRadar() {
-		return radar;
 	}
 
 	public HypixelTimer getGameTimer() {

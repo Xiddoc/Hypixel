@@ -171,7 +171,7 @@ public class CatchRunnable extends HypixelRunnable {
 		//noinspection StringBufferReplaceableByString
 		StringBuilder str = new StringBuilder();
 		// Start by making header
-		str.append(YELLOW).append(BOLD).append("CATCH")
+		str.append(YELLOW).append(BOLD).append(this.getLobby().toString().toUpperCase())
 			.append(GRAY).append("\n").append(new SimpleDateFormat("MM/dd/yy").format(new Date()))
 			.append(DARK_GRAY).append(" m").append(this.getTaskId()).append("E")
 			.append(WHITE).append("\n\nGame Over in ").append(GREEN)

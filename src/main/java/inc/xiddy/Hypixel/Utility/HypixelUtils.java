@@ -18,6 +18,10 @@ import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class HypixelUtils {
+	public static int getPlayerPing(HypixelPlayer player) {
+		return player.getHandle().ping;
+	}
+
 	public static Set<HypixelPlayer> getOnlinePlayers() {
 		// Make new set for the new objects
 		Set<HypixelPlayer> players = new HashSet<>();
@@ -92,7 +96,7 @@ public class HypixelUtils {
 	}
 
 	public static String capitalize(String word) {
-		return word.substring(0, 1).toUpperCase() + word.toLowerCase().substring(1);
+		return capitalize(word.split(" "));
 	}
 
 	public static String capitalize(String[] words) {
@@ -101,7 +105,10 @@ public class HypixelUtils {
 		// For each word
 		for (String word : words) {
 			// Capitalize it
-			result.append(capitalize(word)).append(" ");
+			result
+				.append(word.substring(0, 1).toUpperCase())
+				.append(word.toLowerCase().substring(1))
+				.append(" ");
 		}
 		// Return the string
 		return result.substring(0, result.length() - 1);
