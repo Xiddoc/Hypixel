@@ -323,14 +323,6 @@ public class BedwarsRunnable extends HypixelRunnable {
 		}
 	}
 
-	private void broadcastMessage(String message) {
-		// For each player
-		for (HypixelPlayer player : this.getPlayers()) {
-			// Send the message
-			player.sendMessage(message);
-		}
-	}
-
 	public BedwarsPlayerData getBedwarsPlayerData(HypixelPlayer player) {
 		// For each data point
 		for (BedwarsPlayerData data : this.getAllBedwarsPlayerData()) {

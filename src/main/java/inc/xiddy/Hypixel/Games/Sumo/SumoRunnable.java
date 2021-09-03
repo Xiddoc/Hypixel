@@ -151,12 +151,6 @@ public class SumoRunnable extends HypixelRunnable {
 		});
 	}
 
-	private void broadcastMessage(String message) {
-		// For each player
-		// Send the message
-		this.getPlayers().forEach(player -> player.sendMessage(message));
-	}
-
 	public void repaintScoreboardForAll() {
 		// For each player
 		// Repaint the board for them

@@ -104,6 +104,12 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		Main.getMainHandler().getThreadHandler().scheduleSyncTask(this::stopGame, gameOverTime);
 	}
 
+	public final void broadcastMessage(String message) {
+		// For each player
+		// Send the message
+		this.getPlayers().forEach(player -> player.sendMessage(message));
+	}
+
 	public final void setMap(GameMap map) {
 		this.map = map;
 	}

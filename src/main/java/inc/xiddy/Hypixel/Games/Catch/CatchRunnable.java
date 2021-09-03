@@ -155,12 +155,6 @@ public class CatchRunnable extends HypixelRunnable {
 		});
 	}
 
-	private void broadcastMessage(String message) {
-		// For each player
-		// Send the message
-		this.getPlayers().forEach(player -> player.sendMessage(message));
-	}
-
 	public void repaintScoreboardForAll(int time) {
 		// For each player
 		// Repaint the board for them
