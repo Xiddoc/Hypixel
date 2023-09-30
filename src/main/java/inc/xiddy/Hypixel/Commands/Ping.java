@@ -4,7 +4,6 @@ import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelCommand;
 import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 
 public class Ping extends HypixelCommand {
 
@@ -18,7 +17,7 @@ public class Ping extends HypixelCommand {
 		// Send to player
 		player.sendMessage(
 			ChatColor.GREEN + "Your ping is " +
-				ChatColor.GOLD + ChatColor.BOLD + ((CraftPlayer) player).getHandle().ping + "ms" +
+				ChatColor.GOLD + ChatColor.BOLD + player.getHandle().ping + "ms" +
 				ChatColor.GREEN + "!"
 		);
 	}
