@@ -8,17 +8,22 @@ depend: [Citizens]
 commands:
   ping:
     description: "Ping the server to see your connection."
+    usage: "Usage: /<command>"
+  startgame:
+    description: "Start a new game."
+    usage: "Usage: /<command> <game_name>"
   stopgame:
     description: "Stop the current game you are in."
+    usage: "Usage: /<command>"
   setupbedwars:
     description: "Setup a game of bedwars."
-  startbedwars:
-    description: "Start a game of bedwars."
-  startcatch:
-    description: "Start a game of catch."
+    usage: "Usage: /<command> <setgen:setitemshop:setteamshop:setbed:setrespawn:setdiamondgen#:setemeraldgen1#> <team_color:global>"
   savelocation:
     description: "Saves a location to be used later."
+    usage: "Usage: /<command>"
   setrole:
     description: "Updates a player's role."
+    usage: "Usage: /<command> <new_role>"
   setvelocity:
     description: "Sets the current player's velocity."
+    usage: "Usage: /<command> <x_velocity> <y_velocity> <z_velocity>"
