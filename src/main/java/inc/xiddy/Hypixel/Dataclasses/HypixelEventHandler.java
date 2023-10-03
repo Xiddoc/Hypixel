@@ -1,6 +1,7 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelRunnable;
 import inc.xiddy.Hypixel.Main;
 import net.citizensnpcs.api.event.NPCEvent;
 import org.bukkit.World;

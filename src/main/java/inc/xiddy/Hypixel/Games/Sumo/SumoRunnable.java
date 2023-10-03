@@ -3,6 +3,7 @@ package inc.xiddy.Hypixel.Games.Sumo;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.*;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelRunnable;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;
@@ -10,16 +11,15 @@ import org.bukkit.Location;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
 import static org.bukkit.ChatColor.*;
 
 public class SumoRunnable extends HypixelRunnable {
-	private final SumoTeam seekerTeam;
-	private final SumoTeam hiderTeam;
+	private final ArrayList<SumoTeam> teams;
 	private Location centerLoc;
-	private HypixelTimer gameTimer;
 
 	public SumoRunnable(Set<HypixelPlayer> players, SumoGame sumoGame, Lobby lobby) {
 		super(players, sumoGame, lobby);
@@ -27,27 +27,8 @@ public class SumoRunnable extends HypixelRunnable {
 		// Make event handler
 		this.setEventHandler(new SumoEventHandler(this));
 
-		// Make hider team
-		this.hiderTeam = new SumoTeam(TeamColor.RED, null, 1, false);
-		// Select hider
-		HypixelPlayer hider = HypixelUtils.randomFromArray(players.toArray(new HypixelPlayer[0]));
-		// Update state
-		this.hiderTeam.setPlayerState(hider, GameState.ALIVE);
-		// Add hider to hider team
-		this.hiderTeam.addPlayer(hider);
+		this.teams = new ArrayList<>();
 
-		// Make seeker team
-		this.seekerTeam = new SumoTeam(TeamColor.GREEN, null, 1, true);
-		// Populate
-		for (HypixelPlayer player: players) {
-			// If the player is not the hider
-			if (!player.equals(hider)) {
-				// Update state
-				this.seekerTeam.setPlayerState(player, GameState.ALIVE);
-				// Add player to seeker team
-				this.seekerTeam.addPlayer(player);
-			}
-		}
 	}
 
 	@Override
@@ -88,47 +69,12 @@ public class SumoRunnable extends HypixelRunnable {
 				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby())
 			)
 		);
-		// For each hider
-		// Move player to respawn location
-		this.getHiderTeam().getPlayers().forEach(player -> this.spawn(player, false, true));
-		// For each seeker
-		// Move player to blind location
-		this.getSeekerTeam().getPlayers().forEach(player -> this.spawn(player, true, false));
-
-		// Make scoreboard painter
-		this.gameTimer = new HypixelTimer(10) {
-
-			@Override
-			public void onLoop() {
-				// Get remaining time
-				int gameTime = 180;
-				int remainingTime = gameTime - this.getElapsedTime();
-
-				// Repaint scoreboard
-				repaintScoreboardForAll();
-
-				// If time hit zero
-				if (this.getElapsedTime() == gameTime) {
-					// Stop the runnable
-					this.cancel();
-
-					// Stop the game
-					gameOver(getHiderTeam().getPlayers());
-				} else if (this.getElapsedTime() < 30 && this.getElapsedTime() % 5 == 0) {
-					// If it is still the first 30 seconds of the game
-					// And it is a multiple of 5
-					// Announce the time
-					broadcastMessage(GREEN + "Hiders have " + GOLD + (30 - this.getElapsedTime()) + GREEN + " seconds left to hide...");
-				} else if (this.getElapsedTime() == 30) {
-					// If it is the 30th second of the game
-					// Tell the players that the game has started
-					broadcastMessage(GREEN + "The seekers have been released!");
-					// For each seeker
-					// Move player to respawn location
-					getSeekerTeam().getPlayers().forEach(player -> spawn(player, false, false));
-				}
-			}
-		};
+//		// For each hider
+//		// Move player to respawn location
+//		this.getHiderTeam().getPlayers().forEach(player -> this.spawn(player, false, true));
+//		// For each seeker
+//		// Move player to blind location
+//		this.getSeekerTeam().getPlayers().forEach(player -> this.spawn(player, true, false));
 	}
 
 	public void spawn(HypixelPlayer player, boolean blindPlayer, boolean hideName) {
@@ -182,9 +128,6 @@ public class SumoRunnable extends HypixelRunnable {
 
 	@Override
 	public void stopGame() {
-		// Stop scoreboard
-		this.getGameTimer().cancel();
-
 		// Stop game mechanics
 		this.internalStopGame();
 
@@ -200,15 +143,4 @@ public class SumoRunnable extends HypixelRunnable {
 		return centerLoc;
 	}
 
-	public SumoTeam getSeekerTeam() {
-		return seekerTeam;
-	}
-
-	public SumoTeam getHiderTeam() {
-		return hiderTeam;
-	}
-
-	public HypixelTimer getGameTimer() {
-		return gameTimer;
-	}
 }

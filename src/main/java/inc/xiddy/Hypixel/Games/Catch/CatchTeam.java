@@ -2,7 +2,7 @@ package inc.xiddy.Hypixel.Games.Catch;
 
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.GameMap;
-import inc.xiddy.Hypixel.Dataclasses.HypixelTeam;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelTeam;
 
 public class CatchTeam extends HypixelTeam {
 	private final boolean seeker;

@@ -1,5 +1,6 @@
 package inc.xiddy.Hypixel.Dataclasses;
 
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelRunnable;
 import inc.xiddy.Hypixel.Main;
 
 public abstract class HypixelGame {

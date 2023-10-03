@@ -4,7 +4,7 @@ import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.Permission;
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
-import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelRunnable;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

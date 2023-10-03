@@ -1,6 +1,10 @@
-package inc.xiddy.Hypixel.Dataclasses;
+package inc.xiddy.Hypixel.Games.BaseGame;
 
 import inc.xiddy.Hypixel.Constants.Lobby;
+import inc.xiddy.Hypixel.Dataclasses.GameMap;
+import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
+import inc.xiddy.Hypixel.Dataclasses.HypixelGame;
+import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.Bukkit;

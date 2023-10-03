@@ -3,6 +3,7 @@ package inc.xiddy.Hypixel.Games.Catch;
 import inc.xiddy.Hypixel.Constants.Lobby;
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.*;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelRunnable;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;
 import org.bukkit.ChatColor;

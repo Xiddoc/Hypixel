@@ -2,7 +2,7 @@ package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Dataclasses.HypixelEventHandler;
 import inc.xiddy.Hypixel.Dataclasses.HypixelPlayer;
-import inc.xiddy.Hypixel.Dataclasses.HypixelRunnable;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelRunnable;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
 import inc.xiddy.Hypixel.Utility.HypixelUtils;

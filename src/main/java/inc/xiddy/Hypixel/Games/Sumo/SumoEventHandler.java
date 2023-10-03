@@ -12,15 +12,6 @@ public class SumoEventHandler extends HypixelEventHandler {
 	public SumoEventHandler(SumoRunnable game) {
 		super(game);
 	}
-	@EventHandler
-	public void onDamage(EntityDamageEvent event) {
-		if (this.verifyState(event)) return;
-
-		// Prevent natural (lava, etc.) damage
-		event.setCancelled(true);
-		// Remove fire ticks to prevent massive fire picture taking up half your screen
-		event.getEntity().setFireTicks(0);
-	}
 
 	@EventHandler
 	public void onDamageByEntity(EntityDamageByEntityEvent event) {
@@ -54,6 +45,16 @@ public class SumoEventHandler extends HypixelEventHandler {
 				this.getGame().gameOver(this.getGame().getSeekerTeam().getPlayers());
 			}
 		}
+	}
+
+	@EventHandler
+	public void onDamage(EntityDamageEvent event) {
+		if (this.verifyState(event)) return;
+
+		// Prevent natural (lava, etc.) damage
+		event.setCancelled(true);
+		// Remove fire ticks to prevent massive fire picture taking up half your screen
+		event.getEntity().setFireTicks(0);
 	}
 
 	@EventHandler

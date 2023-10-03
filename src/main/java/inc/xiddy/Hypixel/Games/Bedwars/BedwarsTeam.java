@@ -2,7 +2,7 @@ package inc.xiddy.Hypixel.Games.Bedwars;
 
 import inc.xiddy.Hypixel.Constants.TeamColor;
 import inc.xiddy.Hypixel.Dataclasses.GameMap;
-import inc.xiddy.Hypixel.Dataclasses.HypixelTeam;
+import inc.xiddy.Hypixel.Games.BaseGame.HypixelTeam;
 import inc.xiddy.Hypixel.Dataclasses.SmallLocation;
 import inc.xiddy.Hypixel.Main;
 import org.bukkit.Location;
