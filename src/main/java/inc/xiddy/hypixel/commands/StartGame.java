@@ -38,8 +38,10 @@ public class StartGame extends HypixelCommand {
 			Main.getMainHandler().getGameHandler().addGame(this.getGameByName(gameName));
 		} catch (IllegalArgumentException e) {
 			player.sendMessage(ChatColor.DARK_RED + e.getMessage());
+			return false;
 		}
-		return false;
+
+		return true;
 	}
 
 	public HypixelGame getGameByName(String name) throws IllegalArgumentException {
