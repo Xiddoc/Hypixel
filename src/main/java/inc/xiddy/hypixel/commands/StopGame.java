@@ -16,7 +16,7 @@ public class StopGame extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		// Get games of this type
 		List<HypixelGame> games = Main.getMainHandler().getGameHandler().getAllGames();
 		// If there are no games running
@@ -35,5 +35,6 @@ public class StopGame extends HypixelCommand {
 				}
 			}
 		}
+		return false;
 	}
 }

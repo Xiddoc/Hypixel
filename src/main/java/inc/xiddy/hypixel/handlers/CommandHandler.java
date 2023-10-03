@@ -33,24 +33,24 @@ public class CommandHandler {
 		this.hypixelCommands.add(new SetVelocity("setvelocity", Permission.OWNER));
 	}
 
-	public void execute(Command cmd, HypixelPlayer player, String[] args) {
-		// Get command
+	public boolean execute(Command cmd, HypixelPlayer player, String[] args) {
 		HypixelCommand hypixelCommand = this.getCommand(cmd);
-		if (hypixelCommand != null) {
-			// Get player data
-			PlayerData playerData = Main.getMainHandler().getPlayerHandler().getPlayerData(player);
-			// If player's role has a greater (or equal) permission code than the command's permission code
-			if (playerData.getRole().getPermissionCode() >= hypixelCommand.getPermission().getPermissionCode()) {
-				// Then execute the command
-				hypixelCommand.execute(player, args);
-			} else {
-				// Otherwise, send error message
-				this.sendInvalidPermissions(player, playerData, hypixelCommand);
-			}
-		} else {
-			// Otherwise, send error message
+
+		if (hypixelCommand == null) {
 			this.sendInvalidCommand(player);
+			return false;
 		}
+
+		PlayerData playerData = Main.getMainHandler().getPlayerHandler().getPlayerData(player);
+		// If player's role has a greater (or equal) permission code than the command's permission code
+		if (playerData.getRole().getPermissionCode() >= hypixelCommand.getPermission().getPermissionCode()) {
+			// Then execute the command
+			return hypixelCommand.execute(player, args);
+		}
+
+		// Otherwise, send error message
+		this.sendInvalidPermissions(player, playerData, hypixelCommand);
+		return false;
 	}
 
 	public void sendInvalidCommand(HypixelPlayer player) {

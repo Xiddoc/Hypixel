@@ -27,10 +27,6 @@ public class MainHandler {
 		this.getLogger().warning("Registering scoreboard handler...");
 		this.boardHandler = new ScoreboardHandler();
 
-		// Set up Map handler
-		this.getLogger().warning("Registering map handler...");
-		this.mapHandler = new MapHandler();
-
 		// Set up player handler
 		this.getLogger().warning("Registering player handler...");
 		this.playerHandler = new PlayerHandler();

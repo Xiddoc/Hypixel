@@ -34,11 +34,11 @@ public class BedwarsSetup extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		// Assure that there are 2 arguments
 		if (args.length != 2) {
 			player.sendMessage(ChatColor.DARK_RED + "Command requires 2 arguments.");
-			return;
+			return false;
 		}
 
 		// Lowercase the arguments for simplicity
@@ -73,7 +73,7 @@ public class BedwarsSetup extends HypixelCommand {
 				TeamColor team;
 				if (!TeamColor.contains(args[1])) {
 					player.sendMessage(ChatColor.DARK_RED + "Invalid team color.");
-					return;
+					return false;
 				} else {
 					team = TeamColor.fromString(args[1]);
 				}
@@ -83,5 +83,6 @@ public class BedwarsSetup extends HypixelCommand {
 				player.sendMessage(ChatColor.GREEN + fileNickname + " [" + team.getCapitalizedString() + "] location saved.");
 			}
 		}
+		return false;
 	}
 }

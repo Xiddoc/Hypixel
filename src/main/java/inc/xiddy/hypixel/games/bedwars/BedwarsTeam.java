@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.games.bedwars;
 
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.dataclasses.GameMap;
+import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.games.basegame.HypixelTeam;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.Main;

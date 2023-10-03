@@ -1,5 +1,5 @@
 ---
-main: inc.xiddy.Hypixel.Main
+main: inc.xiddy.hypixel.Main
 name: Hypixel
 author: xiddy
 version: 1.0

@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.games.basegame;
 
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.dataclasses.GameMap;
+import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;

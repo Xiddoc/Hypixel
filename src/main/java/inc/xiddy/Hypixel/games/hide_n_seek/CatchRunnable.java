@@ -5,6 +5,7 @@ import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.*;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

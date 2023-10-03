@@ -14,7 +14,7 @@ public class SaveLocation extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		// Make sure user gave arguments
 		if (args.length == 0) {
 			// Send error
@@ -30,5 +30,6 @@ public class SaveLocation extends HypixelCommand {
 				loc
 			);
 		}
+		return false;
 	}
 }

@@ -24,5 +24,4 @@ public abstract class HypixelTimer extends BukkitRunnable {
 	public int getElapsedTime() {
 		return elapsedTime;
 	}
-
 }

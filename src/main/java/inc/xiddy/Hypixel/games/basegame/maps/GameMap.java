@@ -1,4 +1,4 @@
-package inc.xiddy.hypixel.dataclasses;
+package inc.xiddy.hypixel.games.basegame.maps;
 
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.utility.HypixelUtils;

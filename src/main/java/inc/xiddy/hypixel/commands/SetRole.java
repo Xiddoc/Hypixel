@@ -16,12 +16,12 @@ public class SetRole extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		// Make sure argument has 2 parameters
 		if (args.length != 2) {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Command requires 2 arguments.");
-			return;
+			return false;
 		}
 
 		// Initialize targets
@@ -39,14 +39,14 @@ public class SetRole extends HypixelCommand {
 		} else {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid player name / UUID.");
-			return;
+			return false;
 		}
 
 		// If they haven't logged on before
 		if (target == null) {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Player has never logged on to the server and is not online.");
-			return;
+			return false;
 		}
 
 		// Get the role
@@ -76,5 +76,6 @@ public class SetRole extends HypixelCommand {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid role / Error occurred.");
 		}
+		return false;
 	}
 }

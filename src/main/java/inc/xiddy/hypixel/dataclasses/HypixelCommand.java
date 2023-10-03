@@ -12,7 +12,7 @@ public abstract class HypixelCommand {
 		this.permission = permission;
 	}
 
-	public abstract void execute(HypixelPlayer player, String[] args);
+	public abstract boolean execute(HypixelPlayer player, String[] args);
 
 	public String getCommandName() {
 		return commandName;

@@ -1,4 +1,4 @@
-package inc.xiddy.hypixel.dataclasses;
+package inc.xiddy.hypixel.games.basegame.ingame;
 
 public enum GameState {
 	ALIVE,

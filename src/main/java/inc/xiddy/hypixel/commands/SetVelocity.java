@@ -13,7 +13,7 @@ public class SetVelocity extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		// Validate arguments
 		if (args.length != 3) {
 			// Send error
@@ -26,5 +26,6 @@ public class SetVelocity extends HypixelCommand {
 				Integer.parseInt(args[2])
 			));
 		}
+		return false;
 	}
 }

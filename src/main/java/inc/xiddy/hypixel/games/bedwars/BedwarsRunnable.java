@@ -2,7 +2,7 @@ package inc.xiddy.hypixel.games.bedwars;
 
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.dataclasses.GameState;
+import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;

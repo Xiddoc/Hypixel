@@ -39,11 +39,11 @@ public class SumoEventHandler extends HypixelEventHandler {
 			HypixelPlayer damager = new HypixelPlayer(event.getDamager());
 			// If the damager is on the seeker team
 			// And the player is also on the seeker team
-			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&
-				this.getGame().getHiderTeam().getPlayers().contains(player)) {
-				// End the game in favor of the seekers
-				this.getGame().gameOver(this.getGame().getSeekerTeam().getPlayers());
-			}
+//			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&
+//				this.getGame().getHiderTeam().getPlayers().contains(player)) {
+//				// End the game in favor of the seekers
+//				this.getGame().gameOver(this.getGame().getSeekerTeam().getPlayers());
+//			}
 		}
 	}
 

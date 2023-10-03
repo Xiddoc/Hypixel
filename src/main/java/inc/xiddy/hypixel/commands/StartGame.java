@@ -17,10 +17,10 @@ public class StartGame extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		if (args.length != 1) {
 			player.sendMessage(ChatColor.DARK_RED + "Command requires 1 argument.");
-			return;
+			return false;
 		}
 		String gameName = args[0].toLowerCase();
 
@@ -30,7 +30,7 @@ public class StartGame extends HypixelCommand {
 			player.sendMessage(
 				ChatColor.DARK_RED +
 					"Wait until your game is finished to make a new game (or stop the current game).");
-			return;
+			return false;
 		}
 
 		// Add it to the game list
@@ -39,6 +39,7 @@ public class StartGame extends HypixelCommand {
 		} catch (IllegalArgumentException e) {
 			player.sendMessage(ChatColor.DARK_RED + e.getMessage());
 		}
+		return false;
 	}
 
 	public HypixelGame getGameByName(String name) throws IllegalArgumentException {

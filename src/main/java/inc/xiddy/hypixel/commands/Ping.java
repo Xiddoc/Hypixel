@@ -13,7 +13,7 @@ public class Ping extends HypixelCommand {
 	}
 
 	@Override
-	public void execute(HypixelPlayer player, String[] args) {
+	public boolean execute(HypixelPlayer player, String[] args) {
 		// Get ping from player connection
 		// Send to player
 		player.sendMessage(
@@ -21,5 +21,6 @@ public class Ping extends HypixelCommand {
 				ChatColor.GOLD + ChatColor.BOLD + HypixelUtils.getPlayerPing(player) + "ms" +
 				ChatColor.GREEN + "!"
 		);
+		return false;
 	}
 }

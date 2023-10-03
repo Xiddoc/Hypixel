@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.games.hide_n_seek;
 
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.dataclasses.GameMap;
+import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.games.basegame.HypixelTeam;
 
 public class CatchTeam extends HypixelTeam {
