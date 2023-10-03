@@ -18,14 +18,16 @@ public class SetVelocity extends HypixelCommand {
 		if (args.length != 3) {
 			// Send error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid arguments.");
-		} else {
-			// Set player's velocity
-			player.setVelocity(new Vector(
-				Integer.parseInt(args[0]),
-				Integer.parseInt(args[1]),
-				Integer.parseInt(args[2])
-			));
+			return false;
 		}
-		return false;
+
+		// Set player's velocity
+		player.setVelocity(new Vector(
+			Integer.parseInt(args[0]),
+			Integer.parseInt(args[1]),
+			Integer.parseInt(args[2])
+		));
+
+		return true;
 	}
 }
