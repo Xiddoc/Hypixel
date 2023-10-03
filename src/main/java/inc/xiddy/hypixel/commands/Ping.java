@@ -21,6 +21,7 @@ public class Ping extends HypixelCommand {
 				ChatColor.GOLD + ChatColor.BOLD + HypixelUtils.getPlayerPing(player) + "ms" +
 				ChatColor.GREEN + "!"
 		);
-		return false;
+
+		return true;
 	}
 }
