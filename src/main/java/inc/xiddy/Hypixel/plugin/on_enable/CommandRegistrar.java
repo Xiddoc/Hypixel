@@ -8,13 +8,13 @@ import org.reflections.Reflections;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
-public class CommandRegistrar implements OnEnableHandler {
+public class CommandRegistrar extends OnEnableHandler {
 	private static final String COMMAND_PACKAGE = ".commands.implementations";
 
 	@Override
 	public void onEnable(JavaPlugin plugin) {
 		try {
-			registerCommands(plugin, plugin.getClass().getPackage() + COMMAND_PACKAGE);
+			registerCommands(plugin, plugin.getClass().getPackage().getName() + COMMAND_PACKAGE);
 		} catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}

@@ -6,7 +6,7 @@ import org.reflections.Reflections;
 import java.util.Set;
 
 public class OnEnableRegistrar {
-	private static final String ON_ENABLE_PACKAGE = "on_enable";
+	private static final String ON_ENABLE_PACKAGE = ".on_enable";
 
 	public void executeOnEnableHandlers(JavaPlugin plugin) {
 		for (Class <? extends OnEnableHandler> onEnableHandler : getOnEnableHandlers()) {
@@ -19,7 +19,7 @@ public class OnEnableRegistrar {
 	}
 
 	private String getOnEnablePackage() {
-		return this.getClass().getPackage() + ON_ENABLE_PACKAGE;
+		return this.getClass().getPackage().getName() + ON_ENABLE_PACKAGE;
 	}
 
 }

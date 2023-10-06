@@ -2,8 +2,8 @@ package inc.xiddy.hypixel.plugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public interface OnEnableHandler {
+public abstract class OnEnableHandler {
 
-	void onEnable(JavaPlugin plugin);
+	public abstract void onEnable(JavaPlugin plugin);
 
 }
