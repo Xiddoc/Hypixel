@@ -1,27 +1,20 @@
-package inc.xiddy.hypixel.commands;
+package inc.xiddy.hypixel.commands.implementations;
 
+import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commands.CommandInfo;
+import inc.xiddy.hypixel.commands.HypixelCommand;
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.constants.Permission;
-import inc.xiddy.hypixel.dataclasses.HypixelCommand;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.bedwars.BedwarsGame;
 import inc.xiddy.hypixel.games.hide_n_seek.CatchGame;
-import inc.xiddy.hypixel.Main;
 import org.bukkit.ChatColor;
 
+@CommandInfo(name = "startgame", minArgCount = 1)
 public class StartGame extends HypixelCommand {
 
-	public StartGame(String commandName, Permission permission) {
-		super(commandName, permission);
-	}
-
 	@Override
-	public boolean execute(HypixelPlayer player, String[] args) {
-		if (args.length != 1) {
-			player.sendMessage(ChatColor.DARK_RED + "Command requires 1 argument.");
-			return false;
-		}
+	public void execute(HypixelPlayer player, String[] args) {
 		String gameName = args[0].toLowerCase();
 
 		// Check if player already in a game
@@ -30,7 +23,7 @@ public class StartGame extends HypixelCommand {
 			player.sendMessage(
 				ChatColor.DARK_RED +
 					"Wait until your game is finished to make a new game (or stop the current game).");
-			return false;
+			return;
 		}
 
 		// Add it to the game list
@@ -38,10 +31,7 @@ public class StartGame extends HypixelCommand {
 			Main.getMainHandler().getGameHandler().addGame(this.getGameByName(gameName));
 		} catch (IllegalArgumentException e) {
 			player.sendMessage(ChatColor.DARK_RED + e.getMessage());
-			return false;
 		}
-
-		return true;
 	}
 
 	public HypixelGame getGameByName(String name) throws IllegalArgumentException {

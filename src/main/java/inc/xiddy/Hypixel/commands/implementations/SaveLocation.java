@@ -1,11 +1,12 @@
-package inc.xiddy.hypixel.commands;
+package inc.xiddy.hypixel.commands.implementations;
 
-import inc.xiddy.hypixel.constants.Permission;
-import inc.xiddy.hypixel.dataclasses.HypixelCommand;
+import inc.xiddy.hypixel.commands.HypixelCommand;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.Main;
 import org.bukkit.ChatColor;
+
 
 public class SaveLocation extends HypixelCommand {
 
@@ -14,7 +15,7 @@ public class SaveLocation extends HypixelCommand {
 	}
 
 	@Override
-	public boolean execute(HypixelPlayer player, String[] args) {
+	public void execute(HypixelPlayer player, String[] args) {
 		// Make sure user gave arguments
 		if (args.length == 0) {
 			// Send error
@@ -30,6 +31,5 @@ public class SaveLocation extends HypixelCommand {
 				loc
 			);
 		}
-		return false;
 	}
 }

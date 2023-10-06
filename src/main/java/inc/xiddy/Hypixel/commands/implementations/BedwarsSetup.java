@@ -1,8 +1,8 @@
-package inc.xiddy.hypixel.commands;
+package inc.xiddy.hypixel.commands.implementations;
 
-import inc.xiddy.hypixel.constants.Permission;
+import inc.xiddy.hypixel.commands.HypixelCommand;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.dataclasses.HypixelCommand;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.Main;
@@ -34,7 +34,7 @@ public class BedwarsSetup extends HypixelCommand {
 	}
 
 	@Override
-	public boolean execute(HypixelPlayer player, String[] args) {
+	public void execute(HypixelPlayer player, String[] args) {
 		// Assure that there are 2 arguments
 		if (args.length != 2) {
 			player.sendMessage(ChatColor.DARK_RED + "Command requires 2 arguments.");
@@ -73,7 +73,7 @@ public class BedwarsSetup extends HypixelCommand {
 				TeamColor team;
 				if (!TeamColor.contains(args[1])) {
 					player.sendMessage(ChatColor.DARK_RED + "Invalid team color.");
-					return false;
+					return true;
 				} else {
 					team = TeamColor.fromString(args[1]);
 				}
@@ -83,6 +83,7 @@ public class BedwarsSetup extends HypixelCommand {
 				player.sendMessage(ChatColor.GREEN + fileNickname + " [" + team.getCapitalizedString() + "] location saved.");
 			}
 		}
-		return false;
+
+		return true;
 	}
 }

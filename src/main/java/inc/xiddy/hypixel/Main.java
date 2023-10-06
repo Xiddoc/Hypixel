@@ -5,14 +5,12 @@ import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.hub.HubEventHandler;
 import inc.xiddy.hypixel.games.hub.SpectatorEventHandler;
 import inc.xiddy.hypixel.handlers.MainHandler;
+import inc.xiddy.hypixel.plugin.OnEnableRegistrar;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -28,11 +26,8 @@ public class Main extends JavaPlugin {
 		return Main.mainHandler;
 	}
 
-	// Function that happens when the plugin is enabled
 	@Override
 	public void onEnable() {
-		// Register instance
-		System.out.println("Registering main instance...");
 		Main.instance = this;
 
 		// Register main handler
@@ -49,6 +44,7 @@ public class Main extends JavaPlugin {
 		Main.getMainHandler().getLogger().warning("Registering all event handlers...");
 		new HubEventHandler();
 		new SpectatorEventHandler();
+		new OnEnableRegistrar().executeOnEnableHandlers(this);
 
 		// Register console filter
 		Main.getMainHandler().getLogger().warning("Registering console filter...");
@@ -86,25 +82,6 @@ public class Main extends JavaPlugin {
 			// Kick the player
 			player.kickPlayer(ChatColor.GOLD + "Restarting the server! Try joining again.");
 		}
-	}
-
-	// On a command, this function plays
-	@Override
-	public boolean onCommand(CommandSender sender,
-							 Command command,
-							 String label,
-							 String[] args) {
-		// Check if console
-		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid command caller, must be Player.");
-			return true;
-		}
-
-		// Execute command
-		Main.getMainHandler().getCommandHandler().execute(command, new HypixelPlayer((Player) sender), args);
-
-		// Finish command listener function
-		return false;
 	}
 }
 

@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.games.hub;
 
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.constants.Permission;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;

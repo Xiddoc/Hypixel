@@ -1,8 +1,8 @@
-package inc.xiddy.hypixel.commands;
+package inc.xiddy.hypixel.commands.implementations;
 
 import inc.xiddy.hypixel.Main;
-import inc.xiddy.hypixel.constants.Permission;
-import inc.xiddy.hypixel.dataclasses.HypixelCommand;
+import inc.xiddy.hypixel.commands.HypixelCommand;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import org.bukkit.ChatColor;
@@ -16,7 +16,7 @@ public class StopGame extends HypixelCommand {
 	}
 
 	@Override
-	public boolean execute(HypixelPlayer player, String[] args) {
+	public void execute(HypixelPlayer player, String[] args) {
 		// Get games of this type
 		List<HypixelGame> games = Main.getMainHandler().getGameHandler().getAllGames();
 

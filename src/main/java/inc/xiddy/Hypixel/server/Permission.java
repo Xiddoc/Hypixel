@@ -1,29 +1,20 @@
-package inc.xiddy.hypixel.constants;
+package inc.xiddy.hypixel.server;
 
 import inc.xiddy.hypixel.utility.HypixelUtils;
 
-@SuppressWarnings("SpellCheckingInspection")
+// TODO Remove this or replace with Rank class that only affects text chat
 public enum Permission {
-	OWNER(1000, "{RED}[OWNER] "),
-	YOUTUBE(1000, "{RED}[{WHITE}YOUTUBE{RED}] "),
-	MVPPLUSPLUS(500, "{GOLD}[MVP++] "),
-	MVPPLUS(250, "{GOLD}[MVP+] "),
-	DEFAULT(0, "{GRAY}");
+	OWNER("{RED}[OWNER] "),
+	DEFAULT("{GRAY}");
 
-	private final int permissionCode;
 	private final String namePrefix;
 
-	Permission(final int permissionCode, String namePrefix) {
-		this.permissionCode = permissionCode;
+	Permission(String namePrefix) {
 		this.namePrefix = namePrefix;
 	}
 
 	public static Permission fromString(String str) {
 		return Permission.valueOf(str.toUpperCase());
-	}
-
-	public int getPermissionCode() {
-		return permissionCode;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package inc.xiddy.hypixel.handlers;
 
-import inc.xiddy.hypixel.constants.Permission;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.PlayerData;
 import inc.xiddy.hypixel.Main;

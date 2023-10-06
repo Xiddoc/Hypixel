@@ -6,13 +6,9 @@ public class MainHandler {
 	private MapHandler mapHandler;
 	private LoggerHandler logger;
 	private PlayerHandler playerHandler;
-	private CommandHandler commandHandler;
 	private ThreadHandler threadHandler;
 	private GameHandler gameHandler;
 	private AnticheatHandler anticheatHandler;
-
-	public MainHandler() {
-	}
 
 	public void initMainHandler() {
 		// Register logger
@@ -30,10 +26,6 @@ public class MainHandler {
 		// Set up player handler
 		this.getLogger().warning("Registering player handler...");
 		this.playerHandler = new PlayerHandler();
-
-		// Set up Command handler
-		this.getLogger().warning("Registering command handler...");
-		this.commandHandler = new CommandHandler();
 
 		// Set up Anticheat
 		this.getLogger().warning("Registering anticheat handler...");
@@ -66,10 +58,6 @@ public class MainHandler {
 
 	public PlayerHandler getPlayerHandler() {
 		return playerHandler;
-	}
-
-	public CommandHandler getCommandHandler() {
-		return commandHandler;
 	}
 
 	public ThreadHandler getThreadHandler() {

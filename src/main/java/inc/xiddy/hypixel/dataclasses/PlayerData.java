@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.constants.Permission;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Material;

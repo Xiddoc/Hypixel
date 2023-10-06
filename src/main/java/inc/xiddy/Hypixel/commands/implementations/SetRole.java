@@ -1,7 +1,7 @@
-package inc.xiddy.hypixel.commands;
+package inc.xiddy.hypixel.commands.implementations;
 
-import inc.xiddy.hypixel.constants.Permission;
-import inc.xiddy.hypixel.dataclasses.HypixelCommand;
+import inc.xiddy.hypixel.commands.HypixelCommand;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.utility.HypixelUtils;
@@ -16,7 +16,7 @@ public class SetRole extends HypixelCommand {
 	}
 
 	@Override
-	public boolean execute(HypixelPlayer player, String[] args) {
+	public void execute(HypixelPlayer player, String[] args) {
 		// Make sure argument has 2 parameters
 		if (args.length != 2) {
 			// Throw error
@@ -46,16 +46,17 @@ public class SetRole extends HypixelCommand {
 		if (target == null) {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Player has never logged on to the server and is not online.");
-			return false;
+			return true;
 		}
 
 		// Get the role
-		Permission role = null;
+		Permission role;
 		try {
 			role = Permission.fromString(args[1]);
 		} catch (IllegalArgumentException ignored) {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid role.");
+			return true;
 		}
 
 		// If role is valid
