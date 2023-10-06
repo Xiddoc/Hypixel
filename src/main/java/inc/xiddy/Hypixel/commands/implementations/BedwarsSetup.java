@@ -1,17 +1,18 @@
 package inc.xiddy.hypixel.commands.implementations;
 
+import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
-import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
-import inc.xiddy.hypixel.Main;
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings({"SpellCheckingInspection", "unused"})
+@CommandInfo(name = "setupbedwars", minArgCount = 2, permission = "hypixel.builder")
+@SuppressWarnings({"unused"})
 public class BedwarsSetup extends HypixelCommand {
 	private final List<String> subcommands = Arrays.asList(
 		"setgen",
@@ -29,18 +30,8 @@ public class BedwarsSetup extends HypixelCommand {
 		"setemeraldgen4"
 	);
 
-	public BedwarsSetup(String commandName, Permission permission) {
-		super(commandName, permission);
-	}
-
 	@Override
 	public void execute(HypixelPlayer player, String[] args) {
-		// Assure that there are 2 arguments
-		if (args.length != 2) {
-			player.sendMessage(ChatColor.DARK_RED + "Command requires 2 arguments.");
-			return false;
-		}
-
 		// Lowercase the arguments for simplicity
 		for (int i = 0; i < args.length; i++) {
 			args[i] = args[i].toLowerCase();
@@ -73,7 +64,7 @@ public class BedwarsSetup extends HypixelCommand {
 				TeamColor team;
 				if (!TeamColor.contains(args[1])) {
 					player.sendMessage(ChatColor.DARK_RED + "Invalid team color.");
-					return true;
+					return;
 				} else {
 					team = TeamColor.fromString(args[1]);
 				}
@@ -83,7 +74,5 @@ public class BedwarsSetup extends HypixelCommand {
 				player.sendMessage(ChatColor.GREEN + fileNickname + " [" + team.getCapitalizedString() + "] location saved.");
 			}
 		}
-
-		return true;
 	}
 }

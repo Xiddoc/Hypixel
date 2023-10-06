@@ -7,6 +7,7 @@ import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;
 
 @CommandInfo(name = "ping", minArgCount = 0)
+@SuppressWarnings("unused")
 public class Ping extends HypixelCommand {
 	@Override
 	public void execute(HypixelPlayer player, String[] args) {

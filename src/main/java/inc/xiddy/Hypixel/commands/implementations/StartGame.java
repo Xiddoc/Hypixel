@@ -11,6 +11,7 @@ import inc.xiddy.hypixel.games.hide_n_seek.CatchGame;
 import org.bukkit.ChatColor;
 
 @CommandInfo(name = "startgame", minArgCount = 1)
+@SuppressWarnings("unused")
 public class StartGame extends HypixelCommand {
 
 	@Override
