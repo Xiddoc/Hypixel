@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public class CommandRegistrar extends OnEnableHandler {
+public class RegisterAllCommands extends OnEnableHandler {
 	private static final String COMMAND_PACKAGE = ".commands.implementations";
 
 	@Override
