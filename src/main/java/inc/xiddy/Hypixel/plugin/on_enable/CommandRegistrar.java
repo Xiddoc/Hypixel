@@ -1,13 +1,14 @@
 package inc.xiddy.hypixel.plugin.on_enable;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.commands.HypixelCommand;
+import inc.xiddy.hypixel.commons.Reflection;
 import inc.xiddy.hypixel.plugin.OnEnableHandler;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.reflections.Reflections;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class CommandRegistrar extends OnEnableHandler {
 	private static final String COMMAND_PACKAGE = ".commands.implementations";
 
@@ -15,24 +16,24 @@ public class CommandRegistrar extends OnEnableHandler {
 	public void onEnable(JavaPlugin plugin) {
 		try {
 			registerCommands(plugin, plugin.getClass().getPackage().getName() + COMMAND_PACKAGE);
-		} catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+		} catch (ReflectiveOperationException e) {
+			Main.getMainHandler().getLogger().error("Error while registering commands:");
 			e.printStackTrace();
 		}
 	}
 
-	public static void registerCommands(JavaPlugin plugin, String commandPackage) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-		for (Class<? extends HypixelCommand> clazz: getAllCommands(commandPackage)) {
-			registerCommand(plugin, clazz);
+	public static void registerCommands(JavaPlugin plugin, String commandPackage) throws ReflectiveOperationException {
+		for (HypixelCommand cmd: getAllCommands(commandPackage)) {
+			registerCommand(plugin, cmd);
 		}
 	}
 
-	private static void registerCommand(JavaPlugin plugin, Class<? extends HypixelCommand> commandClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		HypixelCommand command = commandClass.getDeclaredConstructor().newInstance();
-		plugin.getCommand(command.getCommandInfo().name()).setExecutor(command);
+	private static void registerCommand(JavaPlugin plugin, HypixelCommand cmd) {
+		plugin.getCommand(cmd.getCommandInfo().name()).setExecutor(cmd);
 	}
 
-	private static Set<Class<? extends HypixelCommand>> getAllCommands(String commandPackage) {
-		return new Reflections(commandPackage).getSubTypesOf(HypixelCommand.class);
+	private static Set<HypixelCommand> getAllCommands(String commandPackage) throws ReflectiveOperationException {
+		return Reflection.getSubclassInstancesOf(HypixelCommand.class, commandPackage);
 	}
 
 }
