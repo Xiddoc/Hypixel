@@ -1,5 +1,6 @@
 package inc.xiddy.hypixel.commands.implementations;
 
+import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
 import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
@@ -9,21 +10,12 @@ import org.bukkit.ChatColor;
 
 import java.util.UUID;
 
+@CommandInfo(name = "setrole", minArgCount = 2, permission = "hypixel.admin")
+@SuppressWarnings("unused")
 public class SetRole extends HypixelCommand {
-
-	public SetRole(String commandName, Permission permission) {
-		super(commandName, permission);
-	}
 
 	@Override
 	public void execute(HypixelPlayer player, String[] args) {
-		// Make sure argument has 2 parameters
-		if (args.length != 2) {
-			// Throw error
-			player.sendMessage(ChatColor.DARK_RED + "Command requires 2 arguments.");
-			return false;
-		}
-
 		// Initialize targets
 		HypixelPlayer target;
 		// If user inputted a username
@@ -39,14 +31,14 @@ public class SetRole extends HypixelCommand {
 		} else {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid player name / UUID.");
-			return false;
+			return;
 		}
 
 		// If they haven't logged on before
 		if (target == null) {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Player has never logged on to the server and is not online.");
-			return true;
+			return;
 		}
 
 		// Get the role
@@ -56,7 +48,7 @@ public class SetRole extends HypixelCommand {
 		} catch (IllegalArgumentException ignored) {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid role.");
-			return true;
+			return;
 		}
 
 		// If role is valid
@@ -77,6 +69,5 @@ public class SetRole extends HypixelCommand {
 			// Throw error
 			player.sendMessage(ChatColor.DARK_RED + "Invalid role / Error occurred.");
 		}
-		return false;
 	}
 }

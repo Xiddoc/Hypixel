@@ -44,7 +44,13 @@ public class Main extends JavaPlugin {
 		Main.getMainHandler().getLogger().warning("Registering all event handlers...");
 		new HubEventHandler();
 		new SpectatorEventHandler();
-		new OnEnableRegistrar().executeOnEnableHandlers(this);
+		try {
+			new OnEnableRegistrar().executeOnEnableHandlers(this);
+		} catch (ReflectiveOperationException e) {
+			Main.getMainHandler().getLogger().error("Error while executing onEnable handlers:");
+			e.printStackTrace();
+			return;
+		}
 
 		// Register console filter
 		Main.getMainHandler().getLogger().warning("Registering console filter...");

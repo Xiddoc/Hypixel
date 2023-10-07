@@ -1,18 +1,15 @@
 package inc.xiddy.hypixel.commands.implementations;
 
+import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
-import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
-import inc.xiddy.hypixel.Main;
 import org.bukkit.ChatColor;
 
-
+@CommandInfo(name = "savelocation", minArgCount = 1, permission = "hypixel.builder")
+@SuppressWarnings("unused")
 public class SaveLocation extends HypixelCommand {
-
-	public SaveLocation(String commandName, Permission permission) {
-		super(commandName, permission);
-	}
 
 	@Override
 	public void execute(HypixelPlayer player, String[] args) {

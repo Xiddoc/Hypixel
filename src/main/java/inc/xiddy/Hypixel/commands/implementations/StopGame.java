@@ -1,19 +1,17 @@
 package inc.xiddy.hypixel.commands.implementations;
 
 import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
-import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import org.bukkit.ChatColor;
 
 import java.util.List;
 
+@CommandInfo(name= "stopgame", minArgCount = 0, permission = "hypixel.admin")
+@SuppressWarnings("unused")
 public class StopGame extends HypixelCommand {
-
-	public StopGame(String commandName, Permission permission) {
-		super(commandName, permission);
-	}
 
 	@Override
 	public void execute(HypixelPlayer player, String[] args) {
@@ -24,7 +22,7 @@ public class StopGame extends HypixelCommand {
 		if (games.isEmpty()) {
 			// Send error
 			player.sendMessage(ChatColor.DARK_RED + "No games running.");
-			return true;
+			return;
 		}
 
 		// CONVERT TO ARRAY SO THAT THE LIST OBJECT DOES NOT CHANGE DURING THE LOOP
@@ -35,7 +33,5 @@ public class StopGame extends HypixelCommand {
 				game.stopGame();
 			}
 		}
-
-		return true;
 	}
 }

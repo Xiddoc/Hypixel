@@ -1,11 +1,10 @@
 package inc.xiddy.hypixel.games.hub;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
-import inc.xiddy.hypixel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -164,38 +163,6 @@ public class HubEventHandler extends HypixelEventHandler {
 	public void onPreCraft(PrepareItemCraftEvent event) {
 		// Don't let players craft
 		event.getInventory().setResult(new ItemStack(Material.AIR));
-	}
-
-	@EventHandler
-	public void onPreCommand(PlayerCommandPreprocessEvent event) {
-		// If user has the privilege to execute any command
-		if (Main.getMainHandler().getPlayerHandler().getPlayerData(new HypixelPlayer(event.getPlayer())).getRole().equals(Permission.OWNER)) {
-			// Bypass the permission checks
-			return;
-		}
-
-		// Don't run default commands
-		// Get index of space (if there are arguments)
-		int idx = event.getMessage().indexOf(" ");
-		String command;
-		// If the index is equal to -1
-		if (idx == -1) {
-			// Then the user didn't input any arguments
-			// Remove slash
-			command = event.getMessage().substring(1);
-		} else {
-			// Remove slash
-			// Up till first argument
-			command = event.getMessage().substring(1, idx);
-		}
-
-		// If command is not registered
-		if (!Main.getMainHandler().getCommandHandler().isHypixelCommandRegistered(command)) {
-			// Send error
-			Main.getMainHandler().getCommandHandler().sendInvalidCommand(new HypixelPlayer(event.getPlayer()));
-			// Cancel the command
-			event.setCancelled(true);
-		}
 	}
 
 	@Override
