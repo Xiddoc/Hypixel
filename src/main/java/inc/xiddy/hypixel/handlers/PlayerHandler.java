@@ -1,9 +1,9 @@
 package inc.xiddy.hypixel.handlers;
 
-import inc.xiddy.hypixel.server.Permission;
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.PlayerData;
-import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.server.Permission;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;

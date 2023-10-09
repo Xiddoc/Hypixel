@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.dataclasses;
 
-import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 
 public abstract class HypixelGame {
 	@SuppressWarnings("unused")

@@ -1,13 +1,14 @@
 package inc.xiddy.hypixel.games.bedwars;
 
+import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
-import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
+import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
+import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.games.bedwars.generator.BedwarsGenerator;
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -441,7 +442,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// If by the end the marker is a team, then a team has won!
 		// If through parsing, a team is found alive, but the marker is already true,
 		// Then return since there are multiple teams alive (game still in progress)
-		Main.getMainHandler().getLogger().error("CHECK");
+		Log.error("CHECK");
 		BedwarsTeam aliveTeam = null;
 		// For each team
 		for (BedwarsTeam team : this.getTeams()) {

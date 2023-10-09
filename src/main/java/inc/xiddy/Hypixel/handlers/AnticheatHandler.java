@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.handlers;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.event.block.Action;

@@ -1,5 +1,6 @@
 package inc.xiddy.hypixel;
 
+import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.handlers.MainHandler;
@@ -37,12 +38,12 @@ public class Main extends JavaPlugin {
 		try {
 			new PluginEventRegistrar().executePluginEventHandlers(this, PluginEventRegistrar.PluginEvent.ON_ENABLE);
 		} catch (ReflectiveOperationException e) {
-			Main.getMainHandler().getLogger().error("Error while executing onEnable handlers:");
+			Log.error("Error while executing onEnable handlers:");
 			e.printStackTrace();
 			return;
 		}
 
-		Main.getMainHandler().getLogger().success("Plugin successfully loaded...");
+		Log.success("Plugin successfully loaded...");
 	}
 
 	// Function that happens when the plugin is disabled
@@ -52,20 +53,20 @@ public class Main extends JavaPlugin {
 		CitizensAPI.getNPCRegistry().deregisterAll();
 
 		// Destroy all games
-		Main.getMainHandler().getLogger().warning("Shutting down games...");
+		Log.warning("Shutting down games...");
 		for (HypixelGame game : Main.getMainHandler().getGameHandler().getAllGames()) {
 			// Shut down each game
 			game.stopGame();
 		}
 
 		// Kick everyone off to prevent issues with lobbies
-		Main.getMainHandler().getLogger().warning("Kicking all players...");
+		Log.warning("Kicking all players...");
 		for (HypixelPlayer player : HypixelUtils.getOnlinePlayers()) {
 			// Unregister
 			try {
 				Main.getMainHandler().getPlayerHandler().deregister(player);
 			} catch (NoClassDefFoundError e) {
-				Main.getMainHandler().getLogger().error("Jackson error.. again.. (While saving player info during deregister)");
+				Log.error("Jackson error.. again.. (While saving player info during deregister)");
 			}
 			// Kick the player
 			player.kickPlayer(ChatColor.GOLD + "Restarting the server! Try joining again.");

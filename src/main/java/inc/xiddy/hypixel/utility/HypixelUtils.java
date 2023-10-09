@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.utility;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

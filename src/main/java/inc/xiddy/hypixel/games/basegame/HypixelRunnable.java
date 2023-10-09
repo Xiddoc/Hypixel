@@ -1,11 +1,12 @@
 package inc.xiddy.hypixel.games.basegame;
 
+import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
-import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -69,7 +70,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 				Bukkit.getWorldContainer() + "/" + this.getMap().getWorld().getName()
 			);
 		} catch (IOException e) {
-			Main.getMainHandler().getLogger().error("Couldn't delete world (maybe a player is still in the world?):");
+			Log.error("Couldn't delete world (maybe a player is still in the world?):");
 			e.printStackTrace();
 		}
 	}
