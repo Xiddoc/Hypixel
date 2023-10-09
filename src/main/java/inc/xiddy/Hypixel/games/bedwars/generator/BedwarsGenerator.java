@@ -1,6 +1,6 @@
 package inc.xiddy.hypixel.games.bedwars.generator;
 
-import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.server.Tasks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -84,7 +84,7 @@ public class BedwarsGenerator extends BukkitRunnable {
 		// If gen is not full
 		if (this.getDroppedMaterialAtLocation(resource.getResource(), gen) < resource.getGenCap()) {
 			// Synchronously
-			Main.getMainHandler().getThreadHandler().runSyncTask(
+			Tasks.runSyncTask(
 				// Drop item into the gen
 				() -> gen.getWorld().dropItem(gen, new ItemStack(resource.getResource()))
 			);

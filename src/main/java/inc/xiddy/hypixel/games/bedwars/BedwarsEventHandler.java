@@ -5,6 +5,7 @@ import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
+import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
@@ -257,7 +258,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// Remove bucket from inventory
-		Main.getMainHandler().getThreadHandler().scheduleSyncTask(() -> event.getPlayer().getInventory().remove(Material.BUCKET), 1);
+		Tasks.scheduleSyncTask(() -> event.getPlayer().getInventory().remove(Material.BUCKET), 1);
 	}
 
 	@EventHandler
@@ -623,7 +624,7 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 								this.locations.add(eggLoc);
 
 								// Synchronously
-								Main.getMainHandler().getThreadHandler().scheduleSyncTask(() -> {
+								Tasks.scheduleSyncTask(() -> {
 									// Make the bridge
 									// Get original location
 									Location baseLoc = this.locations.remove(0);

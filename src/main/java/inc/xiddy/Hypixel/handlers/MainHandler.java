@@ -1,12 +1,13 @@
 package inc.xiddy.hypixel.handlers;
 
+import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.commons.Log;
 
 public class MainHandler {
 	private DataHandler dataHandler;
 	private ScoreboardHandler boardHandler;
 	private PlayerHandler playerHandler;
-	private ThreadHandler threadHandler;
+	private Tasks threadHandler;
 	private GameHandler gameHandler;
 	private AnticheatHandler anticheatHandler;
 
@@ -33,7 +34,7 @@ public class MainHandler {
 
 		// Set up thread handler
 		Log.warning("Registering thread handler...");
-		this.threadHandler = new ThreadHandler();
+		this.threadHandler = new Tasks();
 	}
 
 	public DataHandler getDataHandler() {
@@ -48,7 +49,7 @@ public class MainHandler {
 		return playerHandler;
 	}
 
-	public ThreadHandler getThreadHandler() {
+	public Tasks getThreadHandler() {
 		return threadHandler;
 	}
 
