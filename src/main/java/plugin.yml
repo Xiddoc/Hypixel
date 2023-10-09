@@ -21,9 +21,9 @@ commands:
   savelocation:
     description: "Saves a location to be used later."
     usage: "Usage: /<command>"
-  perms:
-    description: "Updates a player's permissions."
-    usage: "Usage: /<command> <player>"
+  addperms:
+    description: "Adds a permission to a player."
+    usage: "Usage: /<command> <player> <permission>"
   setvelocity:
     description: "Sets the current player's velocity."
     usage: "Usage: /<command> <x_velocity> <y_velocity> <z_velocity>"
