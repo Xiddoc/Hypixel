@@ -1,10 +1,10 @@
 package inc.xiddy.hypixel.games.bedwars;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
-import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
-import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCRightClickEvent;

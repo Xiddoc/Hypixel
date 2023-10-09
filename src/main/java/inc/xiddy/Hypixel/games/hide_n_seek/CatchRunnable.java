@@ -1,10 +1,12 @@
 package inc.xiddy.hypixel.games.hide_n_seek;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.dataclasses.*;
+import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.dataclasses.HypixelTimer;
+import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;

@@ -1,10 +1,10 @@
 package inc.xiddy.hypixel.commands.implementations;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
-import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
-import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;
 

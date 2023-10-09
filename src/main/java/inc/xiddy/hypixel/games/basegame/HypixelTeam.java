@@ -1,9 +1,9 @@
 package inc.xiddy.hypixel.games.basegame;
 
 import inc.xiddy.hypixel.constants.TeamColor;
-import inc.xiddy.hypixel.games.basegame.maps.GameMap;
-import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.GameState;
+import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

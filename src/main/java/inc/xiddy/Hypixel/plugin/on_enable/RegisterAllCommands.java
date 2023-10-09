@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.plugin.on_enable;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.commands.HypixelCommand;
+import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.commons.Reflection;
 import inc.xiddy.hypixel.plugin.OnPluginEventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +17,7 @@ public class RegisterAllCommands implements OnPluginEventHandler {
 		try {
 			registerCommands(plugin, plugin.getClass().getPackage().getName() + COMMAND_PACKAGE);
 		} catch (ReflectiveOperationException e) {
-			Main.getMainHandler().getLogger().error("Error while registering commands:");
+			Log.error("Error while registering commands:");
 			e.printStackTrace();
 		}
 	}

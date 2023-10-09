@@ -1,8 +1,8 @@
 package inc.xiddy.hypixel.games.hide_n_seek;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 
 import java.util.HashSet;

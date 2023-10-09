@@ -1,8 +1,8 @@
 package inc.xiddy.hypixel.games.hide_n_seek;
 
+import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
-import inc.xiddy.hypixel.Main;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;

@@ -1,8 +1,9 @@
 package inc.xiddy.hypixel.constants;
 
+import inc.xiddy.hypixel.Main;
+import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -39,7 +40,7 @@ public enum Lobby {
 			// Set location to null which will probably throw an error somewhere else
 			this.location = null;
 			// File error while reading spawn location
-			Main.getMainHandler().getLogger().error("Could not load lobby:");
+			Log.error("Could not load lobby:");
 			e.printStackTrace();
 		}
 	}
