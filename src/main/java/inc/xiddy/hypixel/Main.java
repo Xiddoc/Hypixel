@@ -3,7 +3,7 @@ package inc.xiddy.hypixel;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.handlers.MainHandler;
-import inc.xiddy.hypixel.plugin.OnEnableRegistrar;
+import inc.xiddy.hypixel.plugin.PluginEventRegistrar;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.ChatColor;
@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
 
 		// Execute all onEnable handlers
 		try {
-			new OnEnableRegistrar().executeOnEnableHandlers(this);
+			new PluginEventRegistrar().executePluginEventHandlers(this, PluginEventRegistrar.PluginEvent.ON_ENABLE);
 		} catch (ReflectiveOperationException e) {
 			Main.getMainHandler().getLogger().error("Error while executing onEnable handlers:");
 			e.printStackTrace();

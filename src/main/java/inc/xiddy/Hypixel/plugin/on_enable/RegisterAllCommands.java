@@ -3,17 +3,17 @@ package inc.xiddy.hypixel.plugin.on_enable;
 import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.commands.HypixelCommand;
 import inc.xiddy.hypixel.commons.Reflection;
-import inc.xiddy.hypixel.plugin.OnEnableHandler;
+import inc.xiddy.hypixel.plugin.OnPluginEventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public class RegisterAllCommands extends OnEnableHandler {
+public class RegisterAllCommands implements OnPluginEventHandler {
 	private static final String COMMAND_PACKAGE = ".commands.implementations";
 
 	@Override
-	public void onEnable(JavaPlugin plugin) {
+	public void onHandleEvent(JavaPlugin plugin) {
 		try {
 			registerCommands(plugin, plugin.getClass().getPackage().getName() + COMMAND_PACKAGE);
 		} catch (ReflectiveOperationException e) {
