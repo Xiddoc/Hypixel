@@ -4,6 +4,7 @@ import inc.xiddy.hypixel.commands.HypixelCommand;
 import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.commons.Reflection;
 import inc.xiddy.hypixel.plugin.OnPluginEventHandler;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
@@ -29,7 +30,13 @@ public class RegisterAllCommands implements OnPluginEventHandler {
 	}
 
 	private static void registerCommand(JavaPlugin plugin, HypixelCommand cmd) {
-		plugin.getCommand(cmd.getCommandInfo().name()).setExecutor(cmd);
+		PluginCommand pluginCommand = plugin.getCommand(cmd.getCommandInfo().name());
+
+		if (pluginCommand == null) {
+			throw new RuntimeException("No command called /" + cmd.getCommandInfo().name() + " found in plugin.yml");
+		}
+
+		pluginCommand.setExecutor(cmd);
 	}
 
 	private static Set<HypixelCommand> getAllCommands(String commandPackage) throws ReflectiveOperationException {

@@ -7,6 +7,7 @@ import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
+import inc.xiddy.hypixel.handlers.MapHandler;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
@@ -51,7 +52,8 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 	public final void generateMap() throws FileNotFoundException {
 		// Make a new map using this lobby
 		// Then set the map to the generated world
-		this.setMap(Main.getMainHandler().getMapHandler().createMap(this.getLobby()));
+		// TODO : Don't do new every time
+		this.setMap(new MapHandler().createMap(this.getLobby()));
 	}
 
 	public final void destroyMap() {

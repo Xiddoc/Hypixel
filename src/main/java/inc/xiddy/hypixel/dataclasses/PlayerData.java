@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
-import inc.xiddy.hypixel.server.Permission;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,19 +23,16 @@ public class PlayerData {
 	// Non-serialized fields
 	private final HypixelPlayer player;
 	// Serialized fields
-	private Permission role;
 	private Lobby lobby;
 	private boolean online;
 
 	@JsonCreator
-	public PlayerData(@JsonProperty("role") Permission role,
-					  @JsonProperty("lobby") Lobby lobby,
+	public PlayerData(@JsonProperty("lobby") Lobby lobby,
 					  @JsonProperty("playerUUID") UUID playerUUID,
 					  @JsonProperty("online") boolean online,
 					  @JsonProperty("leftClicks") List<Long> leftClicks,
 					  @JsonProperty("rightClicks") List<Long> rightClicks) {
 		// Set fields
-		this.role = role;
 		this.lobby = lobby;
 		this.playerUUID = playerUUID;
 		// Get data / defaults
@@ -47,9 +43,7 @@ public class PlayerData {
 		this.rightClicks = new ArrayList<>();
 	}
 
-	public PlayerData(Permission role, UUID playerUUID) {
-		// Set default role
-		this.role = role;
+	public PlayerData(UUID playerUUID) {
 		// Set player UUID
 		this.playerUUID = playerUUID;
 		// Get player by UUID
@@ -59,15 +53,6 @@ public class PlayerData {
 		// Reset clicks
 		this.leftClicks = new ArrayList<>();
 		this.rightClicks = new ArrayList<>();
-	}
-
-	public Permission getRole() {
-		return this.role;
-	}
-
-	public void setRole(Permission role) {
-		// Set field
-		this.role = role;
 	}
 
 	public Lobby getLobby() {
@@ -162,7 +147,6 @@ public class PlayerData {
 	@Override
 	public String toString() {
 		return "PlayerData{" +
-			"role=" + role +
 			", lobby=" + lobby +
 			", playerUUID=" + playerUUID +
 			", online=" + online +

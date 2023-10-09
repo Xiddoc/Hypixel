@@ -3,7 +3,6 @@ package inc.xiddy.hypixel.handlers;
 import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.PlayerData;
-import inc.xiddy.hypixel.server.Permission;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class PlayerHandler {
 		} catch (FileNotFoundException e) {
 			// If no profile exists for the player, then generate a new profile for them
 			// If the player is OP, give them owner rank, otherwise default rank
-			data = new PlayerData(player.isOp() ? Permission.OWNER : Permission.DEFAULT, player.getUniqueId());
+			data = new PlayerData(player.getUniqueId());
 		}
 
 		// Change their online state to true
