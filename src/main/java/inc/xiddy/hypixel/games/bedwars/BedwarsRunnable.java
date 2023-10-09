@@ -9,6 +9,7 @@ import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.games.bedwars.generator.BedwarsGenerator;
+import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -136,7 +137,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		List<Location> teamGenLocations = new ArrayList<>();
 		for (BedwarsTeam team : teams) {
 			// Populate the beds
-			Main.getMainHandler().getThreadHandler().runSyncTask(team::generateBed);
+			Tasks.runSyncTask(team::generateBed);
 
 			// Save gen location
 			teamGenLocations.add(team.getGeneratorLocation());
@@ -160,7 +161,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			this.getNPCs().add(teamshopNPC);
 			this.getNPCs().add(itemshopNPC);
 			// Async spawn
-			Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
+			Tasks.runSyncTask(() -> {
 				// Summon them at the shop
 				teamshopNPC.spawn(team.getTeamshopLocation());
 				itemshopNPC.spawn(team.getItemshopLocation());
@@ -215,7 +216,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// Update state
 		this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
 		// Synchronously respawn them
-		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
+		Tasks.runSyncTask(() -> {
 			// Teleport to respawn location
 			player.teleport(this.getBedwarsPlayerData(player).getTeam().getRespawnLocation());
 
@@ -381,7 +382,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			);
 
 			// Make sure bed is gone
-			Main.getMainHandler().getThreadHandler().runSyncTask(team::removeBed);
+			Tasks.runSyncTask(team::removeBed);
 
 			// Repaint scoreboard
 			this.repaintScoreboardForAll();
@@ -428,7 +429,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			.append(WHITE).append("Beds Broken: ").append(GREEN).append("0\n\n")
 			.append(YELLOW).append("www.hypixel.net");
 		// Update the lobby scoreboard
-		Main.getMainHandler().getThreadHandler().scheduleSyncTask(
+		Tasks.scheduleSyncTask(
 			() -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString()),
 			1L
 		);
@@ -497,7 +498,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		this.internalStopGame();
 
 		// Synchronously destroy the map
-		Main.getMainHandler().getThreadHandler().runSyncTask(this::destroyMap);
+		Tasks.runSyncTask(this::destroyMap);
 	}
 
 	public BedwarsTeam getTeamByBedLocation(Location location) {

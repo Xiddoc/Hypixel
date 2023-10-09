@@ -7,6 +7,7 @@ import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
+import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -106,7 +107,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		}
 
 		// Stop the game in a few seconds
-		Main.getMainHandler().getThreadHandler().scheduleSyncTask(this::stopGame, gameOverTime);
+		Tasks.scheduleSyncTask(this::stopGame, gameOverTime);
 	}
 
 	public final void broadcastMessage(String message) {

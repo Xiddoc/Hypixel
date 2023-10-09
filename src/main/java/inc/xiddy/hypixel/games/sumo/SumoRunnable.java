@@ -5,6 +5,7 @@ import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
+import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -65,7 +66,7 @@ public class SumoRunnable extends HypixelRunnable {
 		// Start the game sequence
 		// Set each player's lobby
 		this.getPlayers().forEach(
-			player -> Main.getMainHandler().getThreadHandler().runSyncTask(() ->
+			player -> Tasks.runSyncTask(() ->
 				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby())
 			)
 		);
@@ -79,7 +80,7 @@ public class SumoRunnable extends HypixelRunnable {
 
 	public void spawn(HypixelPlayer player, boolean blindPlayer, boolean hideName) {
 		// Synchronously respawn them
-		Main.getMainHandler().getThreadHandler().runSyncTask(() -> {
+		Tasks.runSyncTask(() -> {
 			// If spawn blind
 			if (blindPlayer) {
 				// Teleport below respawn location
@@ -120,7 +121,7 @@ public class SumoRunnable extends HypixelRunnable {
 		str.append("\n\n").append(YELLOW).append("www.hypixel.net");
 
 		// Synchronously
-		Main.getMainHandler().getThreadHandler().runSyncTask(() ->
+		Tasks.runSyncTask(() ->
 			// Update the lobby scoreboard
 			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString())
 		);
@@ -132,7 +133,7 @@ public class SumoRunnable extends HypixelRunnable {
 		this.internalStopGame();
 
 		// Synchronously destroy the map
-		Main.getMainHandler().getThreadHandler().runSyncTask(this::destroyMap);
+		Tasks.runSyncTask(this::destroyMap);
 	}
 
 	public int getPlayerVoid() {
