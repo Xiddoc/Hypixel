@@ -3,6 +3,7 @@ package inc.xiddy.hypixel.games.hide_n_seek;
 import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -80,7 +81,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// If not player
-		if (!(event.getEntity() instanceof HypixelPlayer)) {
+		if (!(event.getEntity() instanceof Player)) {
 			// Exit
 			return;
 		}
@@ -95,8 +96,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 		if (this.getGame().isGameOver()) return;
 
 		// If player was attacked (PVP)
-		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
-			event.getDamager() instanceof HypixelPlayer) {
+		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && event.getDamager() instanceof Player) {
 			// Get the damager
 			HypixelPlayer damager = new HypixelPlayer(event.getDamager());
 			// If the damager is on the seeker team
