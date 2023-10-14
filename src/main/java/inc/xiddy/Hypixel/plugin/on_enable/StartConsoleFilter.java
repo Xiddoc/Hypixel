@@ -1,6 +1,6 @@
 package inc.xiddy.hypixel.plugin.on_enable;
 
-import inc.xiddy.hypixel.ConsoleFilter;
+import inc.xiddy.hypixel.logging.ConsoleFilter;
 import inc.xiddy.hypixel.plugin.OnPluginEventHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;

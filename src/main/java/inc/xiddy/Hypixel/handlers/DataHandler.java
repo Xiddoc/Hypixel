@@ -2,7 +2,7 @@ package inc.xiddy.hypixel.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import inc.xiddy.hypixel.commons.Log;
+import inc.xiddy.hypixel.logging.Log;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.handlers;
 
+import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.server.Tasks;
-import inc.xiddy.hypixel.commons.Log;
 
 public class MainHandler {
 	private DataHandler dataHandler;

@@ -1,7 +1,6 @@
 package inc.xiddy.hypixel.games.bedwars;
 
 import inc.xiddy.hypixel.Main;
-import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
@@ -9,6 +8,7 @@ import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.games.bedwars.generator.BedwarsGenerator;
+import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;

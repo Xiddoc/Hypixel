@@ -1,8 +1,8 @@
 package inc.xiddy.hypixel.plugin.on_enable;
 
 import inc.xiddy.hypixel.commands.HypixelCommand;
-import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.commons.Reflection;
+import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.plugin.OnPluginEventHandler;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -1,9 +1,9 @@
 package inc.xiddy.hypixel.constants;
 
 import inc.xiddy.hypixel.Main;
-import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
+import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

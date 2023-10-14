@@ -1,6 +1,6 @@
-package inc.xiddy.hypixel.constants;
+package inc.xiddy.hypixel.logging;
 
-public enum CColor {
+public enum ConsoleColor {
 	// Reset
 	RESET("\033[0m"),  // Text Reset
 
@@ -76,7 +76,7 @@ public enum CColor {
 
 	private final String color;
 
-	CColor(final String colorCode) {
+	ConsoleColor(final String colorCode) {
 		this.color = colorCode;
 	}
 

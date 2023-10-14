@@ -1,4 +1,4 @@
-package inc.xiddy.hypixel;
+package inc.xiddy.hypixel.logging;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;

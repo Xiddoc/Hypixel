@@ -1,9 +1,9 @@
 package inc.xiddy.hypixel;
 
-import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.handlers.MainHandler;
+import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.plugin.PluginEventRegistrar;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;

@@ -1,13 +1,13 @@
 package inc.xiddy.hypixel.games.basegame;
 
 import inc.xiddy.hypixel.Main;
-import inc.xiddy.hypixel.commons.Log;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.handlers.MapHandler;
+import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
