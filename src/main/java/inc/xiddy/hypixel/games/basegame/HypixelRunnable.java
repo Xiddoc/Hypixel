@@ -6,6 +6,7 @@ import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.handlers.MapHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.server.Tasks;
@@ -69,7 +70,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 
 		// Remove world files
 		try {
-			Main.getMainHandler().getDataHandler().removeFolder(
+			DataHandler.removeFolder(
 				Bukkit.getWorldContainer() + "/" + this.getMap().getWorld().getName()
 			);
 		} catch (IOException e) {

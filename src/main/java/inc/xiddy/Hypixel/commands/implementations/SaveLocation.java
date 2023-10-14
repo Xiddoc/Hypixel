@@ -1,10 +1,10 @@
 package inc.xiddy.hypixel.commands.implementations;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import org.bukkit.ChatColor;
 
 @CommandInfo(name = "savelocation", minArgCount = 1, permission = "hypixel.builder")
@@ -23,8 +23,8 @@ public class SaveLocation extends HypixelCommand {
 			// Center the location
 			loc = SmallLocation.center(loc);
 			// Write the location to the disk
-			Main.getMainHandler().getDataHandler().write(
-				"other/" + Main.getMainHandler().getDataHandler().stripSlashes(args[0]),
+			DataHandler.write(
+				"other/" + DataHandler.stripSlashes(args[0]),
 				loc
 			);
 		}

@@ -1,6 +1,5 @@
 package inc.xiddy.hypixel.handlers;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
@@ -35,7 +34,7 @@ public class MapHandler {
 
 	public GameMap createMap(Lobby lobby) throws FileNotFoundException {
 		// Get the path
-		return this.createMap(lobby, this.getRandomMap(Main.getMainHandler().getDataHandler().getBasepath() + "/" + GameMap.getPathToGameMaps(lobby)).getName());
+		return this.createMap(lobby, this.getRandomMap(DataHandler.getBasePath() + "/" + GameMap.getPathToGameMaps(lobby)).getName());
 	}
 
 	public GameMap createMap(Lobby lobby, String mapName) {
@@ -51,8 +50,8 @@ public class MapHandler {
 		// Make new world name
 		String worldName = map.getGameAsString().toUpperCase() + "-" + UUID.randomUUID();
 		// Move map to world
-		Main.getMainHandler().getDataHandler().copyFolderContents(
-			new File(Main.getMainHandler().getDataHandler().getBasepath() + "/" + map.getPathToMapWorld()),
+		DataHandler.copyFolderContents(
+			new File(DataHandler.getBasePath() + "/" + map.getPathToMapWorld()),
 			Bukkit.getWorldContainer().getPath() + "/" + worldName,
 			new String[] {"uid.dat", "session.lock"}
 		);

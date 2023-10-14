@@ -1,10 +1,10 @@
 package inc.xiddy.hypixel.games.sumo;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.ChatColor;
@@ -43,7 +43,7 @@ public class SumoRunnable extends HypixelRunnable {
 			this.generateMap();
 
 			// Get map spawn
-			this.centerLoc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "/spawn.json", SmallLocation.class).toLocation();
+			this.centerLoc = DataHandler.read(this.getMap().getPathToMapGlobals() + "/spawn.json", SmallLocation.class).toLocation();
 
 			// Update the world
 			this.centerLoc.setWorld(this.getMap().getWorld());

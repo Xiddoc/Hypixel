@@ -1,11 +1,11 @@
 package inc.xiddy.hypixel.commands.implementations;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.commands.CommandInfo;
 import inc.xiddy.hypixel.commands.HypixelCommand;
 import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
@@ -55,7 +55,7 @@ public class BedwarsSetup extends HypixelCommand {
 			// If this is a generator
 			if (args[1].equals("global")) {
 				// Save location
-				Main.getMainHandler().getDataHandler().write("bedwars/maps/new_map/global/" + fileNickname + ".json", loc);
+				DataHandler.write("bedwars/maps/new_map/global/" + fileNickname + ".json", loc);
 				// Update player
 				player.sendMessage(ChatColor.GREEN + fileNickname + " [Global] location saved.");
 			} else {
@@ -69,7 +69,7 @@ public class BedwarsSetup extends HypixelCommand {
 					team = TeamColor.fromString(args[1]);
 				}
 				// If this is a team location
-				Main.getMainHandler().getDataHandler().write("bedwars/maps/new_map/" + team + "/" + fileNickname + ".json", loc);
+				DataHandler.write("bedwars/maps/new_map/" + team + "/" + fileNickname + ".json", loc);
 				// Update player
 				player.sendMessage(ChatColor.GREEN + fileNickname + " [" + team.getCapitalizedString() + "] location saved.");
 			}

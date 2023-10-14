@@ -8,6 +8,7 @@ import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.games.basegame.ingame.GameState;
 import inc.xiddy.hypixel.games.bedwars.generator.BedwarsGenerator;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
@@ -183,7 +184,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		try {
 			for (int i = 0; i < 4; i++) {
 				// Get the location for the marker
-				Location loc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "/diamondgen" + (i + 1) + ".json", SmallLocation.class).toLocation();
+				Location loc = DataHandler.read(this.getMap().getPathToMapGlobals() + "/diamondgen" + (i + 1) + ".json", SmallLocation.class).toLocation();
 				// Update the world
 				loc.setWorld(this.getMap().getWorld());
 				// Add location to generators
@@ -197,7 +198,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		try {
 			for (int i = 0; i < 4; i++) {
 				// Get the location for the marker
-				Location loc = Main.getMainHandler().getDataHandler().read(this.getMap().getPathToMapGlobals() + "/emeraldgen" + (i + 1) + ".json", SmallLocation.class).toLocation();
+				Location loc = DataHandler.read(this.getMap().getPathToMapGlobals() + "/emeraldgen" + (i + 1) + ".json", SmallLocation.class).toLocation();
 				// Update the world
 				loc.setWorld(this.getMap().getWorld());
 				// Add location to generators

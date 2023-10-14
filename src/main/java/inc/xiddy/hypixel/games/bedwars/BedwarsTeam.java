@@ -1,10 +1,10 @@
 package inc.xiddy.hypixel.games.bedwars;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelTeam;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -33,7 +33,7 @@ public class BedwarsTeam extends HypixelTeam {
 
 	private Location getBedwarsMarkerLocation(String markerName) throws FileNotFoundException {
 		// Get the location for the marker
-		Location loc = Main.getMainHandler().getDataHandler().read("bedwars/maps/" + this.getMap().getMapName() + "/" + this.getTeamColor() + "/" + markerName + ".json", SmallLocation.class).toLocation();
+		Location loc = DataHandler.read("bedwars/maps/" + this.getMap().getMapName() + "/" + this.getTeamColor() + "/" + markerName + ".json", SmallLocation.class).toLocation();
 		// Update the world
 		loc.setWorld(this.getMap().getWorld());
 		// Return the world

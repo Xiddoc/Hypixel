@@ -1,8 +1,8 @@
 package inc.xiddy.hypixel.constants;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
+import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.bukkit.Bukkit;
@@ -33,7 +33,7 @@ public enum Lobby {
 		this.allowFlight = lobbyAllowFlight;
 		try {
 			// Read location
-			this.location = Main.getMainHandler().getDataHandler().read(locationPath, SmallLocation.class).toLocation();
+			this.location = DataHandler.read(locationPath, SmallLocation.class).toLocation();
 			// Set world
 			this.getLocation().setWorld(Bukkit.getWorld(worldName));
 		} catch (FileNotFoundException e) {
