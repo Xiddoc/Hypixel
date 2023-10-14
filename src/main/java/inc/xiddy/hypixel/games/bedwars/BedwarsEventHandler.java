@@ -356,11 +356,8 @@ public class BedwarsEventHandler extends HypixelEventHandler {
 				// Remove the block from the placed blocks list, but let them destroy the block
 				this.getGame().removePlacedBlock(loc);
 			} else {
-				// Otherwise,
 				// Stop them from destroying the map
 				event.setCancelled(true);
-				// Don't set off anticheat
-				Main.getMainHandler().getAnticheatHandler().revokeLeftClick(new HypixelPlayer(event.getPlayer()));
 			}
 		}
 	}

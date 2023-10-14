@@ -29,13 +29,6 @@ public class HubEventHandler extends HypixelEventHandler {
 	}
 
 	@EventHandler
-	public void onClick(PlayerInteractEvent event) {
-		// Any time a player clicks
-		// Pass the data to the anticheat
-		Main.getMainHandler().getAnticheatHandler().onClick(event);
-	}
-
-	@EventHandler
 	public void onDestroy(BlockBreakEvent event) {
 		if (this.verifyState(event)) return;
 
