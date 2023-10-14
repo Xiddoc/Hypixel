@@ -23,7 +23,6 @@ import static org.bukkit.ChatColor.*;
 public class CatchRunnable extends HypixelRunnable {
 	private final CatchTeam seekerTeam;
 	private final CatchTeam hiderTeam;
-	private final CatchRadar radar;
 	private Location spawnLoc;
 	private HypixelTimer gameTimer;
 
@@ -31,30 +30,22 @@ public class CatchRunnable extends HypixelRunnable {
 		super(players, catchGame, lobby);
 
 		// Make event handler
-		this.setEventHandler(new CatchEventHandler(this));
+		this.setEventHandler(new BaseCatchEventHandler(this));
 
 		// Make hider team
-		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1, false);
-		// Select hider
+		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1);
 		HypixelPlayer hider = HypixelUtils.randomFromArray(players.toArray(new HypixelPlayer[0]));
-		// Update state
 		this.hiderTeam.setPlayerState(hider, GameState.ALIVE);
-		// Add hider to hider team
 		this.hiderTeam.addPlayer(hider);
 
-		// Make seeker team
-		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
-		// If the player is not a hider
+		// If the player is not a hider, add them to the seekers
+		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1);
 		for (HypixelPlayer player: players) {
 			if (!hiderTeam.contains(player)) {
-				// Add them to the seekers
 				this.seekerTeam.setPlayerState(player, GameState.ALIVE);
 				this.seekerTeam.addPlayer(player);
 			}
 		}
-
-		// Make radar
-		this.radar = new CatchRadar();
 	}
 
 	@Override
@@ -223,10 +214,6 @@ public class CatchRunnable extends HypixelRunnable {
 
 	public CatchTeam getHiderTeam() {
 		return hiderTeam;
-	}
-
-	public CatchRadar getRadar() {
-		return radar;
 	}
 
 	public HypixelTimer getGameTimer() {

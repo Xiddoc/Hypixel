@@ -11,8 +11,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class CatchEventHandler extends HypixelEventHandler {
-	public CatchEventHandler(CatchRunnable game) {
+public class BaseCatchEventHandler extends HypixelEventHandler {
+	public BaseCatchEventHandler(CatchRunnable game) {
 		super(game);
 	}
 
@@ -40,7 +40,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 			// Update for each seeker
 			this.getGame().getSeekerTeam().getPlayers().forEach(seeker -> {
 				// Print the radar
-				this.getGame().getRadar().printRadar(
+				CatchRadar.printRadar(
 					// To the seeker
 					seeker,
 					// Showing the distance between their location
@@ -54,7 +54,7 @@ public class CatchEventHandler extends HypixelEventHandler {
 			// If a seeker moved
 			// Then it is not necessary to update the radar for every other player
 			// Print the radar
-			this.getGame().getRadar().printRadar(
+			CatchRadar.printRadar(
 				// To the seeker
 				player,
 				// Showing the distance between their location
