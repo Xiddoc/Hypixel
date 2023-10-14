@@ -50,6 +50,14 @@ public abstract class HypixelTeam {
 		this.players.put(player, GameState.ALIVE);
 	}
 
+	public boolean contains(HypixelPlayer player) {
+		for (HypixelPlayer teamPlayer : getPlayers()) {
+			if (teamPlayer.equals(player)) return true;
+		}
+
+		return false;
+	}
+
 	public final boolean isEliminated() {
 		// If there are no alive (respawning or alive) players, then they are eliminated
 		return this.getAlivePlayers().isEmpty();

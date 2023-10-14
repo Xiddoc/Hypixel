@@ -44,13 +44,11 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Make seeker team
 		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1, true);
-		// Populate
+		// If the player is not a hider
 		for (HypixelPlayer player: players) {
-			// If the player is not the hider
-			if (!player.equals(hider)) {
-				// Update state
+			if (!hiderTeam.contains(player)) {
+				// Add them to the seekers
 				this.seekerTeam.setPlayerState(player, GameState.ALIVE);
-				// Add player to seeker team
 				this.seekerTeam.addPlayer(player);
 			}
 		}
