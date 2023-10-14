@@ -31,7 +31,7 @@ public class AddPerms extends HypixelCommand {
 		api.getUserManager().saveUser(user);
 
 		player.sendMessage(
-			ChatColor.GREEN + "Permission '" + permission + "' added to " +
-				user.getUsername() + "(" + user.getUniqueId() + ")!");
+			ChatColor.GREEN + "Permission '" + ChatColor.DARK_GREEN + permission + ChatColor.GREEN + "' added to " +
+				ChatColor.DARK_GREEN + user.getUsername() + ChatColor.GREEN + "!");
 	}
 }
