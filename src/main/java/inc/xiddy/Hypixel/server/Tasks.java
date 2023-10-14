@@ -1,11 +1,10 @@
 package inc.xiddy.hypixel.server;
 
 import inc.xiddy.hypixel.Main;
-import org.bukkit.scheduler.BukkitTask;
 
 public class Tasks {
-	public static BukkitTask runSyncTask(Runnable task) {
-		return Main.getInstance().getServer().getScheduler().runTask(Main.getInstance(), task);
+	public static void runSyncTask(Runnable task) {
+		Main.getInstance().getServer().getScheduler().runTask(Main.getInstance(), task);
 	}
 
 	public static void scheduleSyncTask(Runnable task, double seconds) {

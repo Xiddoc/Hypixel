@@ -1,6 +1,5 @@
 package inc.xiddy.hypixel.games.hub;
 
-import inc.xiddy.hypixel.Main;
 import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
@@ -59,15 +58,14 @@ public class HubEventHandler extends HypixelEventHandler {
 		// If player falling in void
 		if (event.getTo().getY() < 0) {
 			// Teleport back to spawn
-			Main.getMainHandler().getPlayerHandler().getPlayerData(new HypixelPlayer(event.getPlayer())).setLobby(Lobby.HUB);
+			new HypixelPlayer(event.getPlayer()).setLobby(Lobby.HUB);
 		}
 	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		// Register player
 		// Move player to the lobby
-		Main.getMainHandler().getPlayerHandler().register(new HypixelPlayer(event.getPlayer())).setLobby(Lobby.HUB);
+		new HypixelPlayer(event.getPlayer()).setLobby(Lobby.HUB);
 		// Remove join message
 		event.setJoinMessage("");
 		// For everyone in the lobby
@@ -103,8 +101,6 @@ public class HubEventHandler extends HypixelEventHandler {
 
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent event) {
-		// Deregister the player
-		Main.getMainHandler().getPlayerHandler().deregister(new HypixelPlayer(event.getPlayer()));
 		// Remove quitting message
 		event.setQuitMessage("");
 	}

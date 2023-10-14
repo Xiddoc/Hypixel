@@ -88,7 +88,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			// Make initial team
 			BedwarsTeam team = new BedwarsTeam(TeamColor.values()[teamIdx], this.getMap(), this.getTeamSize());
 			// For each player
-			for (HypixelPlayer player : this.getPlayers()) {
+			for (HypixelPlayer player: this.getPlayers()) {
 				// If no space for new player, then make a new team
 				if (team.isTeamFull()) {
 					// Add the team to the list
@@ -124,7 +124,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		// Start the game sequence
 		// For each player
-		for (HypixelPlayer player : this.getPlayers()) {
+		for (HypixelPlayer player: this.getPlayers()) {
 			// Remove enderchest items
 			player.getEnderChest().clear();
 
@@ -135,7 +135,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		// For each team
 		List<Location> teamGenLocations = new ArrayList<>();
-		for (BedwarsTeam team : teams) {
+		for (BedwarsTeam team: teams) {
 			// Populate the beds
 			Tasks.runSyncTask(team::generateBed);
 
@@ -221,10 +221,10 @@ public class BedwarsRunnable extends HypixelRunnable {
 			player.teleport(this.getBedwarsPlayerData(player).getTeam().getRespawnLocation());
 
 			// Set mode
-			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby());
+			player.setLobby(this.getLobby());
 
 			// Give tools
-			for (Map.Entry<String, ItemStack> item : this.getBedwarsPlayerData(player).getBedwarsInventory().getHotbar().entrySet()) {
+			for (Map.Entry<String, ItemStack> item: this.getBedwarsPlayerData(player).getBedwarsInventory().getHotbar().entrySet()) {
 				player.getInventory().addItem(item.getValue());
 			}
 
@@ -271,7 +271,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		}
 
 		// Set lobby to spectator
-		Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.SPECTATOR);
+		player.setLobby(Lobby.SPECTATOR);
 
 		// Teleport them to their bed
 		player.teleport(this.getPlayerTeam(player).getBedLocation().add(0, 10, 0));
@@ -327,7 +327,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	public BedwarsPlayerData getBedwarsPlayerData(HypixelPlayer player) {
 		// For each data point
-		for (BedwarsPlayerData data : this.getAllBedwarsPlayerData()) {
+		for (BedwarsPlayerData data: this.getAllBedwarsPlayerData()) {
 			// If the player matches the data point
 			if (data.getPlayer().equals(player)) {
 				// Return this point
@@ -394,7 +394,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	public void repaintScoreboardForAll() {
 		// For each player
-		for (HypixelPlayer player : this.getPlayers()) {
+		for (HypixelPlayer player: this.getPlayers()) {
 			// Repaint the board for them
 			this.repaintScoreboard(player);
 		}
@@ -408,7 +408,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			.append(DARK_GRAY).append(" m").append(this.getTaskId()).append("E")
 			.append(WHITE).append("\n\nDiamond II in ").append(GREEN).append("0:00\n\n");
 		// For each team
-		for (BedwarsTeam team : this.getTeams()) {
+		for (BedwarsTeam team: this.getTeams()) {
 			// Add team name to the scoreboard
 			str.append(team.getTeamColor().getColorCode())
 				.append(team.getTeamColor().getCapitalizedString().charAt(0))
@@ -430,7 +430,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			.append(YELLOW).append("www.hypixel.net");
 		// Update the lobby scoreboard
 		Tasks.scheduleSyncTask(
-			() -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString()),
+			() -> player.setScoreboard(str.toString()),
 			1L
 		);
 	}
@@ -446,7 +446,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		Log.error("CHECK");
 		BedwarsTeam aliveTeam = null;
 		// For each team
-		for (BedwarsTeam team : this.getTeams()) {
+		for (BedwarsTeam team: this.getTeams()) {
 			// If team is still alive
 			if (!team.isEliminated()) {
 				// If the marker is already true
@@ -490,7 +490,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	public void stopGame() {
 		// Kill all NPCs
-		for (NPC npc : this.getNPCs()) {
+		for (NPC npc: this.getNPCs()) {
 			CitizensAPI.getNPCRegistry().deregister(npc);
 		}
 
@@ -505,7 +505,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// Get cleaned location
 		Location loc = floor(location);
 		// For each team
-		for (BedwarsTeam team : this.getTeams()) {
+		for (BedwarsTeam team: this.getTeams()) {
 			// Check if the location is equal to the current bed location or the location in front of it (bed head)
 			if (loc.equals(floor(team.getBedLocations()[0])) ||
 				loc.equals(floor(team.getBedLocations()[1]))) {

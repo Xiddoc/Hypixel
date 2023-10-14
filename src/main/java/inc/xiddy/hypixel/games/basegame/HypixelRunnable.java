@@ -61,7 +61,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		for (HypixelPlayer player: this.getPlayers()) {
 			// Try to (player might have quit the game)
 			// Kick them out of the game
-			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(Lobby.HUB);
+			player.setLobby(Lobby.HUB);
 		}
 
 		// Unload the world

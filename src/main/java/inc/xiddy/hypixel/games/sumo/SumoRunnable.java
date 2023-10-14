@@ -67,7 +67,7 @@ public class SumoRunnable extends HypixelRunnable {
 		// Set each player's lobby
 		this.getPlayers().forEach(
 			player -> Tasks.runSyncTask(() ->
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby())
+				player.setLobby(this.getLobby())
 			)
 		);
 //		// For each hider
@@ -123,7 +123,7 @@ public class SumoRunnable extends HypixelRunnable {
 		// Synchronously
 		Tasks.runSyncTask(() ->
 			// Update the lobby scoreboard
-			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString())
+			player.setScoreboard(str.toString())
 		);
 	}
 

@@ -5,7 +5,6 @@ import inc.xiddy.hypixel.logging.Log;
 public class MainHandler {
 	private DataHandler dataHandler;
 	private ScoreboardHandler boardHandler;
-	private PlayerHandler playerHandler;
 	private GameHandler gameHandler;
 
 	public void initMainHandler() {
@@ -16,10 +15,6 @@ public class MainHandler {
 		// Set up Scoreboard handler
 		Log.warning("Registering scoreboard handler...");
 		this.boardHandler = new ScoreboardHandler();
-
-		// Set up player handler
-		Log.warning("Registering player handler...");
-		this.playerHandler = new PlayerHandler();
 
 		// Set up Game handler
 		Log.warning("Registering game handler...");
@@ -32,10 +27,6 @@ public class MainHandler {
 
 	public ScoreboardHandler getBoardHandler() {
 		return boardHandler;
-	}
-
-	public PlayerHandler getPlayerHandler() {
-		return playerHandler;
 	}
 
 	public GameHandler getGameHandler() {

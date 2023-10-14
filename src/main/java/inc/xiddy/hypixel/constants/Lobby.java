@@ -88,7 +88,7 @@ public enum Lobby {
 		// Add it to the set
 		// Return the full set
 		return HypixelUtils.getOnlinePlayers().stream().filter(
-			player -> Main.getMainHandler().getPlayerHandler().getPlayerData(player).getLobby().equals(this)
+			player -> player.getLobby().equals(this)
 		).collect(Collectors.toSet());
 	}
 }

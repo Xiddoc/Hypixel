@@ -19,7 +19,7 @@ public class StartGame extends HypixelCommand {
 		String gameName = args[0].toLowerCase();
 
 		// Check if player already in a game
-		if (!Main.getMainHandler().getPlayerHandler().getPlayerData(player).getLobby().equals(Lobby.HUB)) {
+		if (!player.getLobby().equals(Lobby.HUB)) {
 			// You can't do that! Must be in lobby.
 			player.sendMessage(
 				ChatColor.DARK_RED +

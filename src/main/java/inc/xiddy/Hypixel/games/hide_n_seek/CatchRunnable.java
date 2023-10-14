@@ -82,9 +82,7 @@ public class CatchRunnable extends HypixelRunnable {
 		// Start the game sequence
 		// Set each player's lobby
 		this.getPlayers().forEach(
-			player -> Tasks.runSyncTask(() ->
-				Main.getMainHandler().getPlayerHandler().getPlayerData(player).setLobby(this.getLobby())
-			)
+			player -> Tasks.runSyncTask(() -> player.setLobby(this.getLobby()))
 		);
 		// For each hider
 		// Move player to respawn location
@@ -181,10 +179,9 @@ public class CatchRunnable extends HypixelRunnable {
 		// Add footer
 		str.append("\n\n").append(YELLOW).append("www.hypixel.net");
 
-		// Synchronously
+		// Update the lobby scoreboard
 		Tasks.runSyncTask(() ->
-			// Update the lobby scoreboard
-			Main.getMainHandler().getPlayerHandler().getPlayerData(player).setScoreboard(str.toString())
+			player.setScoreboard(str.toString())
 		);
 	}
 
