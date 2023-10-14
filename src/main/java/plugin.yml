@@ -4,7 +4,9 @@ name: Hypixel
 author: xiddy
 version: 1.0
 description: "A replica of many Hypixel games and their server structure."
-depend: [Citizens]
+depend: [Citizens, LuckPerms]
+permission-message: You do not have permission to use this Hypixel plugin command.
+
 commands:
   ping:
     description: "Ping the server to see your connection."

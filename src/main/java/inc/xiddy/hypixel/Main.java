@@ -54,14 +54,14 @@ public class Main extends JavaPlugin {
 
 		// Destroy all games
 		Log.warning("Shutting down games...");
-		for (HypixelGame game : Main.getMainHandler().getGameHandler().getAllGames()) {
+		for (HypixelGame game: Main.getMainHandler().getGameHandler().getAllGames()) {
 			// Shut down each game
 			game.stopGame();
 		}
 
 		// Kick everyone off to prevent issues with lobbies
 		Log.warning("Kicking all players...");
-		for (HypixelPlayer player : HypixelUtils.getOnlinePlayers()) {
+		for (HypixelPlayer player: HypixelUtils.getOnlinePlayers()) {
 			// Unregister
 			try {
 				Main.getMainHandler().getPlayerHandler().deregister(player);

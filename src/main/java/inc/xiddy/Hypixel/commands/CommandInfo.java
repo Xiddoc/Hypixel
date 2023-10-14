@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 public @interface CommandInfo {
 	String name();
 	int minArgCount();
-	String permission() default "";
+	String permission() default "*";
 	boolean requiresPlayer() default true;
 }

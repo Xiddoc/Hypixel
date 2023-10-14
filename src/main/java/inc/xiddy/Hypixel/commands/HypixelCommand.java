@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 
 public abstract class HypixelCommand implements CommandExecutor {
+	private final static String ALL_PERMS = "*";
 	private final CommandInfo commandInfo;
 
 	public HypixelCommand() {
@@ -24,8 +25,8 @@ public abstract class HypixelCommand implements CommandExecutor {
 			return false;
 		}
 
-		if (!sender.hasPermission(commandInfo.permission())) {
-			sender.sendMessage(ChatColor.DARK_RED + "You don't have permission to execute this command.");
+		if (!isCommandAvailableToAll() && !sender.hasPermission(commandInfo.permission())) {
+			sender.sendMessage(ChatColor.DARK_RED + "You don't have permission to execute this Hypixel command.");
 			return true;
 		}
 
@@ -49,6 +50,10 @@ public abstract class HypixelCommand implements CommandExecutor {
 
 	public void execute(HypixelPlayer player, String[] args) {}
 	public void execute(CommandSender sender, String[] args) {}
+
+	private boolean isCommandAvailableToAll() {
+		return commandInfo.permission().equals(ALL_PERMS);
+	}
 
 	public CommandInfo getCommandInfo() {
 		return commandInfo;
