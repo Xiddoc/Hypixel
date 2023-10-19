@@ -1,4 +1,4 @@
-package inc.xiddy.hypixel.games.hide_n_seek;
+package inc.xiddy.hypixel.games.hide_n_seek.mechanics;
 
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
