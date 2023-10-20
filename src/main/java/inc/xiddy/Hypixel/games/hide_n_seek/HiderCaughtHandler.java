@@ -20,7 +20,7 @@ public class HiderCaughtHandler extends HypixelEventHandler {
 			return;
 		}
 
-		HypixelPlayer player = new HypixelPlayer(event.getEntity());
+		HypixelPlayer player = new HypixelPlayer((Player) event.getEntity());
 		event.setCancelled(true);
 
 		// If game is over
@@ -29,7 +29,7 @@ public class HiderCaughtHandler extends HypixelEventHandler {
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && event.getDamager() instanceof Player) {
 			// Get the damager
-			HypixelPlayer damager = new HypixelPlayer(event.getDamager());
+			HypixelPlayer damager = new HypixelPlayer((Player) event.getDamager());
 			// If the damager is on the seeker team
 			// And the player is also on the seeker team
 			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&

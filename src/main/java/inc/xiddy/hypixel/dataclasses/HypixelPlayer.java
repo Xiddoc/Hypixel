@@ -16,10 +16,6 @@ import static org.bukkit.ChatColor.*;
 public class HypixelPlayer extends CraftPlayer {
 	private Lobby lobby;
 
-	public HypixelPlayer(Entity entity) {
-		this((Player) entity);
-	}
-
 	public HypixelPlayer(Player player) {
 		super((CraftServer) player.getServer(), ((CraftPlayer) player).getHandle());
 	}
