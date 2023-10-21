@@ -57,7 +57,7 @@ public abstract class HypixelTeam {
 			.collect(Collectors.toSet());
 	}
 
-	public void setPlayersState(GameState state) {
+	public void setPlayersStates(GameState state) {
 		for (InGamePlayer player : getPlayers()) {
 			player.setState(state);
 		}

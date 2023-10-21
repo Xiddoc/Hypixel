@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.games.hide_n_seek;
 
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import inc.xiddy.hypixel.games.hide_n_seek.mechanics.CatchRadar;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -19,7 +19,7 @@ public class BaseCatchEventHandler extends HypixelEventHandler {
 		if (this.verifyState(event)) return;
 
 		// Get player
-		HypixelPlayer player = new HypixelPlayer(event.getPlayer());
+		InGamePlayer player = new InGamePlayer(event.getPlayer());
 
 		// If game hasn't started, don't execute
 		if (this.getGame().getGameTimer().getElapsedTime() < 30) {
@@ -44,7 +44,7 @@ public class BaseCatchEventHandler extends HypixelEventHandler {
 					// Showing the distance between their location
 					(int) seeker.getLocation().distance(
 						// To the hiders location
-						this.getGame().getHiderTeam().getPlayers().toArray(new HypixelPlayer[0])[0].getLocation()
+						this.getGame().getHiderTeam().getPlayers().toArray(new InGamePlayer[0])[0].getLocation()
 					)
 				);
 			});
@@ -58,7 +58,7 @@ public class BaseCatchEventHandler extends HypixelEventHandler {
 				// Showing the distance between their location
 				(int) player.getLocation().distance(
 					// To the hiders location
-					this.getGame().getHiderTeam().getPlayers().toArray(new HypixelPlayer[0])[0].getLocation()
+					this.getGame().getHiderTeam().getPlayers().toArray(new InGamePlayer[0])[0].getLocation()
 				)
 			);
 		}

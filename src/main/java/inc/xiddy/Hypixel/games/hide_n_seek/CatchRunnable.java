@@ -6,7 +6,8 @@ import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.HypixelTimer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
-import inc.xiddy.hypixel.games.basegame.ingame.state.GameState;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
+import inc.xiddy.hypixel.games.hide_n_seek.state.CatchState;
 import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;
@@ -34,15 +35,15 @@ public class CatchRunnable extends HypixelRunnable {
 
 		// Make hider team
 		this.hiderTeam = new CatchTeam(TeamColor.RED, null, 1);
-		HypixelPlayer hider = HypixelUtils.randomFromArray(players.toArray(new HypixelPlayer[0]));
-		this.hiderTeam.setPlayerState(hider, GameState.ALIVE);
+		InGamePlayer hider = HypixelUtils.randomFromArray(getPlayers().toArray(new InGamePlayer[0]));
+		hider.setState(CatchState.ALIVE);
 		this.hiderTeam.addPlayer(hider);
 
 		// If the player is not a hider, add them to the seekers
 		this.seekerTeam = new CatchTeam(TeamColor.GREEN, null, 1);
-		for (HypixelPlayer player: players) {
+		for (InGamePlayer player : getPlayers()) {
 			if (!hiderTeam.contains(player)) {
-				this.seekerTeam.setPlayerState(player, GameState.ALIVE);
+				player.setState(CatchState.ALIVE);
 				this.seekerTeam.addPlayer(player);
 			}
 		}
@@ -127,7 +128,7 @@ public class CatchRunnable extends HypixelRunnable {
 		};
 	}
 
-	public void spawn(HypixelPlayer player, boolean blindPlayer, boolean hideName) {
+	public void spawn(InGamePlayer player, boolean blindPlayer, boolean hideName) {
 		// Synchronously respawn them
 		Tasks.runSyncTask(() -> {
 			// If spawn blind
@@ -153,7 +154,7 @@ public class CatchRunnable extends HypixelRunnable {
 		this.getPlayers().forEach(player -> this.repaintScoreboard(player, time));
 	}
 
-	public void repaintScoreboard(HypixelPlayer player, int time) {
+	public void repaintScoreboard(InGamePlayer player, int time) {
 		//noinspection StringBufferReplaceableByString
 		StringBuilder str = new StringBuilder();
 		// Start by making header
@@ -166,11 +167,11 @@ public class CatchRunnable extends HypixelRunnable {
 		// Add team name and size to the scoreboard (Seekers)
 		str.append(this.getSeekerTeam().getTeamColor().getColorCode()).append("S ")
 			.append(WHITE).append("Seekers: ")
-			.append(YELLOW).append(this.getSeekerTeam().getAlivePlayers().size()).append("\n")
+			.append(YELLOW).append(this.getSeekerTeam().getPlayersOfState(CatchState.ALIVE).size()).append("\n")
 			// Add team name and size to the scoreboard (Hiders)
 			.append(this.getHiderTeam().getTeamColor().getColorCode()).append("H ")
 			.append(WHITE).append("Hiders: ")
-			.append(YELLOW).append(this.getHiderTeam().getAlivePlayers().size())
+			.append(YELLOW).append(this.getHiderTeam().getPlayersOfState(CatchState.ALIVE).size())
 			// Get player's team
 			.append(GRAY).append("\n\nYou are a ")
 			.append(this.getSeekerTeam().getPlayers().contains(player) ?

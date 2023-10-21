@@ -1,7 +1,7 @@
 package inc.xiddy.hypixel.games.hide_n_seek;
 
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -20,7 +20,7 @@ public class HiderCaughtHandler extends HypixelEventHandler {
 			return;
 		}
 
-		HypixelPlayer player = new HypixelPlayer((Player) event.getEntity());
+		InGamePlayer player = new InGamePlayer((Player) event.getEntity());
 		event.setCancelled(true);
 
 		// If game is over
@@ -29,7 +29,7 @@ public class HiderCaughtHandler extends HypixelEventHandler {
 		// If player was attacked (PVP)
 		if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && event.getDamager() instanceof Player) {
 			// Get the damager
-			HypixelPlayer damager = new HypixelPlayer((Player) event.getDamager());
+			InGamePlayer damager = new InGamePlayer((Player) event.getDamager());
 			// If the damager is on the seeker team
 			// And the player is also on the seeker team
 			if (this.getGame().getSeekerTeam().getPlayers().contains(damager) &&
