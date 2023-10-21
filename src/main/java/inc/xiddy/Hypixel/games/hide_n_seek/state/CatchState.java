@@ -15,6 +15,4 @@ public enum CatchState implements GameState {
 
 		}
 	}
-
-
 }
