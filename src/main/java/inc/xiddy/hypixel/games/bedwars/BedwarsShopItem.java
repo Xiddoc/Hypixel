@@ -1,6 +1,6 @@
 package inc.xiddy.hypixel.games.bedwars;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +11,6 @@ import java.util.List;
 
 import static org.bukkit.ChatColor.*;
 
-@SuppressWarnings("deprecation")
 public abstract class BedwarsShopItem {
 	private final ItemStack item;
 	private final ItemStack payment;
@@ -82,7 +81,7 @@ public abstract class BedwarsShopItem {
 		return HypixelUtils.capitalize(this.getItem().getType().toString().split("_"));
 	}
 
-	public void executeTransaction(HypixelPlayer player, BedwarsRunnable game) {
+	public void executeTransaction(InGamePlayer player, BedwarsRunnable game) {
 		// Give the player the item (without metadata)
 		player.getInventory().addItem(this.getCleanedItem());
 	}

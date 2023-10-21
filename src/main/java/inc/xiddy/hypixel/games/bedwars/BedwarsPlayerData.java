@@ -1,6 +1,5 @@
 package inc.xiddy.hypixel.games.bedwars;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 
 public class BedwarsPlayerData {
@@ -33,7 +32,7 @@ public class BedwarsPlayerData {
 		return lastDamage;
 	}
 
-	public HypixelPlayer getPlayer() {
+	public InGamePlayer getPlayer() {
 		return player;
 	}
 
