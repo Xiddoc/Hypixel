@@ -6,7 +6,7 @@ import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.HypixelTimer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
-import inc.xiddy.hypixel.games.basegame.ingame.GameState;
+import inc.xiddy.hypixel.games.basegame.ingame.state.GameState;
 import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.server.Tasks;
 import inc.xiddy.hypixel.utility.HypixelUtils;

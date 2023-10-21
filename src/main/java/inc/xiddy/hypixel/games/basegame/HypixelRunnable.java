@@ -5,6 +5,7 @@ import inc.xiddy.hypixel.constants.Lobby;
 import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.handlers.MapHandler;
@@ -20,11 +21,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class HypixelRunnable extends BukkitRunnable {
 	private GameMap map;
 	private final Lobby lobby;
-	private final Set<HypixelPlayer> players;
+	private final Set<InGamePlayer> players;
 	private final HypixelGame externalGame;
 	private HypixelEventHandler eventHandler;
 	private boolean gameOver;
@@ -33,7 +35,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		// Set to fields
 		this.externalGame = hypixelGame;
 		this.lobby = lobby;
-		this.players = players;
+		this.players = players.stream().map(InGamePlayer::new).collect(Collectors.toSet());
 		this.gameOver = false;
 	}
 
@@ -46,7 +48,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		return this.lobby;
 	}
 
-	public final Set<HypixelPlayer> getPlayers() {
+	public final Set<InGamePlayer> getPlayers() {
 		return this.players;
 	}
 
@@ -59,7 +61,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 
 	public final void destroyMap() {
 		// Move all players to lobby
-		for (HypixelPlayer player: this.getPlayers()) {
+		for (InGamePlayer player: this.getPlayers()) {
 			// Try to (player might have quit the game)
 			// Kick them out of the game
 			player.setLobby(Lobby.HUB);
@@ -79,7 +81,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		}
 	}
 
-	public final void gameOver(Set<HypixelPlayer> winners) {
+	public final void gameOver(Set<InGamePlayer> winners) {
 		// Set game over
 		this.gameOver = true;
 
@@ -87,7 +89,7 @@ public abstract class HypixelRunnable extends BukkitRunnable {
 		double gameOverTime = 5.0;
 
 		// For each player
-		for (HypixelPlayer player: this.getPlayers()) {
+		for (InGamePlayer player: this.getPlayers()) {
 			// If you are a winner
 			if (winners.contains(player)) {
 				// Show winner message!

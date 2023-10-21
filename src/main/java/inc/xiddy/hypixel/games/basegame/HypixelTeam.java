@@ -2,19 +2,19 @@ package inc.xiddy.hypixel.games.basegame;
 
 import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
-import inc.xiddy.hypixel.games.basegame.ingame.GameState;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.state.GameState;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class HypixelTeam {
 	private final TeamColor color;
-	private final Map<HypixelPlayer, GameState> players;
+	private final Set<InGamePlayer> players;
 	private final GameMap map;
 	private final int teamSize;
 
@@ -23,74 +23,60 @@ public abstract class HypixelTeam {
 		this.color = color;
 		this.map = map;
 		this.teamSize = teamSize;
-		this.players = new HashMap<>();
+		this.players = new HashSet<>();
 	}
 
-	public final boolean isTeamFull() {
+	public boolean isTeamFull() {
 		return this.getPlayerCount() == this.getTeamSize();
 	}
 
-	public final int getPlayerCount() {
-		return this.getPlayers().toArray(new HypixelPlayer[0]).length;
+	public int getPlayerCount() {
+		return this.getPlayers().size();
 	}
 
-	public final Set<HypixelPlayer> getPlayers() {
-		return this.players.keySet();
-	}
-
-	public final Map<HypixelPlayer, GameState> getPlayerAliveMap() {
+	public final Set<InGamePlayer> getPlayers() {
 		return this.players;
 	}
 
-	public final void setPlayerState(HypixelPlayer player, GameState state) {
-		this.getPlayerAliveMap().put(player, state);
+	public void addPlayer(InGamePlayer player) {
+		this.players.add(player);
 	}
 
-	public final void addPlayer(HypixelPlayer player) {
-		this.players.put(player, GameState.ALIVE);
-	}
-
-	public boolean contains(HypixelPlayer player) {
-		for (HypixelPlayer teamPlayer : getPlayers()) {
+	public boolean contains(InGamePlayer player) {
+		for (InGamePlayer teamPlayer : getPlayers()) {
 			if (teamPlayer.equals(player)) return true;
 		}
 
 		return false;
 	}
 
-	public final boolean isEliminated() {
-		// If there are no alive (respawning or alive) players, then they are eliminated
-		return this.getAlivePlayers().isEmpty();
+	public Set<HypixelPlayer> getPlayersOfState(GameState state) {
+		return getPlayers()
+			.stream()
+			.filter(p -> p.getState() == state)
+			.collect(Collectors.toSet());
 	}
 
-	public final Set<HypixelPlayer> getAlivePlayers() {
-		// For each player in the map
-		// Filter by the .getValue of the map (the value stating if the player is alive)
-		Set<HypixelPlayer> players = new HashSet<>();
-		for (Map.Entry<HypixelPlayer, GameState> entry : this.getPlayerAliveMap().entrySet()) {
-			// If not dead (spectating)
-			if (!entry.getValue().equals(GameState.SPECTATING)) {
-				players.add(entry.getKey());
-			}
+	public void setPlayersState(GameState state) {
+		for (InGamePlayer player : getPlayers()) {
+			player.setState(state);
 		}
-		// Return the player set
-		return players;
 	}
 
-	public final TeamColor getTeamColor() {
+	public TeamColor getTeamColor() {
 		return this.color;
 	}
 
-	public final ItemStack getWool(int amount) {
+	public ItemStack getWool(int amount) {
 		//noinspection deprecation
 		return new ItemStack(Material.WOOL, amount, this.getTeamColor().getDyeColor().getWoolData());
 	}
 
-	public final GameMap getMap() {
+	public GameMap getMap() {
 		return map;
 	}
 
-	public final int getTeamSize() {
+	public int getTeamSize() {
 		return teamSize;
 	}
 }

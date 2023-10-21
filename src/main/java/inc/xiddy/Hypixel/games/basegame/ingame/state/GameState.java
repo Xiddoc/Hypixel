@@ -1,4 +1,8 @@
 package inc.xiddy.hypixel.games.basegame.ingame.state;
 
-public enum GameState {
+import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+
+public interface GameState {
+	void onEnterState(HypixelPlayer player);
+	void onExitState(HypixelPlayer player);
 }

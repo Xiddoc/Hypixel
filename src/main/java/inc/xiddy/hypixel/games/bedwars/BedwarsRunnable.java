@@ -6,8 +6,9 @@ import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
-import inc.xiddy.hypixel.games.basegame.ingame.GameState;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import inc.xiddy.hypixel.games.bedwars.generator.BedwarsGenerator;
+import inc.xiddy.hypixel.games.bedwars.state.BedwarsState;
 import inc.xiddy.hypixel.handlers.DataHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.server.Tasks;
@@ -49,7 +50,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		// For each player
 		for (HypixelPlayer player: players) {
 			// Add to the data map
-			this.playerBedwarsDataList.add(new BedwarsPlayerData(player));
+			this.playerBedwarsDataList.add(new BedwarsPlayerData(new InGamePlayer(player)));
 		}
 		this.npcList = new ArrayList<>();
 		this.shop = new BedwarsShop();
@@ -89,7 +90,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			// Make initial team
 			BedwarsTeam team = new BedwarsTeam(TeamColor.values()[teamIdx], this.getMap(), this.getTeamSize());
 			// For each player
-			for (HypixelPlayer player: this.getPlayers()) {
+			for (InGamePlayer player: this.getPlayers()) {
 				// If no space for new player, then make a new team
 				if (team.isTeamFull()) {
 					// Add the team to the list
@@ -125,7 +126,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		// Start the game sequence
 		// For each player
-		for (HypixelPlayer player: this.getPlayers()) {
+		for (InGamePlayer player: this.getPlayers()) {
 			// Remove enderchest items
 			player.getEnderChest().clear();
 
@@ -147,7 +148,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 			// Summon NPC (Random player from the team)
 			NPC teamshopNPC = CitizensAPI.getNPCRegistry().createNPC(
 				EntityType.PLAYER,
-				team.getPlayers().toArray(new HypixelPlayer[0])[new Random().nextInt(team.getPlayers().size())].getDisplayName()
+				team.getPlayers().toArray(new InGamePlayer[0])[new Random().nextInt(team.getPlayers().size())].getDisplayName()
 			);
 			teamshopNPC.setAlwaysUseNameHologram(false);
 			// Protect them
@@ -213,9 +214,8 @@ public class BedwarsRunnable extends HypixelRunnable {
 		generator.runTaskTimerAsynchronously(Main.getInstance(), 0, 5);
 	}
 
-	private void respawn(HypixelPlayer player) {
-		// Update state
-		this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
+	private void respawn(InGamePlayer player) {
+		player.setState(BedwarsState.RESPAWNING);
 		// Synchronously respawn them
 		Tasks.runSyncTask(() -> {
 			// Teleport to respawn location
@@ -234,12 +234,12 @@ public class BedwarsRunnable extends HypixelRunnable {
 		});
 	}
 
-	public void setDeadSpectator(HypixelPlayer player) {
+	public void setDeadSpectator(InGamePlayer player) {
 		// Announce death
 		// If the last hit was within 10 seconds of the death
 		if (this.getBedwarsPlayerData(player).getLastDamage().getTimestamp() + 10 * 1000 > System.currentTimeMillis()) {
 			// Set killer
-			HypixelPlayer killer = this.getBedwarsPlayerData(player).getLastDamage().getDamager();
+			InGamePlayer killer = this.getBedwarsPlayerData(player).getLastDamage().getDamager();
 
 			// Accredit the death to the killer
 			this.announceDeath(player, killer);
@@ -279,11 +279,10 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 		// If the player still has a bed
 		if (this.getPlayerTeam(player).hasBed()) {
-			// Update state
-			this.getPlayerTeam(player).setPlayerState(player, GameState.RESPAWNING);
+			player.setState(BedwarsState.RESPAWNING);
 			// Asynchronously run
 			new BukkitRunnable() {
-				private final HypixelPlayer spectatorPlayer = player;
+				private final InGamePlayer spectatorPlayer = player;
 				private int timeLeft = 5;
 
 				@Override
@@ -321,12 +320,11 @@ public class BedwarsRunnable extends HypixelRunnable {
 				}
 			}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 		} else {
-			// Update state
-			this.getPlayerTeam(player).setPlayerState(player, GameState.SPECTATING);
+			player.setState(BedwarsState.SPECTATING);
 		}
 	}
 
-	public BedwarsPlayerData getBedwarsPlayerData(HypixelPlayer player) {
+	public BedwarsPlayerData getBedwarsPlayerData(InGamePlayer player) {
 		// For each data point
 		for (BedwarsPlayerData data: this.getAllBedwarsPlayerData()) {
 			// If the player matches the data point
@@ -339,11 +337,11 @@ public class BedwarsRunnable extends HypixelRunnable {
 		throw new RuntimeException();
 	}
 
-	public void announceDeath(HypixelPlayer victim) {
+	public void announceDeath(InGamePlayer victim) {
 		this.announceDeath(victim, null);
 	}
 
-	public void announceDeath(HypixelPlayer victim, HypixelPlayer killer) {
+	public void announceDeath(InGamePlayer victim, InGamePlayer killer) {
 		// Init message
 		String message;
 		BedwarsTeam victimTeam = this.getPlayerTeam(victim);
@@ -395,13 +393,13 @@ public class BedwarsRunnable extends HypixelRunnable {
 
 	public void repaintScoreboardForAll() {
 		// For each player
-		for (HypixelPlayer player: this.getPlayers()) {
+		for (InGamePlayer player: this.getPlayers()) {
 			// Repaint the board for them
 			this.repaintScoreboard(player);
 		}
 	}
 
-	public void repaintScoreboard(HypixelPlayer player) {
+	public void repaintScoreboard(InGamePlayer player) {
 		StringBuilder str = new StringBuilder();
 		// Start by making header
 		str.append(YELLOW).append(BOLD).append(this.getLobby().toString().toUpperCase())
@@ -415,7 +413,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 				.append(team.getTeamColor().getCapitalizedString().charAt(0))
 				.append(" ").append(WHITE).append(team.getTeamColor().getCapitalizedString()).append(": ");
 			// Ternary operator for displaying the team status
-			str.append(team.hasBed() ? GREEN + "✔" : (team.isEliminated() ? RED + "✗" : GREEN + "" + team.getAlivePlayers().size()));
+			str.append(team.hasBed() ? GREEN + "✔" : (team.isEliminated() ? RED + "✗" : GREEN + "" + team.getPlayersOfState(BedwarsState.ALIVE).size()));
 			// If this is the player's team
 			if (team.getPlayers().contains(player)) {
 				// Add "YOU" next to team
@@ -471,7 +469,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		}
 	}
 
-	public boolean isPlayerInBase(HypixelPlayer player, BedwarsTeam team) {
+	public boolean isPlayerInBase(InGamePlayer player, BedwarsTeam team) {
 		// Get locations
 		Location respawnLoc = team.getRespawnLocation();
 		Location playerLoc = player.getLocation().clone();
@@ -538,7 +536,7 @@ public class BedwarsRunnable extends HypixelRunnable {
 		return this.npcList;
 	}
 
-	public BedwarsTeam getPlayerTeam(HypixelPlayer player) {
+	public BedwarsTeam getPlayerTeam(InGamePlayer player) {
 		return this.getBedwarsPlayerData(player).getTeam();
 	}
 
