@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 
 import java.util.List;
 
-@CommandInfo(name= "stopgame", minArgCount = 0, permission = "hypixel.admin")
+@CommandInfo(name = "stopgame", minArgCount = 0, permission = "hypixel.admin")
 @SuppressWarnings("unused")
 public class StopGame extends HypixelCommand {
 
@@ -25,13 +25,30 @@ public class StopGame extends HypixelCommand {
 			return;
 		}
 
-		// CONVERT TO ARRAY SO THAT THE LIST OBJECT DOES NOT CHANGE DURING THE LOOP
-		for (HypixelGame game: games.toArray(new HypixelGame[0])) {
-			// If OP is in the game
-			if (game.getRunnableGame().getPlayers().contains(player)) {
-				// Stop the game
+		try {
+			getGameThatContainsPlayer(player, games).stopGame();
+		} catch (RuntimeException e) {
+			player.sendMessage(ChatColor.DARK_RED + "You are not in a game.");
+		}
+	}
+
+	private HypixelGame getGameThatContainsPlayer(HypixelPlayer player, List<HypixelGame> games) throws RuntimeException {
+		for (HypixelGame game: copyGames(games)) {
+			if (doesGameContainPlayer(player, game)) {
 				game.stopGame();
 			}
 		}
+
+		throw new RuntimeException("Player is not in a game.");
+	}
+
+	private boolean doesGameContainPlayer(HypixelPlayer player, HypixelGame game) {
+		//noinspection SuspiciousMethodCalls
+		return game.getRunnableGame().getPlayers().contains(player);
+	}
+
+	private HypixelGame[] copyGames(List<HypixelGame> games) {
+		// Convert to an array, so that the List does not change (size) during the loop
+		return games.toArray(new HypixelGame[0]);
 	}
 }
