@@ -1,6 +1,6 @@
 package inc.xiddy.hypixel.games.bedwars.shopitems;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import inc.xiddy.hypixel.games.bedwars.BedwarsRunnable;
 import inc.xiddy.hypixel.games.bedwars.BedwarsShopItem;
 import org.bukkit.Material;
@@ -13,7 +13,7 @@ public class SwordShopItem extends BedwarsShopItem {
 	}
 
 	@Override
-	public void executeTransaction(HypixelPlayer player, BedwarsRunnable game) {
+	public void executeTransaction(InGamePlayer player, BedwarsRunnable game) {
 		// Remove default sword if it exists
 		player.getInventory().remove(Material.WOOD_SWORD);
 		// Give the player the item (without metadata)

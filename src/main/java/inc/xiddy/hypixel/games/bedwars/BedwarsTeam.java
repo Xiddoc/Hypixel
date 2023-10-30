@@ -4,6 +4,7 @@ import inc.xiddy.hypixel.constants.TeamColor;
 import inc.xiddy.hypixel.dataclasses.SmallLocation;
 import inc.xiddy.hypixel.games.basegame.HypixelTeam;
 import inc.xiddy.hypixel.games.basegame.maps.GameMap;
+import inc.xiddy.hypixel.games.bedwars.state.BedwarsState;
 import inc.xiddy.hypixel.handlers.DataHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,6 +30,10 @@ public class BedwarsTeam extends HypixelTeam {
 		this.teamshopLocation = this.getBedwarsMarkerLocation("teamshop");
 		this.respawnLocation = this.getBedwarsMarkerLocation("respawn");
 		this.bedLocation = this.getBedwarsMarkerLocation("bed");
+	}
+
+	public boolean isEliminated() {
+		return getPlayersOfState(BedwarsState.SPECTATING).size() == getTeamSize();
 	}
 
 	private Location getBedwarsMarkerLocation(String markerName) throws FileNotFoundException {

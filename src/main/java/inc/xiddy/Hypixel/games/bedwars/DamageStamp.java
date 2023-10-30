@@ -1,13 +1,15 @@
-package inc.xiddy.hypixel.dataclasses;
+package inc.xiddy.hypixel.games.bedwars;
+
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 
 public class DamageStamp {
-	private HypixelPlayer damager;
+	private InGamePlayer damager;
 	private long timestamp;
 
 	public DamageStamp() {
 	}
 
-	public void updateDamager(HypixelPlayer damager) {
+	public void updateDamager(InGamePlayer damager) {
 		this.damager = damager;
 		this.timeStamp();
 	}
@@ -20,7 +22,7 @@ public class DamageStamp {
 		return timestamp;
 	}
 
-	public HypixelPlayer getDamager() {
+	public InGamePlayer getDamager() {
 		return damager;
 	}
 }

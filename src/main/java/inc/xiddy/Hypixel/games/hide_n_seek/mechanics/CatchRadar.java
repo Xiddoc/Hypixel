@@ -1,12 +1,12 @@
-package inc.xiddy.hypixel.games.hide_n_seek;
+package inc.xiddy.hypixel.games.hide_n_seek.mechanics;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.ChatColor;
 
 public class CatchRadar {
-	public static void printRadar(HypixelPlayer player, int distance) {
+	public static void printRadar(InGamePlayer player, int distance) {
 		ChatColor color;
 		if (distance > 50) {
 			color = ChatColor.WHITE;

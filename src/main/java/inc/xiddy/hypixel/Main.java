@@ -1,13 +1,8 @@
 package inc.xiddy.hypixel;
 
-import inc.xiddy.hypixel.dataclasses.HypixelGame;
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.handlers.MainHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.plugin.PluginEventRegistrar;
-import inc.xiddy.hypixel.utility.HypixelUtils;
-import net.citizensnpcs.api.CitizensAPI;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -34,42 +29,30 @@ public class Main extends JavaPlugin {
 		Main.mainHandler = new MainHandler();
 		Main.mainHandler.initMainHandler();
 
-		// Execute all onEnable handlers
+		Log.info("Executing onEnable handlers...");
 		try {
 			new PluginEventRegistrar().executePluginEventHandlers(this, PluginEventRegistrar.PluginEvent.ON_ENABLE);
 		} catch (ReflectiveOperationException e) {
 			Log.error("Error while executing onEnable handlers:");
 			e.printStackTrace();
+
+			Log.error("Could not load Hypixel plugin.");
 			return;
 		}
 
 		Log.success("Plugin successfully loaded...");
 	}
 
-	// Function that happens when the plugin is disabled
 	@Override
 	public void onDisable() {
-		// Clean NPC registry
-		CitizensAPI.getNPCRegistry().deregisterAll();
+		Log.info("Executing onDisable handlers...");
+		try {
+			new PluginEventRegistrar().executePluginEventHandlers(this, PluginEventRegistrar.PluginEvent.ON_DISABLE);
+		} catch (ReflectiveOperationException e) {
+			Log.error("Error while executing onDisable handlers:");
+			e.printStackTrace();
 
-		// Destroy all games
-		Log.warning("Shutting down games...");
-		for (HypixelGame game: Main.getMainHandler().getGameHandler().getAllGames()) {
-			// Shut down each game
-			game.stopGame();
-		}
-
-		// Kick everyone off to prevent issues with lobbies
-		Log.warning("Kicking all players...");
-		for (HypixelPlayer player: HypixelUtils.getOnlinePlayers()) {
-			// Unregister
-			try {
-				Main.getMainHandler().getPlayerHandler().deregister(player);
-			} catch (NoClassDefFoundError e) {
-				Log.error("Jackson error.. again.. (While saving player info during deregister)");
-			}
-			// Kick the player
-			player.kickPlayer(ChatColor.GOLD + "Restarting the server! Try joining again.");
+			Log.error("Did not properly unload Hypixel plugin.");
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package inc.xiddy.hypixel.games.bedwars;
 
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 import inc.xiddy.hypixel.games.bedwars.shopitems.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -55,7 +55,7 @@ public class BedwarsShop {
 		return tempInventory;
 	}
 
-	public void buyItem(BedwarsRunnable game, HypixelPlayer player, Material item) {
+	public void buyItem(BedwarsRunnable game, InGamePlayer player, Material item) {
 		// Find the item
 		// For each shop item
 		for (BedwarsShopItem shopItem : this.getShopItems()) {

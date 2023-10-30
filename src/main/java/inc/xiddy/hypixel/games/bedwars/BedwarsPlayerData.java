@@ -1,16 +1,15 @@
 package inc.xiddy.hypixel.games.bedwars;
 
-import inc.xiddy.hypixel.dataclasses.DamageStamp;
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.ingame.InGamePlayer;
 
 public class BedwarsPlayerData {
-	private final HypixelPlayer player;
+	private final InGamePlayer player;
 	private BedwarsInventory inventory;
 	private BedwarsTeam team;
 	private DamageStamp lastDamage;
 	private long lastFireball = System.currentTimeMillis();
 
-	public BedwarsPlayerData(HypixelPlayer player) {
+	public BedwarsPlayerData(InGamePlayer player) {
 		// Set to field
 		this.player = player;
 	}
@@ -33,7 +32,7 @@ public class BedwarsPlayerData {
 		return lastDamage;
 	}
 
-	public HypixelPlayer getPlayer() {
+	public InGamePlayer getPlayer() {
 		return player;
 	}
 
