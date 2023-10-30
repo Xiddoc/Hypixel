@@ -1,13 +1,18 @@
 package inc.xiddy.hypixel;
 
+import inc.xiddy.hypixel.constants.Lobby;
+import inc.xiddy.hypixel.dataclasses.HypixelEventHandler;
 import inc.xiddy.hypixel.dataclasses.HypixelGame;
 import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
+import inc.xiddy.hypixel.games.basegame.HypixelRunnable;
 import inc.xiddy.hypixel.handlers.MainHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.plugin.PluginEventRegistrar;
 import inc.xiddy.hypixel.utility.HypixelUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.ChatColor;
+import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -62,13 +67,6 @@ public class Main extends JavaPlugin {
 		// Kick everyone off to prevent issues with lobbies
 		Log.warning("Kicking all players...");
 		for (HypixelPlayer player: HypixelUtils.getOnlinePlayers()) {
-			// Unregister
-			try {
-				Main.getMainHandler().getPlayerHandler().deregister(player);
-			} catch (NoClassDefFoundError e) {
-				Log.error("Jackson error.. again.. (While saving player info during deregister)");
-			}
-			// Kick the player
 			player.kickPlayer(ChatColor.GOLD + "Restarting the server! Try joining again.");
 		}
 	}
