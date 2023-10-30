@@ -1,13 +1,8 @@
 package inc.xiddy.hypixel;
 
-import inc.xiddy.hypixel.dataclasses.HypixelGame;
-import inc.xiddy.hypixel.dataclasses.HypixelPlayer;
 import inc.xiddy.hypixel.handlers.MainHandler;
 import inc.xiddy.hypixel.logging.Log;
 import inc.xiddy.hypixel.plugin.PluginEventRegistrar;
-import inc.xiddy.hypixel.utility.HypixelUtils;
-import net.citizensnpcs.api.CitizensAPI;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -50,20 +45,14 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		// Clean NPC registry
-		CitizensAPI.getNPCRegistry().deregisterAll();
+		Log.info("Executing onDisable handlers...");
+		try {
+			new PluginEventRegistrar().executePluginEventHandlers(this, PluginEventRegistrar.PluginEvent.ON_DISABLE);
+		} catch (ReflectiveOperationException e) {
+			Log.error("Error while executing onDisable handlers:");
+			e.printStackTrace();
 
-		// Destroy all games
-		Log.info("Shutting down games...");
-		for (HypixelGame game: Main.getMainHandler().getGameHandler().getAllGames()) {
-			// Shut down each game
-			game.stopGame();
-		}
-
-		// Kick everyone off to prevent issues with lobbies
-		Log.info("Kicking all players...");
-		for (HypixelPlayer player: HypixelUtils.getOnlinePlayers()) {
-			player.kickPlayer(ChatColor.GOLD + "Restarting the server! Try joining again.");
+			Log.error("Did not properly unload Hypixel plugin.");
 		}
 	}
 }

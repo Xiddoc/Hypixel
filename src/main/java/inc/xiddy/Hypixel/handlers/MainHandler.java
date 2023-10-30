@@ -8,11 +8,11 @@ public class MainHandler {
 
 	public void initMainHandler() {
 		// Set up Scoreboard handler
-		Log.warning("Registering scoreboard handler...");
+		Log.info("Registering scoreboard handler...");
 		this.boardHandler = new ScoreboardHandler();
 
 		// Set up Game handler
-		Log.warning("Registering game handler...");
+		Log.info("Registering game handler...");
 		this.gameHandler = new GameHandler();
 	}
 

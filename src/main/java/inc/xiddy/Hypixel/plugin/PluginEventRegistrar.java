@@ -22,7 +22,8 @@ public class PluginEventRegistrar {
 	}
 
 	public enum PluginEvent {
-		ON_ENABLE("on_enable");
+		ON_ENABLE("on_enable"),
+		ON_DISABLE("on_disable");
 
 		private final String packageName;
 
